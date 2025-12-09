@@ -54,6 +54,10 @@
             margin-top: 12px;
         }
 
+        button:hover {
+            background: #1664c4;
+        }
+
         .error {
             color: #ff6b6b;
             font-size: 14px;
@@ -99,7 +103,9 @@
 <script>
 const API = "https://robo-global-api-v2.onrender.com";
 
-// STATUS
+/* ============================
+   STATUS DA API
+============================ */
 async function statusAPI() {
     try {
         const r = await fetch(`${API}/status`);
@@ -113,13 +119,19 @@ async function statusAPI() {
 }
 statusAPI();
 
-// ANÁLISE
+/* ============================
+   ANÁLISE DO PRODUTO
+============================ */
 async function buscarAnalise() {
     document.getElementById("analise-msg").innerHTML = "Carregando...";
+
     try {
         const r = await fetch(`${API}/analise`);
         const data = await r.json();
-        document.getElementById("analise-box").textContent = JSON.stringify(data, null, 2);
+
+        document.getElementById("analise-box").textContent =
+            JSON.stringify(data, null, 2);
+
         document.getElementById("analise-msg").innerHTML =
             `<span class="success">Análise atualizada com sucesso.</span>`;
     } catch (e) {
@@ -128,12 +140,16 @@ async function buscarAnalise() {
     }
 }
 
-// CICLO
+/* ============================
+   EXECUTAR CICLO
+============================ */
 async function rodarCiclo() {
     document.getElementById("ciclo-msg").innerHTML = "Executando...";
+
     try {
-        const r = await fetch(`${API}/rodar-ciclo`, { method: "POST" });
+        const r = await fetch(`${API}/ciclo`, { method: "POST" });
         const data = await r.json();
+
         document.getElementById("ciclo-msg").innerHTML =
             `<span class="success">Ciclo executado: ${data.status}</span>`;
     } catch (e) {
