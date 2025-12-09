@@ -1,882 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Robô Global de Afiliados • Painel Fintech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --bg: #050814;
-      --bg-elevated: #0b1021;
-      --card: #10172a;
-      --accent: #00c2ff;
-      --accent-soft: rgba(0, 194, 255, 0.12);
-      --danger: #ff4b81;
-      --success: #08d18b;
-      --text: #e5eaf5;
-      --muted: #8b9ac8;
-      --border: #1f2937;
-      --shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      --radius-lg: 18px;
-      --radius-pill: 999px;
-      --transition-fast: 0.18s ease-out;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robô Global de Afiliados — Painel Fintech</title>
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <style>
+        body {
+            background: #060b19;
+            font-family: "Inter", sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      background: radial-gradient(circle at top, #0b1220, #020617 55%);
-      color: var(--text);
-      font-family: var(--font-main);
-      min-height: 100vh;
-      padding: 24px;
-    }
+        h1 {
+            margin: 30px;
+            font-size: 28px;
+            font-weight: 600;
+        }
 
-    .app {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+        .container {
+            width: 92%;
+            margin: auto;
+        }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      gap: 12px;
-    }
+        .card {
+            background: #0e1629;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+        }
 
-    .title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+        .row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-    .title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
+        .card h3 {
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
 
-    .subtitle {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
+        button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 12px;
+            background: #1a73e8;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 12px;
+        }
 
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      justify-content: flex-end;
-    }
+        .error {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 10px;
+        }
 
-    .pill {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      padding: 6px 12px;
-      font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(10px);
-    }
-
-    .pill-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--danger);
-      box-shadow: 0 0 12px rgba(248, 113, 113, 0.9);
-    }
-
-    .pill-dot.ok {
-      background: var(--success);
-      box-shadow: 0 0 12px rgba(45, 212, 191, 0.9);
-    }
-
-    .pill-label {
-      color: var(--muted);
-    }
-
-    .pill-value {
-      font-weight: 500;
-    }
-
-    /* LAYOUT PRINCIPAL */
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .card {
-      background: radial-gradient(circle at top left, #1f2937 0, #020617 55%);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      background: linear-gradient(
-        135deg,
-        rgba(56, 189, 248, 0.2),
-        rgba(167, 139, 250, 0.1),
-        rgba(15, 23, 42, 0.9)
-      );
-      opacity: 0;
-      transition: opacity var(--transition-fast);
-      z-index: -1;
-    }
-
-    .card:hover::before {
-      opacity: 0.9;
-    }
-
-    .card-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .card-main {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: baseline;
-      gap: 4px;
-    }
-
-    .card-main span.small {
-      font-size: 0.9rem;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .card-sub {
-      font-size: 0.82rem;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .tag {
-      border-radius: 999px;
-      font-size: 0.7rem;
-      padding: 4px 9px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      color: var(--muted);
-    }
-
-    .tag.filled {
-      background: var(--accent-soft);
-      border-color: rgba(56, 189, 248, 0.8);
-      color: var(--accent);
-    }
-
-    .tag.danger {
-      background: rgba(127, 29, 29, 0.4);
-      border-color: rgba(248, 113, 113, 0.9);
-      color: #fecaca;
-    }
-
-    .tag.ok {
-      background: rgba(6, 95, 70, 0.6);
-      border-color: rgba(45, 212, 191, 0.95);
-      color: #bbf7d0;
-    }
-
-    /* SEGUNDA LINHA: GRÁFICO + SNAPSHOT */
-
-    .layout-bottom {
-      display: grid;
-      grid-template-columns: 2.1fr 1.2fr;
-      gap: 16px;
-      margin-top: 8px;
-    }
-
-    .chart-card {
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .chart-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .chart-title {
-      font-size: 0.9rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .chart-subtitle {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
-
-    .chart-placeholder {
-      border-radius: 16px;
-      border: 1px dashed rgba(148, 163, 184, 0.4);
-      min-height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 0.8rem;
-      background: radial-gradient(circle at top left, #111827, #020617);
-    }
-
-    .chart-placeholder span {
-      opacity: 0.9;
-    }
-
-    .snapshot-card {
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .snapshot-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.8rem;
-    }
-
-    .snapshot-table th,
-    .snapshot-table td {
-      padding: 6px 4px;
-      text-align: left;
-      border-bottom: 1px solid rgba(30, 64, 175, 0.35);
-    }
-
-    .snapshot-table th {
-      font-weight: 500;
-      color: var(--muted);
-      font-size: 0.78rem;
-    }
-
-    .snapshot-table td {
-      color: #e5e7eb;
-    }
-
-    /* BOTÕES */
-
-    .button-row {
-      margin-top: 14px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .btn {
-      border-radius: var(--radius-pill);
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      padding: 7px 14px;
-      font-size: 0.8rem;
-      background: rgba(15, 23, 42, 0.9);
-      color: var(--text);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: transform var(--transition-fast),
-        box-shadow var(--transition-fast),
-        border-color var(--transition-fast),
-        background var(--transition-fast);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #0ea5e9, #22c55e);
-      border-color: transparent;
-      color: #ecfeff;
-      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.45);
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.7);
-      border-color: rgba(148, 163, 184, 0.7);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 12px 30px rgba(34, 197, 94, 0.65);
-      filter: brightness(1.05);
-    }
-
-    .btn-icon {
-      font-size: 0.9rem;
-    }
-
-    /* FOOTER */
-
-    footer {
-      margin-top: 22px;
-      font-size: 0.74rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    footer span {
-      opacity: 0.85;
-    }
-
-    /* ALERT / TOAST */
-
-    .toast {
-      position: fixed;
-      right: 16px;
-      bottom: 16px;
-      padding: 10px 14px;
-      border-radius: var(--radius-pill);
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: var(--text);
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.85);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(10px);
-      transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-      z-index: 50;
-    }
-
-    .toast.show {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-
-    .toast-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
-
-    .toast-dot.error {
-      background: var(--danger);
-    }
-
-    /* RESPONSIVO */
-
-    @media (max-width: 960px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .layout-bottom {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 16px;
-      }
-
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .badge-row {
-        justify-content: flex-start;
-      }
-
-      .grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-  </style>
+        .success {
+            color: #00d97e;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="app">
-    <header>
-      <div class="title-block">
-        <div class="title">Robô Global de Afiliados • Painel Fintech</div>
-        <div class="subtitle">
-          Monitoramento em tempo real • Decisão autônoma • Escalada segura e
-          progressiva
-        </div>
-      </div>
-      <div class="badge-row">
-        <div class="pill" id="pill-api">
-          <span class="pill-dot" id="pill-api-dot"></span>
-          <span class="pill-label">API</span>
-          <span class="pill-value" id="pill-api-text">Verificando…</span>
-        </div>
-        <div class="pill">
-          <span class="pill-label">Última atualização</span>
-          <span class="pill-value" id="pill-updated">–</span>
-        </div>
-      </div>
-    </header>
+    <h1>Robô Global de Afiliados • Painel Fintech</h1>
 
-    <!-- PRIMEIRA LINHA DE CARDS -->
-    <section class="grid">
-      <article class="card" id="card-capital">
-        <div class="card-title">Capital interno</div>
-        <div class="card-main">
-          <span id="capital-valor">R$ 0,00</span>
-          <span class="small" id="capital-previsto">Previsto: R$ 0,00</span>
-        </div>
-        <div class="card-sub" id="capital-origem">Origem: –</div>
-        <div class="tag-row">
-          <div class="tag filled" id="tag-capital-status">Aguardando comissão</div>
-        </div>
-      </article>
+    <div class="container">
 
-      <article class="card" id="card-risco">
-        <div class="card-title">Risco do momento</div>
-        <div class="card-main">
-          <span id="risco-nivel">–</span>
-        </div>
-        <div class="card-sub" id="risco-descricao">Aguardando análise…</div>
-        <div class="tag-row">
-          <div class="tag" id="tag-risco-recomendacao">Recomendação: –</div>
-        </div>
-      </article>
-
-      <article class="card" id="card-decisao">
-        <div class="card-title">Decisão & Escala</div>
-        <div class="card-main">
-          <span id="decisao-acao">–</span>
-        </div>
-        <div class="card-sub" id="decisao-motivo">Motivo: –</div>
-        <div class="tag-row">
-          <div class="tag" id="tag-escala">Escala: aguardando primeira comissão</div>
-        </div>
-      </article>
-
-      <article class="card" id="card-produto">
-        <div class="card-title">Produto em foco</div>
-        <div class="card-main">
-          <span id="produto-nome">–</span>
-        </div>
-        <div class="card-sub" id="produto-meta">
-          Plataforma: – • Pagamento: – • Status: –
-        </div>
-        <div class="tag-row">
-          <div class="tag filled" id="tag-plataforma">Plataforma: –</div>
-          <div class="tag" id="tag-pagamento">Pagamento: –</div>
-          <div class="tag ok" id="tag-status-produto">Status: –</div>
-        </div>
-      </article>
-    </section>
-
-    <!-- LINHA INFERIOR -->
-    <section class="layout-bottom">
-      <article class="card chart-card">
-        <div class="chart-header">
-          <div>
-            <div class="chart-title">Curva de capital (sessão)</div>
-            <div class="chart-subtitle">
-              Evolução do capital interno a cada execução do ciclo
-            </div>
-          </div>
-          <div class="tag">Histórico simples local • v1</div>
-        </div>
-        <div class="chart-placeholder" id="chart-placeholder">
-          <span>Executar ciclos para começar a desenhar a curva.</span>
-        </div>
-      </article>
-
-      <article class="card snapshot-card">
-        <div class="chart-header">
-          <div>
-            <div class="chart-title">Último snapshot do robô</div>
-            <div class="chart-subtitle">
-              Visão consolidada da decisão atual do sistema
-            </div>
-          </div>
-          <div class="tag" id="tag-snapshot-status">Aguardando leitura</div>
+        <!-- STATUS DO SISTEMA -->
+        <div class="card">
+            <h3>Status da API</h3>
+            <div id="status-api">Verificando...</div>
         </div>
 
-        <table class="snapshot-table">
-          <thead>
-            <tr>
-              <th>Campo</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody id="snapshot-body">
-            <tr>
-              <td colspan="2">Nenhuma leitura realizada ainda.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="button-row">
-          <button class="btn btn-primary" id="btn-atualizar">
-            <span class="btn-icon">⟳</span>
-            Atualizar snapshot
-          </button>
-          <button class="btn" id="btn-ciclo-1">
-            <span class="btn-icon">▶</span>
-            Rodar 1 ciclo
-          </button>
-          <button class="btn" id="btn-ciclo-5">
-            <span class="btn-icon">⚡</span>
-            Rodar 5 ciclos
-          </button>
+        <!-- SNAPSHOT DA ANÁLISE -->
+        <div class="card">
+            <h3>Análise do produto</h3>
+            <pre id="analise-box">Nenhuma leitura ainda.</pre>
+            <button onclick="buscarAnalise()">Atualizar Análise</button>
+            <div id="analise-msg"></div>
         </div>
-      </article>
-    </section>
 
-    <footer>
-      <span>Robô Global de Afiliados • Dashboard dedicado a operações seguras e
-        escaláveis.</span>
-    </footer>
-  </div>
+        <!-- ÚLTIMO CICLO -->
+        <div class="card">
+            <h3>Executar Ciclo</h3>
+            <button onclick="rodarCiclo()">Rodar 1 ciclo</button>
+            <div id="ciclo-msg"></div>
+        </div>
 
-  <div class="toast" id="toast">
-    <span class="toast-dot" id="toast-dot"></span>
-    <span id="toast-text">Mensagem</span>
-  </div>
+    </div>
 
-  <script>
-    // ============================================
-    // CONFIGURAÇÃO DE ENDPOINTS
-    // ============================================
-    const CONFIG = {
-      API_BASE: "https://robo-global-api-v2.onrender.com",
-      ROUTES: {
-        status: "/status",
-        analise: "/analise",
-        ciclo: "/ciclo",
-        loopMultiplo: "/loop-diario?vezes=" // ex.: /loop-diario?vezes=5
-      }
-    };
+<script>
+const API = "https://robo-global-api-v2.onrender.com";
 
-    // ============================================
-    // UTILITÁRIOS
-    // ============================================
-    const $ = (id) => document.getElementById(id);
-
-    function formatMoneyBRL(valor) {
-      const n = Number(valor || 0);
-      return n.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-      });
+// STATUS
+async function statusAPI() {
+    try {
+        const r = await fetch(`${API}/status`);
+        const data = await r.json();
+        document.getElementById("status-api").innerHTML =
+            `<span class="success">API Online — Supabase: ${data.supabase}</span>`;
+    } catch (e) {
+        document.getElementById("status-api").innerHTML =
+            `<span class="error">Erro ao conectar à API</span>`;
     }
+}
+statusAPI();
 
-    function nowLabel() {
-      const d = new Date();
-      return d.toLocaleString("pt-BR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
+// ANÁLISE
+async function buscarAnalise() {
+    document.getElementById("analise-msg").innerHTML = "Carregando...";
+    try {
+        const r = await fetch(`${API}/analise`);
+        const data = await r.json();
+        document.getElementById("analise-box").textContent = JSON.stringify(data, null, 2);
+        document.getElementById("analise-msg").innerHTML =
+            `<span class="success">Análise atualizada com sucesso.</span>`;
+    } catch (e) {
+        document.getElementById("analise-msg").innerHTML =
+            `<span class="error">Erro ao consultar /analise 🛑</span>`;
     }
+}
 
-    function showToast(msg, isError = false) {
-      const toast = $("toast");
-      const dot = $("toast-dot");
-      $("toast-text").textContent = msg;
-      dot.classList.toggle("error", isError);
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3800);
+// CICLO
+async function rodarCiclo() {
+    document.getElementById("ciclo-msg").innerHTML = "Executando...";
+    try {
+        const r = await fetch(`${API}/rodar-ciclo`, { method: "POST" });
+        const data = await r.json();
+        document.getElementById("ciclo-msg").innerHTML =
+            `<span class="success">Ciclo executado: ${data.status}</span>`;
+    } catch (e) {
+        document.getElementById("ciclo-msg").innerHTML =
+            `<span class="error">Erro ao executar ciclo</span>`;
     }
+}
+</script>
 
-    async function apiGet(path) {
-      const url = CONFIG.API_BASE + path;
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error("HTTP " + res.status + " ao chamar " + path);
-      }
-      return res.json();
-    }
-
-    // ============================================
-    // ATUALIZAÇÃO DA UI
-    // ============================================
-    function updateStatusPill(ok) {
-      const pill = $("pill-api");
-      const dot = $("pill-api-dot");
-      const text = $("pill-api-text");
-      if (ok) {
-        dot.classList.add("ok");
-        text.textContent = "Conectado";
-        pill.title = "Conexão com a API confirmada.";
-      } else {
-        dot.classList.remove("ok");
-        text.textContent = "Falha de conexão";
-        pill.title = "Não foi possível falar com a API.";
-      }
-    }
-
-    function updateFromAnalise(data) {
-      if (!data) return;
-
-      const produto = data.produto || {};
-      const capital = Number(data.capital ?? data.capital_atual ?? 0);
-      const risco = data.risco || "–";
-      const recomendacao = data.recomendacao || "–";
-      const decisao = data.decisao || "–";
-      const plano = data.plano || "–";
-
-      // CARD CAPITAL
-      $("capital-valor").textContent = formatMoneyBRL(capital);
-      $("capital-previsto").textContent =
-        "Previsto: " + formatMoneyBRL(data.capital_projetado || 0);
-      $("capital-origem").textContent =
-        "Origem: " + (data.origem || "Aguardando primeira comissão");
-      $("tag-capital-status").textContent =
-        data.capital > 0
-          ? "Capital ativo para escalar"
-          : "Aguardando primeira comissão";
-
-      // CARD RISCO
-      $("risco-nivel").textContent = (risco || "–").toString().toUpperCase();
-      $("risco-descricao").textContent =
-        "Risco calculado com base no capital, produto e estratégia atual.";
-      $("tag-risco-recomendacao").textContent =
-        "Recomendação: " + recomendacao;
-
-      const riscoCard = $("card-risco");
-      riscoCard.classList.remove("is-low", "is-high");
-      if (risco.toLowerCase() === "baixo") {
-        riscoCard.classList.add("is-low");
-        $("tag-risco-recomendacao").classList.add("ok");
-      } else if (risco.toLowerCase() === "alto") {
-        riscoCard.classList.add("is-high");
-        $("tag-risco-recomendacao").classList.add("danger");
-      }
-
-      // CARD DECISÃO
-      $("decisao-acao").textContent = decisao;
-      $("decisao-motivo").textContent = "Motivo: " + (data.motivo || "–");
-      $("tag-escala").textContent =
-        data.escala || "Não escalar ainda o produto até primeira comissão.";
-
-      // CARD PRODUTO
-      $("produto-nome").textContent = produto.nome || "–";
-      const plataforma = produto.plataforma || produto.plataform || "–";
-      const pagamento = produto.pagamento || "–";
-      const status = produto.status || "–";
-
-      $("produto-meta").textContent =
-        "Plataforma: " +
-        plataforma +
-        " • Pagamento: " +
-        pagamento +
-        " • Status: " +
-        status;
-
-      $("tag-plataforma").textContent = "Plataforma: " + plataforma;
-      $("tag-pagamento").textContent = "Pagamento: " + pagamento;
-      $("tag-status-produto").textContent = "Status: " + status;
-
-      // SNAPSHOT
-      const linhas = [];
-      linhas.push(["Produto", produto.nome || "–"]);
-      linhas.push(["Plataforma", plataforma]);
-      linhas.push(["Pagamento", pagamento]);
-      linhas.push(["Status do produto", status]);
-      linhas.push(["Capital atual", formatMoneyBRL(capital)]);
-      linhas.push([
-        "Capital projetado",
-        formatMoneyBRL(data.capital_projetado || 0)
-      ]);
-      linhas.push(["Decisão", decisao]);
-      linhas.push(["Plano", plano]);
-      linhas.push(["Risco", risco]);
-      linhas.push(["Recomendação", recomendacao]);
-
-      const tbody = $("snapshot-body");
-      tbody.innerHTML = "";
-      for (const [campo, valor] of linhas) {
-        const tr = document.createElement("tr");
-        const tdCampo = document.createElement("td");
-        const tdValor = document.createElement("td");
-        tdCampo.textContent = campo;
-        tdValor.textContent = valor;
-        tr.appendChild(tdCampo);
-        tr.appendChild(tdValor);
-        tbody.appendChild(tr);
-      }
-
-      $("tag-snapshot-status").textContent = "Snapshot atualizado";
-      $("pill-updated").textContent = nowLabel();
-
-      // Atualiza curva de capital (histórico simples em memória)
-      pushCapitalToHistory(capital);
-    }
-
-    // ============================================
-    // HISTÓRICO SIMPLES DE CAPITAL (CURVA)
-    // ============================================
-    const capitalHistory = [];
-
-    function pushCapitalToHistory(valor) {
-      const n = Number(valor || 0);
-      capitalHistory.push(n);
-      if (capitalHistory.length > 20) capitalHistory.shift();
-      renderCapitalHistory();
-    }
-
-    function renderCapitalHistory() {
-      const container = $("chart-placeholder");
-      if (!capitalHistory.length) {
-        container.innerHTML =
-          "<span>Executar ciclos para começar a desenhar a curva.</span>";
-        return;
-      }
-
-      const max = Math.max(...capitalHistory, 1);
-      const min = Math.min(...capitalHistory, 0);
-      const span = max - min || 1;
-
-      const points = capitalHistory
-        .map((v, i) => {
-          const x = (i / Math.max(capitalHistory.length - 1, 1)) * 100;
-          const y = 100 - ((v - min) / span) * 100;
-          return `${x},${y}`;
-        })
-        .join(" ");
-
-      container.innerHTML = `
-        <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="width:100%;height:180px;">
-          <defs>
-            <linearGradient id="grad" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stop-color="#22c55e" stop-opacity="0.9" />
-              <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
-            </linearGradient>
-          </defs>
-          <polyline
-            fill="none"
-            stroke="#22c55e"
-            stroke-width="1.5"
-            points="${points}" />
-          <polygon
-            fill="url(#grad)"
-            opacity="0.35"
-            points="${points} 100,100 0,100" />
-        </svg>
-        <div style="margin-top:6px;font-size:0.75rem;color:var(--muted);">
-          Último capital: <strong>${formatMoneyBRL(
-            capitalHistory[capitalHistory.length - 1]
-          )}</strong> • Pontos na curva: ${capitalHistory.length}
-        </div>
-      `;
-    }
-
-    // ============================================
-    // AÇÕES
-    // ============================================
-    async function carregarStatusInicial() {
-      try {
-        const status = await apiGet(CONFIG.ROUTES.status);
-        const ok =
-          status &&
-          (status.supabase === "conectado" ||
-            status.supabase === "OK" ||
-            status.status === "OK");
-        updateStatusPill(!!ok);
-      } catch (err) {
-        console.error(err);
-        updateStatusPill(false);
-        showToast("Falha ao consultar /status da API.", true);
-      }
-    }
-
-    async function atualizarSnapshot() {
-      try {
-        const data = await apiGet(CONFIG.ROUTES.analise);
-        updateFromAnalise(data);
-        showToast("Snapshot atualizado com sucesso.");
-      } catch (err) {
-        console.error(err);
-        showToast("Erro ao consultar /analise. Verifique a API.", true);
-      }
-    }
-
-    async function rodarCicloUnico() {
-      try {
-        const data = await apiGet(CONFIG.ROUTES.ciclo);
-        // Se o endpoint devolver uma estrutura semelhante à de /analise,
-        // já reaproveitamos para atualizar a tela:
-        if (data && (data.capital || data.produto || data.decisao)) {
-          updateFromAnalise(data);
-        }
-        showToast("Ciclo único executado com sucesso.");
-      } catch (err) {
-        console.error(err);
-        showToast("Erro ao executar /ciclo.", true);
-      }
-    }
-
-    async function rodarCiclosMultiplos(qtd) {
-      try {
-        const path = CONFIG.ROUTES.loopMultiplo + encodeURIComponent(qtd);
-        const data = await apiGet(path);
-        // Alguns backends retornam { execucoes, resultados: [...] }
-        if (data && Array.isArray(data.resultados) && data.resultados.length) {
-          const ultimo = data.resultados[data.resultados.length - 1];
-          updateFromAnalise(ultimo);
-        }
-        showToast(`Loop diário executado (${qtd} ciclos).`);
-      } catch (err) {
-        console.error(err);
-        showToast("Erro ao executar loop de ciclos.", true);
-      }
-    }
-
-    // ============================================
-    // INICIALIZAÇÃO
-    // ============================================
-    function init() {
-      // Eventos de botão
-      $("btn-atualizar").addEventListener("click", atualizarSnapshot);
-      $("btn-ciclo-1").addEventListener("click", rodarCicloUnico);
-      $("btn-ciclo-5").addEventListener("click", () => rodarCiclosMultiplos(5));
-
-      // Leitura inicial
-      carregarStatusInicial();
-      atualizarSnapshot();
-    }
-
-    document.addEventListener("DOMContentLoaded", init);
-  </script>
 </body>
 </html>
-
