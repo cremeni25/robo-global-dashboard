@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robô Global de Afiliados — Painel Fintech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #050816;
+      --card: #0b1020;
+      --card-soft: #0f172a;
+      --accent: #38bdf8;
+      --accent-soft: #0ea5e9;
+      --danger: #f97373;
+      --success: #4ade80;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #020617 0, #020617 40%, #020617 100%);
+      color: var(--text-main);
+    }
+    header {
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: #020617dd;
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    header h1 span {
+      color: var(--accent);
+    }
+    header small {
+      display: block;
+      color: var(--text-soft);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      background: #020617;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--danger);
+    }
+    .dot.ok { background: var(--success); }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px 32px;
+    }
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+    @media (min-width: 768px) {
+      .grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+      .grid-2 {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      }
+    }
+    .card {
+      background: linear-gradient(135deg, #020617, #020617 55%, #020617);
+      border-radius: 14px;
+      padding: 14px 14px 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+    }
+    .card-value {
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .card-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+    .pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+    .pill.risk-alto { border-color: #f97373; color: #fecaca; }
+    .pill.risk-medio { border-color: #fbbf24; color: #fef3c7; }
+    .pill.risk-baixo { border-color: #4ade80; color: #bbf7d0; }
+
+    .muted {
+      color: var(--text-soft);
+      font-size: 12px;
+    }
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid var(--border);
+      color: var(--text-soft);
+    }
+    button.action {
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      background: radial-gradient(circle at top, #0ea5e933 0, #0ea5e900 60%);
+      color: var(--accent-soft);
+      padding: 6px 14px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    button.action:hover {
+      background: #0ea5e933;
+    }
+    button.action:active {
+      transform: translateY(1px);
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    canvas {
+      max-width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px 6px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    th {
+      color: var(--text-soft);
+      font-weight: 500;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .right { text-align: right; }
+    .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+    footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-soft);
+      padding: 10px 0 20px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Robô Global de Afiliados <span>• Painel Fintech</span></h1>
+    <small>Monitoramento em tempo real • Ciclos • Risco • Capital • Produto ativo</small>
+  </div>
+  <div>
+    <div class="badge" id="badgeStatus">
+      <span class="dot" id="dotStatus"></span>
+      <span id="txtStatus">Conectando...</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Cards principais -->
+  <section class="grid grid-4">
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Capital interno</div>
+      </div>
+      <div class="card-value" id="valCapital">R$ 0,00</div>
+      <div class="card-sub">Previsto: <span id="valCapitalPrev">R$ 0,00</span></div>
+      <div class="card-sub muted" id="txtCapitalOrigem">Origem: –</div>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Risco do momento</div>
+        <span class="pill" id="pillRisco">–</span>
+      </div>
+      <div class="card-value" id="valRiscoLabel">–</div>
+      <div class="card-sub" id="valRecomendacao">–</div>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Decisão & Escala</div>
+      </div>
+      <div class="card-value" id="valDecisao">–</div>
+      <div class="card-sub" id="valEscala">–</div>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Produto em foco</div>
+      </div>
+      <div class="card-value" id="valProdutoNome">–</div>
+      <div class="card-sub" id="valProdutoMeta">–</div>
+      <div class="row">
+        <span class="tag" id="tagPlataforma">Plataforma: –</span>
+        <span class="tag" id="tagPagamento">Pagamento: –</span>
+        <span class="tag" id="tagStatusProd">Status: –</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- Segunda linha -->
+  <section class="grid grid-2" style="margin-top:18px;">
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Curva de capital (sessão)</div>
+        <span class="muted" id="txtCurvaInfo">Atualiza a cada leitura</span>
+      </div>
+      <canvas id="chartCapital" height="110"></canvas>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-title">Último snapshot do robô</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Campo</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody id="tblSnapshot">
+          <tr><td colspan="2" class="muted">Carregando…</td></tr>
+        </tbody>
+      </table>
+      <div class="btn-row">
+        <button class="action" id="btnRefresh">
+          🔄 Atualizar
+        </button>
+        <button class="action" id="btnCiclo">
+          ⚙️ Rodar 1 ciclo
+        </button>
+        <button class="action" id="btnLoop5">
+          🚀 Rodar 5 ciclos
+        </button>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer>
+  Robô Global de Afiliados • Dashboard dedicado a operações seguras e escaláveis.
+</footer>
+
+<script>
+  const API_BASE = "https://robo-global-api-v2.onrender.com";
+  let capitalHistory = [];
+  let labelsHistory = [];
+  let chart;
+
+  function formatMoney(v) {
+    const n = Number(v || 0);
+    return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
+
+  function formatTime() {
+    const d = new Date();
+    return d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+
+  async function fetchJson(path) {
+    const res = await fetch(API_BASE + path);
+    if (!res.ok) throw new Error(path + " -> " + res.status);
+    return res.json();
+  }
+
+  async function loadStatus() {
+    try {
+      const data = await fetchJson("/status");
+      const ok = data.status === "OK";
+      const dot = document.getElementById("dotStatus");
+      const txt = document.getElementById("txtStatus");
+      if (ok) {
+        dot.classList.add("ok");
+        txt.textContent = "API ON • Supabase: " + (data.supabase || "OK");
+      } else {
+        dot.classList.remove("ok");
+        txt.textContent = "API OFF";
+      }
+    } catch (e) {
+      const dot = document.getElementById("dotStatus");
+      const txt = document.getElementById("txtStatus");
+      dot.classList.remove("ok");
+      txt.textContent = "Erro de conexão";
+    }
+  }
+
+  async function loadCapital() {
+    try {
+      const data = await fetchJson("/capital");
+      const atual = data.saldo_atual ?? data.saldo ?? 0;
+      const previsto = data.saldo_previsto ?? atual;
+
+      document.getElementById("valCapital").textContent = formatMoney(atual);
+      document.getElementById("valCapitalPrev").textContent = formatMoney(previsto);
+      document.getElementById("txtCapitalOrigem").textContent =
+        "Origem: " + (data.origem || "aguardando primeira comissão");
+
+      // histórico
+      capitalHistory.push(atual);
+      labelsHistory.push(formatTime());
+      if (capitalHistory.length > 20) {
+        capitalHistory.shift();
+        labelsHistory.shift();
+      }
+      updateChart();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function loadResultado() {
+    try {
+      const res = await fetchJson("/resultado");
+      const prod = res.produto || {};
+      const decisao = res.decisao || {};
+      const plano = res.plano || {};
+      const indicadores = res.indicadores || {};
+      const ciclo = res.ciclo || {};
+
+      // Produto card
+      document.getElementById("valProdutoNome").textContent = prod.nome || "—";
+      document.getElementById("valProdutoMeta").textContent =
+        (plano.acao || ciclo.plano || "Sem plano registrado.");
+      document.getElementById("tagPlataforma").textContent = "Plataforma: " + (prod.plataforma || "—");
+      document.getElementById("tagPagamento").textContent = "Pagamento: " + (prod.pagamento || "—");
+      document.getElementById("tagStatusProd").textContent = "Status: " + (prod.status || "—");
+
+      // Risco
+      const risco = (indicadores.risco || ciclo.risco || "—").toLowerCase();
+      const pill = document.getElementById("pillRisco");
+      pill.textContent = risco === "—" ? "—" : risco;
+      pill.className = "pill";
+      if (risco.includes("alto")) pill.classList.add("risk-alto");
+      else if (risco.includes("medio") || risco.includes("médio")) pill.classList.add("risk-medio");
+      else if (risco.includes("baixo")) pill.classList.add("risk-baixo");
+
+      document.getElementById("valRiscoLabel").textContent =
+        risco === "—" ? "Risco indefinido" : ("Risco " + risco);
+      document.getElementById("valRecomendacao").textContent =
+        indicadores.recomendacao || ciclo.decisao || "Sem recomendação registrada.";
+
+      // Decisão & escala
+      document.getElementById("valDecisao").textContent =
+        decisao.acao || ciclo.decisao || "—";
+      document.getElementById("valEscala").textContent =
+        ciclo.escala || "Aguardando primeira decisão de escala.";
+
+      // Snapshot table
+      const rows = [];
+      rows.push(["Produto", prod.nome || "—"]);
+      rows.push(["Plataforma", prod.plataforma || "—"]);
+      rows.push(["Pagamento", prod.pagamento || "—"]);
+      rows.push(["Risco", indicadores.risco || ciclo.risco || "—"]);
+      rows.push(["Recomendação", indicadores.recomendacao || "—"]);
+      rows.push(["Decisão", decisao.acao || ciclo.decisao || "—"]);
+      rows.push(["Plano", plano.acao || ciclo.plano || "—"]);
+      rows.push(["Escala", ciclo.escala || "—"]);
+      rows.push(["Status ciclo", ciclo.status || "—"]);
+
+      const tbody = document.getElementById("tblSnapshot");
+      tbody.innerHTML = "";
+      for (const [campo, valor] of rows) {
+        const tr = document.createElement("tr");
+        const td1 = document.createElement("td");
+        const td2 = document.createElement("td");
+        td1.textContent = campo;
+        td2.textContent = valor;
+        td2.className = "ellipsis";
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tbody.appendChild(tr);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function initChart() {
+    const ctx = document.getElementById("chartCapital").getContext("2d");
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labelsHistory,
+        datasets: [{
+          label: "Capital interno",
+          data: capitalHistory,
+          borderWidth: 2,
+          tension: 0.25
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            ticks: { color: "#6b7280", maxTicksLimit: 5 },
+            grid: { color: "#111827" }
+          },
+          y: {
+            ticks: { color: "#6b7280" },
+            grid: { color: "#111827" }
+          }
+        }
+      }
+    });
+  }
+
+  function updateChart() {
+    if (!chart) return;
+    chart.data.labels = labelsHistory;
+    chart.data.datasets[0].data = capitalHistory;
+    chart.update();
+  }
+
+  async function runCiclo() {
+    try {
+      await fetchJson("/ciclo");
+      await refreshAll();
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao executar ciclo.");
+    }
+  }
+
+  async function runLoop(qtd) {
+    try {
+      await fetchJson("/loop-diario?qtd=" + qtd);
+      await refreshAll();
+    } catch (e) {
+      console.error(e);
+      alert("Erro ao executar loop.");
+    }
+  }
+
+  async function refreshAll() {
+    await Promise.all([
+      loadStatus(),
+      loadCapital(),
+      loadResultado()
+    ]);
+  }
+
+  document.getElementById("btnRefresh").addEventListener("click", refreshAll);
+  document.getElementById("btnCiclo").addEventListener("click", () => runCiclo());
+  document.getElementById("btnLoop5").addEventListener("click", () => runLoop(5));
+
+  initChart();
+  refreshAll();
+  setInterval(refreshAll, 30000); // a cada 30s
+</script>
+</body>
+</html>
