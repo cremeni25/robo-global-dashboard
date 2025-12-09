@@ -1,163 +1,632 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robô Global de Afiliados — Painel Fintech</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robô Global de Afiliados — Painel Futurista</title>
 
-    <style>
-        body {
-            background: #060b19;
-            font-family: "Inter", sans-serif;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-        }
+  <style>
+    :root {
+      --bg: #02040b;
+      --bg-card: rgba(10, 16, 32, 0.96);
+      --bg-card-soft: rgba(15, 23, 42, 0.9);
+      --accent: #00f6ff;
+      --accent-2: #00ff9d;
+      --danger: #ff4b81;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: rgba(148, 163, 184, 0.4);
+      --radius-lg: 18px;
+      --radius-pill: 999px;
+      --shadow-strong: 0 18px 50px rgba(0, 0, 0, 0.85);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        h1 {
-            margin: 30px;
-            font-size: 28px;
-            font-weight: 600;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .container {
-            width: 92%;
-            margin: auto;
-        }
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 0%, #111827 0, #020617 45%, #020617 100%);
+      color: var(--text);
+      font-family: var(--font-main);
+      padding: 24px 16px 32px;
+    }
 
-        .card {
-            background: #0e1629;
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-        }
+    .app {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-        .row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-        .card h3 {
-            margin: 0 0 10px 0;
-            font-weight: 500;
-        }
+    .title-block h1 {
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
 
-        button {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 12px;
-            background: #1a73e8;
-            color: #fff;
-            cursor: pointer;
-            margin-top: 12px;
-        }
+    .title-block h1 span {
+      color: var(--accent);
+    }
 
-        button:hover {
-            background: #1664c4;
-        }
+    .subtitle {
+      margin-top: 4px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
 
-        .error {
-            color: #ff6b6b;
-            font-size: 14px;
-            margin-top: 10px;
-        }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
 
-        .success {
-            color: #00d97e;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-    </style>
+    .pill {
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.9),
+        rgba(15, 23, 42, 0.98)
+      );
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.8);
+    }
+
+    .pill-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #f97373;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.9);
+    }
+
+    .pill-dot.ok {
+      background: var(--accent-2);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+    }
+
+    .pill-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.7rem;
+    }
+
+    .pill-value {
+      font-weight: 500;
+    }
+
+    /* Layout principal */
+
+    .grid-top {
+      display: grid;
+      grid-template-columns: 2fr 1.4fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-top {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      background: radial-gradient(circle at top, #0f172a, #020617 60%);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 20px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: var(--shadow-strong);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(
+        circle at top right,
+        rgba(56, 189, 248, 0.22),
+        transparent 55%
+      );
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .card-subtitle {
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+
+    .value-main {
+      margin-top: 4px;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .value-main span.small {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    .value-secondary {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      color: var(--muted);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .tag-accent {
+      border-color: rgba(34, 197, 235, 0.9);
+      color: var(--accent);
+      background: rgba(8, 47, 73, 0.9);
+    }
+
+    .tag-danger {
+      border-color: rgba(248, 113, 113, 0.9);
+      color: #fecaca;
+      background: rgba(68, 16, 27, 0.9);
+    }
+
+    .tag-ok {
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #bbf7d0;
+      background: rgba(6, 78, 59, 0.9);
+    }
+
+    /* Segunda linha */
+
+    .grid-bottom {
+      display: grid;
+      grid-template-columns: 1.4fr 1.6fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-bottom {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .code-box {
+      border-radius: 12px;
+      background: radial-gradient(circle at top left, #020617, #020617 60%);
+      border: 1px solid rgba(30, 64, 175, 0.6);
+      padding: 10px 10px;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      max-height: 260px;
+      overflow: auto;
+      white-space: pre;
+    }
+
+    .btn-row {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      background: radial-gradient(circle at top, #020617, #020617 70%);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      border-color: transparent;
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(15, 23, 42, 0.9);
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    button.primary:hover {
+      box-shadow: 0 14px 30px rgba(16, 185, 129, 0.7);
+      filter: brightness(1.05);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.7);
+    }
+
+    .status-text {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .status-text.success {
+      color: var(--accent-2);
+    }
+
+    .status-text.error {
+      color: var(--danger);
+    }
+
+    footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* Toast */
+
+    .toast {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      padding: 9px 13px;
+      border-radius: var(--radius-pill);
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.9);
+      z-index: 50;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toast-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .toast-dot.error {
+      background: var(--danger);
+    }
+
+  </style>
 </head>
-
 <body>
-    <h1>Robô Global de Afiliados • Painel Fintech</h1>
-
-    <div class="container">
-
-        <!-- STATUS DO SISTEMA -->
-        <div class="card">
-            <h3>Status da API</h3>
-            <div id="status-api">Verificando...</div>
+  <div class="app">
+    <header>
+      <div class="title-block">
+        <h1>Robô Global <span>• Painel Futurista</span></h1>
+        <div class="subtitle">
+          Monitoramento em tempo real • Capital • Risco • Decisão • Ciclos
         </div>
-
-        <!-- SNAPSHOT DA ANÁLISE -->
-        <div class="card">
-            <h3>Análise do produto</h3>
-            <pre id="analise-box">Nenhuma leitura ainda.</pre>
-            <button onclick="buscarAnalise()">Atualizar Análise</button>
-            <div id="analise-msg"></div>
+      </div>
+      <div class="badge-row">
+        <div class="pill" id="pill-api">
+          <span class="pill-dot" id="pill-api-dot"></span>
+          <span class="pill-label">API</span>
+          <span class="pill-value" id="pill-api-text">Verificando…</span>
         </div>
-
-        <!-- ÚLTIMO CICLO -->
-        <div class="card">
-            <h3>Executar Ciclo</h3>
-            <button onclick="rodarCiclo()">Rodar 1 ciclo</button>
-            <div id="ciclo-msg"></div>
+        <div class="pill">
+          <span class="pill-label">Última atualização</span>
+          <span class="pill-value" id="pill-update">–</span>
         </div>
+      </div>
+    </header>
 
-    </div>
+    <!-- TOPO: CAPITAL + PRODUTO -->
+    <section class="grid-top">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Capital & risco</div>
+            <div class="card-subtitle">
+              Dados consolidados da análise atual do robô
+            </div>
+          </div>
+        </div>
+        <div class="value-main" id="val-capital">
+          R$ 0,00
+          <span class="small" id="val-risco">Risco: –</span>
+        </div>
+        <div class="value-secondary" id="val-recomendacao">
+          Recomendação: aguardando análise.
+        </div>
+        <div class="tag-row">
+          <span class="tag tag-accent" id="tag-capital-origem">Origem: –</span>
+          <span class="tag" id="tag-capital-extra">Capital projetado: –</span>
+        </div>
+      </article>
 
-<script>
-const API = "https://robo-global-api-v2.onrender.com";
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Decisão & produto</div>
+            <div class="card-subtitle">
+              Produto em foco e status de escala
+            </div>
+          </div>
+        </div>
+        <div class="value-main" id="val-decisao">
+          –
+        </div>
+        <div class="value-secondary" id="val-produto">
+          Produto: – • Plataforma: – • Pagamento: – • Status: –
+        </div>
+        <div class="tag-row">
+          <span class="tag tag-accent" id="tag-produto">Produto: –</span>
+          <span class="tag" id="tag-escala">Escala: aguardando comissão</span>
+        </div>
+      </article>
+    </section>
 
-/* ============================
-   STATUS DA API
-============================ */
-async function statusAPI() {
-    try {
-        const r = await fetch(`${API}/status`);
-        const data = await r.json();
-        document.getElementById("status-api").innerHTML =
-            `<span class="success">API Online — Supabase: ${data.supabase}</span>`;
-    } catch (e) {
-        document.getElementById("status-api").innerHTML =
-            `<span class="error">Erro ao conectar à API</span>`;
+    <!-- BASE: SNAPSHOT + COMANDOS -->
+    <section class="grid-bottom">
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Snapshot bruto (/analise)</div>
+            <div class="card-subtitle">Resposta JSON completa da API</div>
+          </div>
+        </div>
+        <div class="code-box" id="analise-box">
+          Nenhuma leitura ainda.
+        </div>
+        <div class="btn-row">
+          <button class="primary" id="btn-atualizar">
+            ⟳ Atualizar análise
+          </button>
+        </div>
+        <div class="status-text" id="analise-msg">–</div>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Ciclos do robô</div>
+            <div class="card-subtitle">
+              Testes de execução direta da estratégia (/ciclo)
+            </div>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button id="btn-ciclo-1">▶ Rodar 1 ciclo</button>
+        </div>
+        <div class="status-text" id="ciclo-msg">Nenhum ciclo executado ainda.</div>
+
+        <div style="margin-top:14px;font-size:0.78rem;color:var(--muted);">
+          • Cada ciclo utiliza a lógica atual do robô (capital, risco, produto, plano).<br>
+          • Use com cuidado para não executar ciclos em excesso quando integrar com tráfego real.
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      Painel Futurista — Robô Global de Afiliados • Operação autônoma assistida.
+    </footer>
+  </div>
+
+  <div class="toast" id="toast">
+    <span class="toast-dot" id="toast-dot"></span>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <script>
+    const API = "https://robo-global-api-v2.onrender.com";
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatMoneyBRL(v) {
+      const n = Number(v || 0);
+      return n.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      });
     }
-}
-statusAPI();
 
-/* ============================
-   ANÁLISE DO PRODUTO
-============================ */
-async function buscarAnalise() {
-    document.getElementById("analise-msg").innerHTML = "Carregando...";
-
-    try {
-        const r = await fetch(`${API}/analise`);
-        const data = await r.json();
-
-        document.getElementById("analise-box").textContent =
-            JSON.stringify(data, null, 2);
-
-        document.getElementById("analise-msg").innerHTML =
-            `<span class="success">Análise atualizada com sucesso.</span>`;
-    } catch (e) {
-        document.getElementById("analise-msg").innerHTML =
-            `<span class="error">Erro ao consultar /analise 🛑</span>`;
+    function nowLabel() {
+      const d = new Date();
+      return d.toLocaleString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
-}
 
-/* ============================
-   EXECUTAR CICLO
-============================ */
-async function rodarCiclo() {
-    document.getElementById("ciclo-msg").innerHTML = "Executando...";
-
-    try {
-        const r = await fetch(`${API}/ciclo`, { method: "POST" });
-        const data = await r.json();
-
-        document.getElementById("ciclo-msg").innerHTML =
-            `<span class="success">Ciclo executado: ${data.status}</span>`;
-    } catch (e) {
-        document.getElementById("ciclo-msg").innerHTML =
-            `<span class="error">Erro ao executar ciclo</span>`;
+    function showToast(msg, isError = false) {
+      const toast = $("toast");
+      const dot = $("toast-dot");
+      $("toast-text").textContent = msg;
+      dot.classList.toggle("error", isError);
+      toast.classList.add("show");
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
     }
-}
-</script>
 
+    async function apiGet(path, options = {}) {
+      const url = API + path;
+      const res = await fetch(url, options);
+      if (!res.ok) {
+        throw new Error("HTTP " + res.status + " em " + path);
+      }
+      return res.json();
+    }
+
+    async function statusAPI() {
+      try {
+        const data = await apiGet("/status");
+        const ok = data && (data.status === "OK" || data.supabase);
+        const dot = $("pill-api-dot");
+        const txt = $("pill-api-text");
+
+        if (ok) {
+          dot.classList.add("ok");
+          txt.textContent = "Conectada";
+        } else {
+          dot.classList.remove("ok");
+          txt.textContent = "Problema de conexão";
+        }
+      } catch (e) {
+        $("pill-api-dot").classList.remove("ok");
+        $("pill-api-text").textContent = "Erro ao conectar";
+      }
+    }
+
+    function preencherAnalise(data) {
+      if (!data) return;
+
+      // Safeguard para diferentes formatos
+      const produto = data.produto || {};
+      const capital = data.capital ?? 0;
+      const risco = data.risco || "–";
+      const recomendacao = data.recomendacao || "–";
+      const decisao = data.decisao || "–";
+      const plano = data.plano || "–";
+      const capitalProj = data.capital_projetado || data.capital_previsto || 0;
+
+      $("val-capital").innerHTML =
+        `${formatMoneyBRL(capital)} <span class="small" id="val-risco">Risco: ${risco}</span>`;
+      $("val-recomendacao").textContent =
+        "Recomendação: " + recomendacao;
+
+      $("tag-capital-origem").textContent =
+        "Origem: " + (data.origem || "Aguardando primeira comissão");
+      $("tag-capital-extra").textContent =
+        "Capital projetado: " + formatMoneyBRL(capitalProj);
+
+      $("val-decisao").textContent = decisao || "–";
+
+      const nomeProd = produto.nome || "–";
+      const plataforma = produto.plataforma || "–";
+      const pagamento = produto.pagamento || "–";
+      const statusProd = produto.status || "–";
+
+      $("val-produto").textContent =
+        `Produto: ${nomeProd} • Plataforma: ${plataforma} • Pagamento: ${pagamento} • Status: ${statusProd}`;
+
+      $("tag-produto").textContent = "Produto: " + nomeProd;
+      $("tag-escala").textContent =
+        data.escala || "Escala: aguardando primeira comissão";
+
+      // Caixa JSON
+      $("analise-box").textContent = JSON.stringify(data, null, 2);
+      $("analise-msg").textContent = "Análise atualizada com sucesso.";
+      $("analise-msg").className = "status-text success";
+      $("pill-update").textContent = nowLabel();
+    }
+
+    async function buscarAnalise() {
+      $("analise-msg").className = "status-text";
+      $("analise-msg").textContent = "Carregando análise...";
+      try {
+        const data = await apiGet("/analise");
+        preencherAnalise(data);
+        showToast("Análise atualizada.");
+      } catch (e) {
+        $("analise-msg").textContent = "Erro ao consultar /analise.";
+        $("analise-msg").className = "status-text error";
+        showToast("Erro ao consultar /analise.", true);
+      }
+    }
+
+    async function rodarCiclo() {
+      $("ciclo-msg").className = "status-text";
+      $("ciclo-msg").textContent = "Executando ciclo...";
+      try {
+        const data = await apiGet("/ciclo", { method: "POST" });
+        $("ciclo-msg").textContent =
+          "Ciclo executado: " + (data.status || "ok");
+        $("ciclo-msg").className = "status-text success";
+        showToast("Ciclo executado com sucesso.");
+        // Atualiza análise após ciclo
+        await buscarAnalise();
+      } catch (e) {
+        $("ciclo-msg").textContent = "Erro ao executar /ciclo.";
+        $("ciclo-msg").className = "status-text error";
+        showToast("Erro ao executar /ciclo.", true);
+      }
+    }
+
+    function init() {
+      $("btn-atualizar").addEventListener("click", buscarAnalise);
+      $("btn-ciclo-1").addEventListener("click", rodarCiclo);
+
+      statusAPI();
+      buscarAnalise();
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
 </body>
 </html>
