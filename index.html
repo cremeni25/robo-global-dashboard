@@ -105,13 +105,34 @@ async function carregarAcoesPendentes() {
 
   try {
     const res = await fetch(`${API_BASE}/acoes-pendentes`);
-    const acoes = await res.json();
+    let acoes = await res.json();
 
     if (!acoes || acoes.length === 0) {
       content.innerHTML += "<p>Nenhuma ação pendente no momento.</p>";
       return;
     }
 
+    // ===============================
+    // ORDENAÇÃO POR PRIORIDADE
+    // 1º maior impacto_valor
+    // 2º maior risco
+    // ===============================
+    acoes.sort((a, b) => {
+      const impactoA = a.impacto_valor || 0;
+      const impactoB = b.impacto_valor || 0;
+
+      if (impactoB !== impactoA) {
+        return impactoB - impactoA;
+      }
+
+      const riscoA = a.risco || 0;
+      const riscoB = b.risco || 0;
+      return riscoB - riscoA;
+    });
+
+    // ===============================
+    // RENDERIZAÇÃO
+    // ===============================
     acoes.forEach(acao => {
       const card = document.createElement("div");
       card.className = "acao-card";
@@ -126,8 +147,10 @@ async function carregarAcoesPendentes() {
           CONFIRMAR
         </button>
       `;
+
       content.appendChild(card);
     });
+
   } catch (e) {
     content.innerHTML += "<p>Erro ao carregar ações.</p>";
     console.error(e);
