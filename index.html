@@ -192,3 +192,26 @@ card.innerHTML = `
   carregarAcoesPendentes();
 </script>
 
+  <script>
+  const sections = {
+    "Ações Pendentes": document.querySelector(".content"),
+    "Painel Principal": () => alert("Painel Principal — em construção"),
+    "Decisor Mestre": () => alert("Decisor Mestre — em construção"),
+    "Financeiro": () => alert("Financeiro — em construção"),
+    "Autonomia": () => alert("Autonomia — em construção"),
+    "Auditoria": () => alert("Auditoria — em construção")
+  };
+
+  document.querySelectorAll(".menu a").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const label = link.innerText;
+      if (sections[label]) {
+        if (typeof sections[label] === "function") {
+          sections[label]();
+        }
+      }
+    });
+  });
+</script>
+
