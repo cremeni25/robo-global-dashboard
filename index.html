@@ -3,740 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robô Global de Afiliados — Painel PRO</title>
-
+  <title>Robô Global de Afiliados - Painel PRO</title>
   <style>
-    :root {
-      --bg: #050814;
-      --bg-card: #0b1223;
-      --bg-card-alt: #0f182c;
-      --accent: #3b82f6;
-      --accent-soft: rgba(59, 130, 246, 0.12);
-      --accent-strong: #22c55e;
-      --danger: #f97373;
-      --text-main: #f9fafb;
-      --text-muted: #9ca3af;
-      --border-soft: #111827;
-      --shadow-soft: 0 22px 45px rgba(0, 0, 0, 0.55);
-      --radius-lg: 18px;
-      --radius-md: 14px;
-      --transition-fast: 0.18s ease-out;
-      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Inter",
-        "Segoe UI", sans-serif;
-    }
-
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
-      background: radial-gradient(circle at top left, #1f2937 0, #020617 45%);
-      min-height: 100vh;
-      font-family: var(--font-main);
-      color: var(--text-main);
-      padding: 26px 22px 40px;
+      margin: 0;
+      background: #0e1117;
+      color: #e6e6e6;
     }
 
-    .shell {
-      max-width: 1440px;
-      margin: 0 auto;
-    }
-
-    header {
+    .layout {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      gap: 16px;
+      height: 100vh;
     }
 
-    .title-block h1 {
-      font-size: 26px;
-      font-weight: 650;
-      letter-spacing: 0.02em;
-    }
-
-    .title-block span {
-      display: inline-block;
-      margin-top: 4px;
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .tag-pro {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: linear-gradient(135deg, #0f172a, #1d283a);
-      border-radius: 999px;
-      padding: 7px 14px;
-      font-size: 12px;
-      color: var(--accent-strong);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-    }
-
-    .tag-pro-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--accent-strong);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
-    }
-
-    /* STATUS BAR */
-    .status-bar {
+    /* MENU LATERAL */
+    .sidebar {
+      width: 260px;
+      background: #161b22;
+      padding: 20px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 22px;
+      flex-direction: column;
     }
 
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 14px;
-      border-radius: 999px;
-      font-size: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(10px);
+    .sidebar h2 {
+      margin: 0 0 30px 0;
+      font-size: 18px;
+      color: #58a6ff;
     }
 
-    .status-pill .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--danger);
-      box-shadow: 0 0 10px rgba(248, 113, 113, 0.8);
+    .menu a {
+      color: #c9d1d9;
+      text-decoration: none;
+      padding: 12px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      display: block;
     }
 
-    .status-pill.ok .dot {
-      background: var(--accent-strong);
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.9);
+    .menu a.active,
+    .menu a:hover {
+      background: #21262d;
+      color: #ffffff;
     }
 
-    .status-pill strong {
-      font-weight: 600;
+    /* CONTEÚDO */
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
     }
 
-    /* GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 20px;
+    .content h1 {
+      margin-top: 0;
+      font-size: 24px;
     }
 
-    .card {
-      background: radial-gradient(circle at top left, #111827 0, #020617 55%);
-      border-radius: var(--radius-lg);
-      padding: 18px 18px 16px;
-      border: 1px solid rgba(55, 65, 81, 0.75);
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
+    /* CARD DE AÇÃO */
+    .acao-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      max-width: 700px;
     }
 
-    .card.alt {
-      background: radial-gradient(circle at top right, #020617 0, #020617 40%);
+    .acao-card h3 {
+      margin-top: 0;
+      color: #58a6ff;
     }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      gap: 10px;
-    }
-
-    .card-title {
+    .meta {
+      margin: 8px 0;
       font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
     }
 
-    .card-sub {
-      font-size: 12px;
-      color: var(--text-muted);
+    .meta span {
+      font-weight: bold;
     }
 
-    .badge-soft {
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      color: var(--text-muted);
-    }
-
-    .kpi-main {
-      font-size: 22px;
-      font-weight: 650;
-      margin-bottom: 6px;
-    }
-
-    .kpi-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .kpi-chip-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .chip {
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 4px 10px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(75, 85, 99, 0.8);
-      color: var(--text-muted);
-    }
-
-    .chip.accent {
-      background: var(--accent-soft);
-      color: #dbeafe;
-      border-color: rgba(59, 130, 246, 0.7);
-    }
-
-    .chip.danger {
-      background: rgba(127, 29, 29, 0.6);
-      border-color: rgba(248, 113, 113, 0.8);
-      color: #fecaca;
-    }
-
-    .chip.ok {
-      background: rgba(22, 101, 52, 0.7);
-      border-color: rgba(34, 197, 94, 0.85);
-      color: #bbf7d0;
-    }
-
-    /* JSON VIEW */
-    .json-view {
-      background: #020617;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      padding: 10px 12px;
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 11px;
-      color: #e5e7eb;
-      max-height: 260px;
-      overflow: auto;
-      line-height: 1.45;
-    }
-
-    .json-view::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-
-    .json-view::-webkit-scrollbar-thumb {
-      background: #4b5563;
-      border-radius: 999px;
-    }
-
-    /* ACTIONS */
-    .actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    button {
+    .confirmar-btn {
+      margin-top: 20px;
+      background: #238636;
       border: none;
-      outline: none;
+      color: #ffffff;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 8px 15px;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      background: #1e293b;
-      color: #e5e7eb;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      transition: transform var(--transition-fast),
-        box-shadow var(--transition-fast),
-        background var(--transition-fast),
-        border-color var(--transition-fast);
     }
 
-    button span.icon {
+    .confirmar-btn:hover {
+      background: #2ea043;
+    }
+
+    .status {
+      margin-top: 15px;
+      color: #7ee787;
       font-size: 14px;
+      display: none;
     }
 
-    button.primary {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-color: rgba(59, 130, 246, 0.85);
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.45);
-    }
-
-    button.accent {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border-color: rgba(34, 197, 94, 0.9);
-      box-shadow: 0 10px 22px rgba(22, 163, 74, 0.55);
-    }
-
-    button.secondary {
-      background: #020617;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.7);
-    }
-
-    button:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-
-    /* FEEDBACK */
-    .status-msg {
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .status-msg.ok {
-      color: var(--accent-strong);
-    }
-
-    .status-msg.err {
-      color: var(--danger);
-    }
-
-    /* RESULT PANEL */
-    .result-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.9fr);
-      gap: 16px;
-      margin-top: 8px;
-    }
-
-    .result-list {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.55;
-    }
-
-    .result-list dt {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.09em;
-      color: #6b7280;
-      margin-top: 6px;
-    }
-
-    .result-list dd {
-      margin-left: 0;
-      color: #e5e7eb;
-    }
-
-    footer {
-      margin-top: 22px;
-      font-size: 11px;
-      color: var(--text-muted);
-      text-align: right;
-    }
-
-    @media (max-width: 1024px) {
-      .grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      header {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (max-width: 900px) {
+      .sidebar {
+        width: 200px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="shell">
-    <header>
-      <div class="title-block">
-        <h1>Robô Global de Afiliados • Painel PRO</h1>
-        <span>Monitoramento em tempo real • Decisão autônoma assistida •
-          Escalada segura e progressiva</span>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Robo Global AI</h2>
+      <nav class="menu">
+        <a href="#" class="active">Ações Pendentes</a>
+        <a href="#">Painel Principal</a>
+        <a href="#">Decisor Mestre</a>
+        <a href="#">Financeiro</a>
+        <a href="#">Autonomia</a>
+        <a href="#">Auditoria</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1>Ações Pendentes</h1>
+
+      <div class="acao-card" id="acao-1">
+        <h3>Escalar campanha Hotmart</h3>
+        <div class="meta"><span>Risco:</span> Médio</div>
+        <div class="meta"><span>Motivo:</span> ROI positivo em 3 ciclos consecutivos</div>
+        <div class="meta"><span>Impacto estimado:</span> +R$ 2.400 / mês</div>
+
+        <button class="confirmar-btn" onclick="confirmarAcao()">CONFIRMAR</button>
+        <div class="status" id="status">✔ Ação registrada. O robô retomará o ciclo.</div>
       </div>
-      <div class="tag-pro">
-        <div class="tag-pro-dot"></div>
-        Modo Operação • Versão 1.0 PRO
-      </div>
-    </header>
-
-    <!-- STATUS GERAL -->
-    <div class="status-bar">
-      <div id="pill-api" class="status-pill">
-        <div class="dot"></div>
-        <span><strong>API</strong> Conectando...</span>
-      </div>
-      <div id="pill-last" class="status-pill">
-        <div class="dot"></div>
-        <span><strong>Última atualização</strong> aguardando…</span>
-      </div>
-    </div>
-
-    <!-- GRID PRINCIPAL -->
-    <div class="grid">
-      <!-- COLUNA ESQUERDA: CAPITAL & SNAPSHOT -->
-      <section class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Capital & Risco</div>
-            <div class="card-sub">
-              Visão consolidada da análise atual do robô
-            </div>
-          </div>
-          <div id="badge-risk" class="badge-soft">Risco: —</div>
-        </div>
-
-        <div class="kpi-main" id="kpi-capital">R$ 0,00</div>
-        <div class="kpi-label" id="kpi-recomendacao">
-          Recomendações do robô serão exibidas aqui.
-        </div>
-
-        <div class="kpi-chip-row">
-          <div id="chip-origem" class="chip">Origem: —</div>
-          <div id="chip-plataforma" class="chip">Plataforma: —</div>
-          <div id="chip-pagamento" class="chip">Pagamento: —</div>
-          <div id="chip-status-produto" class="chip">Status do produto: —</div>
-        </div>
-
-        <hr style="border: none; border-top: 1px solid #111827; margin: 14px 0" />
-
-        <div>
-          <div class="card-title" style="margin-bottom: 8px">
-            Snapshot Bruto (/analise)
-          </div>
-          <pre class="json-view" id="json-analise">Nenhuma leitura ainda.</pre>
-
-          <div class="actions-row">
-            <button id="btn-analise" class="primary">
-              <span class="icon">🔄</span>
-              Atualizar análise
-            </button>
-            <button id="btn-resultado" class="secondary">
-              <span class="icon">📊</span>
-              Carregar resultado consolidado
-            </button>
-          </div>
-
-          <div id="msg-analise" class="status-msg">
-            Aguardando primeira leitura.
-          </div>
-        </div>
-      </section>
-
-      <!-- COLUNA DIREITA: DECISÃO / CICLOS / RESULTADO -->
-      <section class="card alt">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Decisão & Produto</div>
-            <div class="card-sub">
-              Status atual da estratégia de escala do robô
-            </div>
-          </div>
-          <div id="badge-produto" class="badge-soft">Produto: —</div>
-        </div>
-
-        <div class="kpi-label">Decisão do momento</div>
-        <div class="kpi-main" id="kpi-decisao">Aguardando execução do ciclo.</div>
-
-        <div class="kpi-chip-row">
-          <div id="chip-plano" class="chip accent">Plano diário: —</div>
-          <div id="chip-escala" class="chip danger">Escala: —</div>
-        </div>
-
-        <hr style="border: none; border-top: 1px solid #111827; margin: 14px 0" />
-
-        <div class="card-header" style="margin-bottom: 6px">
-          <div>
-            <div class="card-title">Ciclos do Robô</div>
-            <div class="card-sub">
-              Cada ciclo executa: decisão → plano → análise → escala
-            </div>
-          </div>
-          <div class="badge-soft">Endpoint /ciclo e /loop-diario</div>
-        </div>
-
-        <div class="actions-row">
-          <button id="btn-ciclo" class="accent">
-            <span class="icon">⚡</span>
-            Rodar 1 ciclo (/ciclo)
-          </button>
-          <button id="btn-loop5" class="primary">
-            <span class="icon">🔥</span>
-            Rodar 5 ciclos (/loop-diario)
-          </button>
-        </div>
-        <div id="msg-ciclo" class="status-msg">
-          Ainda nenhum ciclo executado a partir do painel.
-        </div>
-
-        <div class="result-grid" style="margin-top: 14px">
-          <div>
-            <div class="card-title" style="margin-bottom: 6px">
-              Último Resultado Consolidado (/resultado)
-            </div>
-            <dl class="result-list" id="dl-resultado">
-              <dt>Produto</dt>
-              <dd>—</dd>
-              <dt>Decisão</dt>
-              <dd>—</dd>
-              <dt>Plano</dt>
-              <dd>—</dd>
-              <dt>Indicadores</dt>
-              <dd>—</dd>
-              <dt>Ciclo</dt>
-              <dd>—</dd>
-            </dl>
-          </div>
-          <div>
-            <div class="card-title" style="margin-bottom: 6px">
-              Log do último ciclo
-            </div>
-            <pre class="json-view" id="json-ciclo">Nenhum ciclo executado ainda.</pre>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <footer>
-      Painel PRO — Robô Global de Afiliados • Monitoração contínua da API
-      Render &amp; Supabase
-    </footer>
+    </main>
   </div>
 
   <script>
-    const API = "https://robo-global-api-v2.onrender.com";
-
-    const pillApi = document.getElementById("pill-api");
-    const pillLast = document.getElementById("pill-last");
-
-    const kpiCapital = document.getElementById("kpi-capital");
-    const kpiRec = document.getElementById("kpi-recomendacao");
-    const badgeRisk = document.getElementById("badge-risk");
-    const chipOrigem = document.getElementById("chip-origem");
-    const chipPlat = document.getElementById("chip-plataforma");
-    const chipPag = document.getElementById("chip-pagamento");
-    const chipStatusProd = document.getElementById("chip-status-produto");
-    const jsonAnalise = document.getElementById("json-analise");
-    const msgAnalise = document.getElementById("msg-analise");
-
-    const kpiDecisao = document.getElementById("kpi-decisao");
-    const chipPlano = document.getElementById("chip-plano");
-    const chipEscala = document.getElementById("chip-escala");
-    const badgeProduto = document.getElementById("badge-produto");
-    const msgCiclo = document.getElementById("msg-ciclo");
-    const jsonCiclo = document.getElementById("json-ciclo");
-    const dlResultado = document.getElementById("dl-resultado");
-
-    function formatMoney(v) {
-      try {
-        return v.toLocaleString("pt-BR", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-          style: "currency",
-          currency: "BRL",
-        });
-      } catch {
-        return "R$ 0,00";
-      }
+    function confirmarAcao() {
+      document.getElementById('status').style.display = 'block';
     }
-
-    function setLastUpdate() {
-      const now = new Date();
-      const h = String(now.getHours()).padStart(2, "0");
-      const m = String(now.getMinutes()).padStart(2, "0");
-      pillLast.classList.add("ok");
-      pillLast.querySelector("span").innerHTML =
-        "<strong>Última atualização</strong> " + h + ":" + m;
-    }
-
-    async function checkStatus() {
-      try {
-        const r = await fetch(API + "/status");
-        const data = await r.json();
-        pillApi.classList.add("ok");
-        pillApi.querySelector("span").innerHTML =
-          "<strong>API</strong> " +
-          (data.status || "OK") +
-          " — Supabase: " +
-          (data.supabase || "desconhecido");
-        setLastUpdate();
-      } catch (e) {
-        pillApi.classList.remove("ok");
-        pillApi.querySelector("span").innerHTML =
-          "<strong>API</strong> Erro ao conectar";
-      }
-    }
-
-    async function atualizarAnalise() {
-      msgAnalise.textContent = "Carregando /analise…";
-      msgAnalise.className = "status-msg";
-      try {
-        const r = await fetch(API + "/analise");
-        const data = await r.json();
-
-        jsonAnalise.textContent = JSON.stringify(data, null, 2);
-
-        const produto = data.produto || {};
-        const capital = data.capital ?? 0;
-        const risco = data.risco || "—";
-        const recomendacao = data.recomendacao || "—";
-
-        kpiCapital.textContent = formatMoney(capital);
-        kpiRec.textContent =
-          "Recomendação atual do robô: " + recomendacao;
-
-        badgeRisk.textContent = "Risco: " + risco;
-        badgeRisk.classList.remove("ok", "danger");
-        badgeRisk.classList.add(
-          risco === "baixo" ? "ok" : risco === "alto" ? "danger" : ""
-        );
-
-        chipOrigem.textContent = "Origem: capital interno";
-        chipPlat.textContent = "Plataforma: " + (produto.plataforma || "—");
-        chipPag.textContent = "Pagamento: " + (produto.pagamento || "—");
-        chipStatusProd.textContent =
-          "Status do produto: " + (produto.status || "—");
-
-        // Atualiza também blocos de decisão se existirem no retorno
-        if (data.decisao) {
-          kpiDecisao.textContent = data.decisao;
-        }
-        if (data.plano) {
-          chipPlano.textContent = "Plano diário: " + data.plano;
-        }
-
-        msgAnalise.textContent = "Análise atualizada com sucesso.";
-        msgAnalise.classList.add("ok");
-        setLastUpdate();
-      } catch (e) {
-        msgAnalise.textContent = "Erro ao consultar /analise. Verifique a API.";
-        msgAnalise.classList.add("err");
-      }
-    }
-
-    async function rodarCiclo() {
-      msgCiclo.textContent = "Executando ciclo único (/ciclo)…";
-      msgCiclo.className = "status-msg";
-      try {
-        const r = await fetch(API + "/ciclo");
-        const data = await r.json();
-
-        jsonCiclo.textContent = JSON.stringify(data, null, 2);
-
-        kpiDecisao.textContent = data.decisao || "—";
-        chipPlano.textContent =
-          "Plano diário: " + (data.plano || "—");
-        chipEscala.textContent =
-          "Escala: " + (data.escala || "—");
-        chipEscala.classList.remove("ok", "danger");
-        if (String(data.escala || "").toLowerCase().startsWith("não")) {
-          chipEscala.classList.add("danger");
-        } else {
-          chipEscala.classList.add("ok");
-        }
-
-        badgeProduto.textContent =
-          "Produto: " + (data.produto || "—");
-
-        msgCiclo.textContent = data.status || "Ciclo executado com sucesso.";
-        msgCiclo.classList.add("ok");
-        setLastUpdate();
-
-        // Atualiza análise automaticamente após o ciclo
-        atualizarAnalise();
-      } catch (e) {
-        msgCiclo.textContent = "Erro ao executar /ciclo. Verifique a API.";
-        msgCiclo.classList.add("err");
-      }
-    }
-
-    async function rodarLoopCinco() {
-      msgCiclo.textContent = "Executando 5 ciclos (/loop-diario?qtd=5)…";
-      msgCiclo.className = "status-msg";
-      try {
-        const r = await fetch(API + "/loop-diario?qtd=5");
-        const data = await r.json();
-
-        jsonCiclo.textContent = JSON.stringify(data, null, 2);
-
-        msgCiclo.textContent =
-          "Loop diário executado: " +
-          (data.execucoes || 5) +
-          " ciclos.";
-        msgCiclo.classList.add("ok");
-        setLastUpdate();
-
-        atualizarAnalise();
-      } catch (e) {
-        msgCiclo.textContent =
-          "Erro ao executar /loop-diario. Verifique a API.";
-        msgCiclo.classList.add("err");
-      }
-    }
-
-    async function carregarResultado() {
-      msgAnalise.textContent = "Carregando /resultado…";
-      msgAnalise.className = "status-msg";
-      try {
-        const r = await fetch(API + "/resultado");
-        const data = await r.json();
-
-        const produto = data.produto || {};
-        const decisao = data.decisao || {};
-        const plano = data.plano || {};
-        const indicadores = data.indicadores || {};
-        const ciclo = data.ciclo || {};
-
-        dlResultado.innerHTML = `
-          <dt>Produto</dt>
-          <dd>${produto.nome || "—"} (${produto.plataforma || "—"})</dd>
-          <dt>Decisão</dt>
-          <dd>${decisao.acao || "—"}</dd>
-          <dt>Plano</dt>
-          <dd>${plano.acao || "—"}</dd>
-          <dt>Indicadores</dt>
-          <dd>Risco: ${indicadores.risco || "—"} • Capital: ${
-          indicadores.capital != null ? formatMoney(indicadores.capital) : "—"
-        }</dd>
-          <dt>Ciclo</dt>
-          <dd>${ciclo.status || "—"}</dd>
-        `;
-
-        msgAnalise.textContent = "Resultado consolidado carregado.";
-        msgAnalise.classList.add("ok");
-        setLastUpdate();
-      } catch (e) {
-        msgAnalise.textContent =
-          "Erro ao consultar /resultado. Verifique a API.";
-        msgAnalise.classList.add("err");
-      }
-    }
-
-    document.getElementById("btn-analise").onclick = atualizarAnalise;
-    document.getElementById("btn-ciclo").onclick = rodarCiclo;
-    document.getElementById("btn-loop5").onclick = rodarLoopCinco;
-    document.getElementById("btn-resultado").onclick = carregarResultado;
-
-    // Inicialização
-    checkStatus();
-    atualizarAnalise();
-    setInterval(checkStatus, 30000);
   </script>
 </body>
 </html>
