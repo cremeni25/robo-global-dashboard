@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robô Global de Afiliados - Painel PRO</title>
+  <title>Robô Global AI — Centro de Comando</title>
 
   <style>
     * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
     body { margin: 0; background: #0e1117; color: #e6e6e6; }
     .layout { display: flex; height: 100vh; }
 
+    /* SIDEBAR */
     .sidebar {
       width: 260px;
       background: #161b22;
@@ -17,12 +18,7 @@
       display: flex;
       flex-direction: column;
     }
-
-    .sidebar h2 {
-      margin: 0 0 30px 0;
-      font-size: 18px;
-      color: #58a6ff;
-    }
+    .sidebar h2 { margin: 0 0 30px 0; font-size: 18px; color: #58a6ff; }
 
     .menu a {
       color: #c9d1d9;
@@ -32,46 +28,44 @@
       margin-bottom: 6px;
       display: block;
     }
-
-    .menu a.active,
-    .menu a:hover {
+    .menu a.active, .menu a:hover {
       background: #21262d;
       color: #ffffff;
     }
 
-    .content {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
-
+    /* CONTENT */
+    .content { flex: 1; padding: 30px; overflow-y: auto; }
     .content h1 { margin-top: 0; font-size: 24px; }
 
+    /* ACTION CARD */
     .acao-card {
       background: #161b22;
-      border: 1px solid #30363d;
+      border: 2px solid #30363d;
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
-      max-width: 700px;
+      max-width: 760px;
+    }
+    .acao-card.critica {
+      border-color: #ff6b6b;
+      background: #1b1212;
     }
 
     .acao-card h3 { margin-top: 0; color: #58a6ff; }
 
-    .meta { margin: 8px 0; font-size: 14px; }
+    .meta { margin: 6px 0; font-size: 14px; }
     .meta span { font-weight: bold; }
 
     .confirmar-btn {
-      margin-top: 20px;
+      margin-top: 14px;
       background: #238636;
       border: none;
       color: #ffffff;
-      padding: 12px 20px;
-      font-size: 16px;
+      padding: 12px 22px;
+      font-size: 15px;
       border-radius: 6px;
       cursor: pointer;
     }
-
     .confirmar-btn:hover { background: #2ea043; }
   </style>
 </head>
@@ -79,6 +73,7 @@
 <body>
 <div class="layout">
 
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <h2>Robo Global AI</h2>
     <nav class="menu">
@@ -91,6 +86,7 @@
     </nav>
   </aside>
 
+  <!-- CONTENT -->
   <main class="content"></main>
 
 </div>
@@ -98,6 +94,11 @@
 <script>
 const API_BASE = "https://robo-global-api-v2.onrender.com";
 const content = document.querySelector(".content");
+
+/* ========= UTIL ========= */
+function minutosDesde(dataIso) {
+  return Math.floor((Date.now() - new Date(dataIso).getTime()) / 60000);
+}
 
 /* ========= AÇÕES PENDENTES ========= */
 async function carregarAcoesPendentes() {
@@ -112,36 +113,31 @@ async function carregarAcoesPendentes() {
       return;
     }
 
-    // ===============================
-    // ORDENAÇÃO POR PRIORIDADE
-    // 1º maior impacto_valor
-    // 2º maior risco
-    // ===============================
+    // ORDENAÇÃO: impacto > risco > tempo
     acoes.sort((a, b) => {
-      const impactoA = a.impacto_valor || 0;
-      const impactoB = b.impacto_valor || 0;
-
-      if (impactoB !== impactoA) {
-        return impactoB - impactoA;
-      }
-
-      const riscoA = a.risco || 0;
-      const riscoB = b.risco || 0;
-      return riscoB - riscoA;
+      const ia = a.impacto_valor || 0;
+      const ib = b.impacto_valor || 0;
+      if (ib !== ia) return ib - ia;
+      return (b.risco || 0) - (a.risco || 0);
     });
 
-    // ===============================
-    // RENDERIZAÇÃO
-    // ===============================
     acoes.forEach(acao => {
+      const minutos = minutosDesde(acao.criada_em || new Date().toISOString());
+      const sla = acao.sla_minutos || 9999;
+      const critica = minutos >= sla || acao.risco === 3;
+
       const card = document.createElement("div");
-      card.className = "acao-card";
+      card.className = "acao-card" + (critica ? " critica" : "");
 
       card.innerHTML = `
-        <h3>${acao.descricao}</h3>
+        <h3>${critica ? "🚨 " : ""}${acao.descricao}</h3>
         <div class="meta"><span>Risco:</span> ${acao.risco}</div>
         <div class="meta"><span>Motivo:</span> ${acao.motivo}</div>
         <div class="meta"><span>Impacto:</span> ${acao.impacto || "-"}</div>
+        <div class="meta">
+          <span>SLA:</span> ${sla} min |
+          <b>${minutos} min decorridos</b>
+        </div>
         <button class="confirmar-btn"
           onclick="confirmarAcao('${acao.id}', '${acao.url_destino || ""}')">
           CONFIRMAR
@@ -171,12 +167,10 @@ function mostrarEmConstrucao(titulo) {
 document.querySelectorAll(".menu a").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
-
     document.querySelectorAll(".menu a").forEach(l => l.classList.remove("active"));
     link.classList.add("active");
 
     const sec = link.dataset.section;
-
     if (sec === "acoes") carregarAcoesPendentes();
     else if (sec === "painel") mostrarEmConstrucao("Painel Principal");
     else if (sec === "decisor") mostrarEmConstrucao("Decisor Mestre");
@@ -186,7 +180,7 @@ document.querySelectorAll(".menu a").forEach(link => {
   });
 });
 
-/* inicial */
+/* INIT */
 carregarAcoesPendentes();
 </script>
 
