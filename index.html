@@ -166,14 +166,15 @@
         const card = document.createElement("div");
         card.className = "acao-card";
 
-        card.innerHTML = `
-          <h3>${acao.descricao}</h3>
-          <div class="meta"><span>Risco:</span> ${acao.risco}</div>
-          <div class="meta"><span>Motivo:</span> ${acao.motivo}</div>
-          <button class="confirmar-btn" onclick="confirmarAcao('${acao.id}', '${acao.url_destino || ""}')">
-            CONFIRMAR
-          </button>
-        `;
+card.innerHTML = `
+  <h3>${acao.descricao}</h3>
+  <div class="meta"><span>Risco:</span> ${acao.risco}</div>
+  <div class="meta"><span>Motivo:</span> ${acao.motivo}</div>
+  <div class="meta"><span>Impacto:</span> ${acao.impacto || "-"}</div>
+  <button class="confirmar-btn" onclick="confirmarAcao('${acao.id}', '${acao.url_destino || ""}')">
+    CONFIRMAR
+  </button>
+`;
 
         container.appendChild(card);
       });
