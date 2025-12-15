@@ -146,10 +146,48 @@
     </main>
   </div>
 
-  <script>
-    function confirmarAcao() {
-      document.getElementById('status').style.display = 'block';
+<script>
+  const API_BASE = "https://robo-global-api-v2.onrender.com";
+
+  async function carregarAcoesPendentes() {
+    try {
+      const res = await fetch(`${API_BASE}/acoes-pendentes`);
+      const acoes = await res.json();
+
+      const container = document.querySelector(".content");
+      container.innerHTML = "<h1>Ações Pendentes</h1>";
+
+      if (!acoes || acoes.length === 0) {
+        container.innerHTML += "<p>Nenhuma ação pendente no momento.</p>";
+        return;
+      }
+
+      acoes.forEach(acao => {
+        const card = document.createElement("div");
+        card.className = "acao-card";
+
+        card.innerHTML = `
+          <h3>${acao.descricao}</h3>
+          <div class="meta"><span>Risco:</span> ${acao.risco}</div>
+          <div class="meta"><span>Motivo:</span> ${acao.motivo}</div>
+          <button class="confirmar-btn" onclick="confirmarAcao('${acao.id}', '${acao.url_destino || ""}')">
+            CONFIRMAR
+          </button>
+        `;
+
+        container.appendChild(card);
+      });
+    } catch (e) {
+      console.error("Erro ao carregar ações pendentes", e);
     }
-  </script>
-</body>
-</html>
+  }
+
+  async function confirmarAcao(id, url) {
+    await fetch(`${API_BASE}/acoes-pendentes/${id}/confirmar`, { method: "POST" });
+    if (url) window.open(url, "_blank");
+    carregarAcoesPendentes();
+  }
+
+  carregarAcoesPendentes();
+</script>
+
