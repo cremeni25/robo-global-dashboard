@@ -2,187 +2,119 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <title>Robo Global AI — Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robô Global AI — Centro de Comando</title>
 
   <style>
-    * { box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
-    body { margin: 0; background: #0e1117; color: #e6e6e6; }
-    .layout { display: flex; height: 100vh; }
-
-    /* SIDEBAR */
-    .sidebar {
-      width: 260px;
-      background: #161b22;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-    }
-    .sidebar h2 { margin: 0 0 30px 0; font-size: 18px; color: #58a6ff; }
-
-    .menu a {
-      color: #c9d1d9;
-      text-decoration: none;
-      padding: 12px 10px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      display: block;
-    }
-    .menu a.active, .menu a:hover {
-      background: #21262d;
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0e1117;
       color: #ffffff;
     }
 
-    /* CONTENT */
-    .content { flex: 1; padding: 30px; overflow-y: auto; }
-    .content h1 { margin-top: 0; font-size: 24px; }
-
-    /* ACTION CARD */
-    .acao-card {
+    header {
+      padding: 16px;
       background: #161b22;
-      border: 2px solid #30363d;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      max-width: 760px;
-    }
-    .acao-card.critica {
-      border-color: #ff6b6b;
-      background: #1b1212;
+      font-size: 20px;
+      font-weight: bold;
     }
 
-    .acao-card h3 { margin-top: 0; color: #58a6ff; }
-
-    .meta { margin: 6px 0; font-size: 14px; }
-    .meta span { font-weight: bold; }
-
-    .confirmar-btn {
-      margin-top: 14px;
-      background: #238636;
-      border: none;
-      color: #ffffff;
-      padding: 12px 22px;
-      font-size: 15px;
-      border-radius: 6px;
-      cursor: pointer;
+    .container {
+      padding: 16px;
     }
-    .confirmar-btn:hover { background: #2ea043; }
+
+    .card {
+      background: #161b22;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .alerta {
+      border-left: 6px solid #ff4d4f;
+      background: #1f2933;
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .ok {
+      color: #00d26a;
+    }
+
+    .critico {
+      color: #ff4d4f;
+      font-weight: bold;
+    }
   </style>
 </head>
 
 <body>
-<div class="layout">
+  <header>Robo Global AI — Monitor de SLA</header>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>Robo Global AI</h2>
-    <nav class="menu">
-      <a href="#" class="active" data-section="acoes">Ações Pendentes</a>
-      <a href="#" data-section="painel">Painel Principal</a>
-      <a href="#" data-section="decisor">Decisor Mestre</a>
-      <a href="#" data-section="financeiro">Financeiro</a>
-      <a href="#" data-section="autonomia">Autonomia</a>
-      <a href="#" data-section="auditoria">Auditoria</a>
-    </nav>
-  </aside>
+  <div class="container">
+    <div class="card">
+      <h2>Status Geral</h2>
+      <p id="status-api">Verificando...</p>
+    </div>
 
-  <!-- CONTENT -->
-  <main class="content"></main>
+    <div class="card">
+      <h2>Alertas de SLA</h2>
+      <div id="lista-alertas">Carregando...</div>
+    </div>
+  </div>
 
-</div>
+  <script>
+    const API_BASE = "https://robo-global-api-v2.onrender.com";
 
-<script>
-const API_BASE = "https://robo-global-api-v2.onrender.com";
-const content = document.querySelector(".content");
-
-/* ========= UTIL ========= */
-function minutosDesde(dataIso) {
-  return Math.floor((Date.now() - new Date(dataIso).getTime()) / 60000);
-}
-
-/* ========= AÇÕES PENDENTES ========= */
-async function carregarAcoesPendentes() {
-  content.innerHTML = "<h1>Ações Pendentes</h1>";
-
-  try {
-    const res = await fetch(`${API_BASE}/acoes-pendentes`);
-    let acoes = await res.json();
-
-    if (!acoes || acoes.length === 0) {
-      content.innerHTML += "<p>Nenhuma ação pendente no momento.</p>";
-      return;
+    async function carregarStatus() {
+      try {
+        const res = await fetch(`${API_BASE}/status`);
+        const data = await res.json();
+        document.getElementById("status-api").innerHTML =
+          `<span class="ok">API OK</span>`;
+      } catch {
+        document.getElementById("status-api").innerHTML =
+          `<span class="critico">API OFFLINE</span>`;
+      }
     }
 
-    // ORDENAÇÃO: impacto > risco > tempo
-    acoes.sort((a, b) => {
-      const ia = a.impacto_valor || 0;
-      const ib = b.impacto_valor || 0;
-      if (ib !== ia) return ib - ia;
-      return (b.risco || 0) - (a.risco || 0);
-    });
+    async function carregarAlertas() {
+      const container = document.getElementById("lista-alertas");
+      container.innerHTML = "";
 
-    acoes.forEach(acao => {
-      const minutos = minutosDesde(acao.criada_em || new Date().toISOString());
-      const sla = acao.sla_minutos || 9999;
-      const critica = minutos >= sla || acao.risco === 3;
+      try {
+        const res = await fetch(`${API_BASE}/alertas-sla`);
+        const data = await res.json();
 
-      const card = document.createElement("div");
-      card.className = "acao-card" + (critica ? " critica" : "");
+        if (data.total === 0) {
+          container.innerHTML =
+            `<p class="ok">Nenhuma violação de SLA.</p>`;
+          return;
+        }
 
-      card.innerHTML = `
-        <h3>${critica ? "🚨 " : ""}${acao.descricao}</h3>
-        <div class="meta"><span>Risco:</span> ${acao.risco}</div>
-        <div class="meta"><span>Motivo:</span> ${acao.motivo}</div>
-        <div class="meta"><span>Impacto:</span> ${acao.impacto || "-"}</div>
-        <div class="meta">
-          <span>SLA:</span> ${sla} min |
-          <b>${minutos} min decorridos</b>
-        </div>
-        <button class="confirmar-btn"
-          onclick="confirmarAcao('${acao.id}', '${acao.url_destino || ""}')">
-          CONFIRMAR
-        </button>
-      `;
+        data.alertas.forEach(a => {
+          const div = document.createElement("div");
+          div.className = "alerta";
+          div.innerHTML = `
+            <div class="critico">SLA VIOLADO</div>
+            <div>Evento: ${a.evento_id}</div>
+            <div>Tipo: ${a.tipo}</div>
+            <div>Limite: ${a.sla_limite}s</div>
+            <div>Hora: ${new Date(a.timestamp).toLocaleString()}</div>
+          `;
+          container.appendChild(div);
+        });
 
-      content.appendChild(card);
-    });
+      } catch {
+        container.innerHTML =
+          `<p class="critico">Erro ao carregar alertas.</p>`;
+      }
+    }
 
-  } catch (e) {
-    content.innerHTML += "<p>Erro ao carregar ações.</p>";
-    console.error(e);
-  }
-}
-
-async function confirmarAcao(id, url) {
-  await fetch(`${API_BASE}/acoes-pendentes/${id}/confirmar`, { method: "POST" });
-  if (url) window.open(url, "_blank");
-  carregarAcoesPendentes();
-}
-
-/* ========= MENU ========= */
-function mostrarEmConstrucao(titulo) {
-  content.innerHTML = `<h1>${titulo}</h1><p>Em construção.</p>`;
-}
-
-document.querySelectorAll(".menu a").forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    document.querySelectorAll(".menu a").forEach(l => l.classList.remove("active"));
-    link.classList.add("active");
-
-    const sec = link.dataset.section;
-    if (sec === "acoes") carregarAcoesPendentes();
-    else if (sec === "painel") mostrarEmConstrucao("Painel Principal");
-    else if (sec === "decisor") mostrarEmConstrucao("Decisor Mestre");
-    else if (sec === "financeiro") mostrarEmConstrucao("Financeiro");
-    else if (sec === "autonomia") mostrarEmConstrucao("Autonomia");
-    else if (sec === "auditoria") mostrarEmConstrucao("Auditoria");
-  });
-});
-
-/* INIT */
-carregarAcoesPendentes();
-</script>
-
+    carregarStatus();
+    carregarAlertas();
+    setInterval(carregarAlertas, 5000);
+  </script>
 </body>
 </html>
