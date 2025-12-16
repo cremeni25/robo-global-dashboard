@@ -4,7 +4,6 @@
 <meta charset="UTF-8"/>
 <title>Robo Global AI — Dashboard</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-
 <style>
 body{margin:0;font-family:Arial;background:#0e1117;color:#fff}
 header{padding:14px 16px;background:#161b22;font-weight:bold}
@@ -13,7 +12,7 @@ nav button{padding:8px 12px;border:0;border-radius:6px;background:#1f2933;color:
 nav button.active{background:#2563eb}
 .container{padding:16px}
 .card{background:#161b22;border-radius:8px;padding:16px;margin-bottom:16px}
-.ok{color:#22c55e}.critico{color:#ff4d4f;font-weight:bold}
+.kpi{font-size:22px;font-weight:bold}
 </style>
 </head>
 
@@ -21,6 +20,7 @@ nav button.active{background:#2563eb}
 <header>Robo Global AI — Dashboard Operacional</header>
 
 <nav>
+<button id="btn-metricas" onclick="show('metricas')">Métricas</button>
 <button id="btn-health" onclick="show('health')">Health</button>
 <button id="btn-confirmacoes" onclick="show('confirmacoes')">Confirmações</button>
 <button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
@@ -28,7 +28,8 @@ nav button.active{background:#2563eb}
 </nav>
 
 <div class="container">
-<div id="view-health" class="card"></div>
+<div id="view-metricas" class="card"></div>
+<div id="view-health" class="card" style="display:none"></div>
 <div id="view-confirmacoes" class="card" style="display:none"></div>
 <div id="view-sla" class="card" style="display:none"></div>
 <div id="view-historico" class="card" style="display:none"></div>
@@ -38,7 +39,7 @@ nav button.active{background:#2563eb}
 const API="https://robo-global-api-v2.onrender.com";
 
 function setActive(id){
-["health","confirmacoes","sla","historico"].forEach(v=>{
+["metricas","health","confirmacoes","sla","historico"].forEach(v=>{
 document.getElementById("btn-"+v).classList.remove("active");
 document.getElementById("view-"+v).style.display="none";
 });
@@ -48,22 +49,26 @@ document.getElementById("view-"+id).style.display="block";
 
 function show(id){setActive(id)}
 
-async function loadHealth(){
-const e=document.getElementById("view-health");
-const r=await fetch(`${API}/health`);
+async function loadMetricas(){
+const e=document.getElementById("view-metricas");
+const r=await fetch(`${API}/metricas`);
 const d=await r.json();
-e.innerHTML=d.status==="OK"
-?`<p class="ok">Sistema saudável</p><p>Último check: ${d.ultimo_check}</p>`
-:`<p class="critico">Sistema degradado</p>`;
+const m=d.metricas;
+e.innerHTML=`
+<div class="kpi">Decisões: ${m.decisoes_total}</div>
+<div>Ciclos executados: ${m.ciclos_executados}</div>
+<div>Alertas SLA: ${m.alertas_sla}</div>
+<div>Confirmações humanas: ${m.confirmacoes_humanas}</div>
+`;
 }
 
 async function refresh(){
-loadHealth();
+loadMetricas();
 }
 
-setActive("health");
+setActive("metricas");
 refresh();
-setInterval(refresh,60000);
+setInterval(refresh,5000);
 </script>
 </body>
 </html>
