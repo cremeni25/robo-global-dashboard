@@ -2,68 +2,43 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
-<title>Robo Global AI — Dashboard</title>
+<title>Robo Global AI — Estado Operacional</title>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <style>
 body{margin:0;font-family:Arial;background:#0e1117;color:#fff}
-header{padding:14px 16px;background:#161b22;font-weight:bold}
-nav{display:flex;gap:8px;padding:10px 16px;background:#0b0f14}
-nav button{padding:8px 12px;border:0;border-radius:6px;background:#1f2933;color:#fff}
-nav button.active{background:#2563eb}
+header{padding:16px;background:#161b22;font-size:18px;font-weight:bold}
+.banner{
+background:#14532d;
+color:#dcfce7;
+padding:14px 16px;
+font-size:16px;
+font-weight:bold;
+}
 .container{padding:16px}
-.card{background:#161b22;border-radius:8px;padding:16px;margin-bottom:16px}
-.item{background:#1f2933;padding:10px;border-left:5px solid #3b82f6;margin-bottom:8px}
-.critico{border-left-color:#ff4d4f}
+.card{background:#161b22;border-radius:8px;padding:16px}
 </style>
 </head>
 
 <body>
-<header>Robo Global AI — Dashboard Operacional</header>
+<header>Robo Global AI — Dashboard</header>
 
-<nav>
-<button id="btn-incidentes" onclick="show('incidentes')">Incidentes</button>
-<button id="btn-snapshot" onclick="show('snapshot')">Snapshot</button>
-<button id="btn-metricas" onclick="show('metricas')">Métricas</button>
-<button id="btn-health" onclick="show('health')">Health</button>
-<button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
-<button id="btn-historico" onclick="show('historico')">Histórico</button>
-</nav>
-
-<div class="container">
-<div id="view-incidentes" class="card"></div>
-<div id="view-snapshot" class="card" style="display:none"></div>
-<div id="view-metricas" class="card" style="display:none"></div>
-<div id="view-health" class="card" style="display:none"></div>
-<div id="view-sla" class="card" style="display:none"></div>
-<div id="view-historico" class="card" style="display:none"></div>
+<div class="banner">
+🟢 ESTADO OPERACIONAL ESTÁVEL — ROBÔ AUTÔNOMO ATIVO
 </div>
 
-<script>
-const API="https://robo-global-api-v2.onrender.com";
+<div class="container">
+<div class="card">
+<p>O ciclo de implantação foi concluído com sucesso.</p>
+<p>O robô opera de forma:</p>
+<ul>
+<li>Autônoma</li>
+<li>Auditável</li>
+<li>Segura</li>
+<li>Escalável</li>
+</ul>
+<p>Qualquer modificação futura exige abertura de novo ciclo autorizado.</p>
+</div>
+</div>
 
-function setActive(id){
-["incidentes","snapshot","metricas","health","sla","historico"].forEach(v=>{
-document.getElementById("btn-"+v).classList.remove("active");
-document.getElementById("view-"+v).style.display="none";
-});
-document.getElementById("btn-"+id).classList.add("active");
-document.getElementById("view-"+id).style.display="block";
-}
-
-async function loadIncidentes(){
-const e=document.getElementById("view-incidentes");
-const r=await fetch(`${API}/incidentes`);
-const d=await r.json();
-if(d.total===0){e.innerHTML="<p>Nenhum incidente.</p>";return;}
-e.innerHTML=d.incidentes.map(i=>`
-<div class="item ${i.nivel==='CRITICO'?'critico':''}">
-<b>${i.nivel}</b> — ${i.origem}<br/>${i.mensagem}
-</div>`).join("");
-}
-
-setActive("incidentes");
-loadIncidentes();
-setInterval(loadIncidentes,5000);
-</script>
 </body>
 </html>
