@@ -7,6 +7,12 @@
 <style>
 body{margin:0;font-family:Arial;background:#0e1117;color:#fff}
 header{padding:14px 16px;background:#161b22;font-weight:bold}
+.notice{
+background:#7c2d12;
+color:#fff;
+padding:10px 16px;
+font-size:14px;
+}
 nav{display:flex;gap:8px;padding:10px 16px;background:#0b0f14}
 nav button{padding:8px 12px;border:0;border-radius:6px;background:#1f2933;color:#fff}
 nav button.active{background:#2563eb}
@@ -16,60 +22,36 @@ nav button.active{background:#2563eb}
 </head>
 
 <body>
-<header>Robo Global AI — Informações de Versão</header>
+<header>Robo Global AI — Dashboard Operacional</header>
+<div class="notice">🔒 Modo Somente-Leitura Ativo — Nenhuma ação manual permitida</div>
 
 <nav>
-<button id="btn-versao" onclick="show('versao')">Versão</button>
-<button id="btn-export" onclick="show('export')">Exportação</button>
 <button id="btn-snapshot" onclick="show('snapshot')">Snapshot</button>
 <button id="btn-metricas" onclick="show('metricas')">Métricas</button>
 <button id="btn-health" onclick="show('health')">Health</button>
-<button id="btn-confirmacoes" onclick="show('confirmacoes')">Confirmações</button>
 <button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
 <button id="btn-historico" onclick="show('historico')">Histórico</button>
 </nav>
 
 <div class="container">
-<div id="view-versao" class="card"></div>
-<div id="view-export" class="card" style="display:none"></div>
-<div id="view-snapshot" class="card" style="display:none"></div>
+<div id="view-snapshot" class="card"></div>
 <div id="view-metricas" class="card" style="display:none"></div>
 <div id="view-health" class="card" style="display:none"></div>
-<div id="view-confirmacoes" class="card" style="display:none"></div>
 <div id="view-sla" class="card" style="display:none"></div>
 <div id="view-historico" class="card" style="display:none"></div>
 </div>
 
 <script>
-const API="https://robo-global-api-v2.onrender.com";
-
 function setActive(id){
-["versao","export","snapshot","metricas","health","confirmacoes","sla","historico"].forEach(v=>{
-const b=document.getElementById("btn-"+v);
-const d=document.getElementById("view-"+v);
-if(b) b.classList.remove("active");
-if(d) d.style.display="none";
+["snapshot","metricas","health","sla","historico"].forEach(v=>{
+document.getElementById("btn-"+v).classList.remove("active");
+document.getElementById("view-"+v).style.display="none";
 });
 document.getElementById("btn-"+id).classList.add("active");
 document.getElementById("view-"+id).style.display="block";
 }
-
 function show(id){setActive(id)}
-
-async function loadVersao(){
-const e=document.getElementById("view-versao");
-const r=await fetch(`${API}/versao`);
-const d=await r.json();
-e.innerHTML=`
-<div><b>Versão:</b> ${d.versao}</div>
-<div><b>Build:</b> ${d.build}</div>
-<div><b>Release:</b> ${d.release_notes}</div>
-<div><b>Timestamp:</b> ${new Date(d.timestamp).toLocaleString()}</div>
-`;
-}
-
-setActive("versao");
-loadVersao();
+setActive("snapshot");
 </script>
 </body>
 </html>
