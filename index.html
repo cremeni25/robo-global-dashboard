@@ -31,90 +31,75 @@
       margin-bottom: 16px;
     }
 
-    .alerta {
-      border-left: 6px solid #ff4d4f;
+    .confirmacao {
+      border-left: 6px solid #fbbf24;
       background: #1f2933;
       padding: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background: #22c55e;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     .ok {
-      color: #00d26a;
-    }
-
-    .critico {
-      color: #ff4d4f;
-      font-weight: bold;
+      color: #22c55e;
     }
   </style>
 </head>
 
 <body>
-  <header>Robo Global AI — Monitor de SLA</header>
+  <header>Robo Global AI — Confirmações Humanas</header>
 
   <div class="container">
     <div class="card">
-      <h2>Status Geral</h2>
-      <p id="status-api">Verificando...</p>
-    </div>
-
-    <div class="card">
-      <h2>Alertas de SLA</h2>
-      <div id="lista-alertas">Carregando...</div>
+      <h2>Confirmações Pendentes</h2>
+      <div id="lista-confirmacoes">Carregando...</div>
     </div>
   </div>
 
   <script>
     const API_BASE = "https://robo-global-api-v2.onrender.com";
 
-    async function carregarStatus() {
-      try {
-        const res = await fetch(`${API_BASE}/status`);
-        const data = await res.json();
-        document.getElementById("status-api").innerHTML =
-          `<span class="ok">API OK</span>`;
-      } catch {
-        document.getElementById("status-api").innerHTML =
-          `<span class="critico">API OFFLINE</span>`;
-      }
-    }
-
-    async function carregarAlertas() {
-      const container = document.getElementById("lista-alertas");
+    async function carregarConfirmacoes() {
+      const container = document.getElementById("lista-confirmacoes");
       container.innerHTML = "";
 
-      try {
-        const res = await fetch(`${API_BASE}/alertas-sla`);
-        const data = await res.json();
+      const res = await fetch(`${API_BASE}/confirmacoes-pendentes`);
+      const data = await res.json();
 
-        if (data.total === 0) {
-          container.innerHTML =
-            `<p class="ok">Nenhuma violação de SLA.</p>`;
-          return;
-        }
-
-        data.alertas.forEach(a => {
-          const div = document.createElement("div");
-          div.className = "alerta";
-          div.innerHTML = `
-            <div class="critico">SLA VIOLADO</div>
-            <div>Evento: ${a.evento_id}</div>
-            <div>Tipo: ${a.tipo}</div>
-            <div>Limite: ${a.sla_limite}s</div>
-            <div>Hora: ${new Date(a.timestamp).toLocaleString()}</div>
-          `;
-          container.appendChild(div);
-        });
-
-      } catch {
+      if (data.total === 0) {
         container.innerHTML =
-          `<p class="critico">Erro ao carregar alertas.</p>`;
+          `<p class="ok">Nenhuma confirmação pendente.</p>`;
+        return;
       }
+
+      data.confirmacoes.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "confirmacao";
+        div.innerHTML = `
+          <div><strong>Tipo:</strong> ${c.tipo}</div>
+          <div><strong>Descrição:</strong> ${c.descricao}</div>
+          <button onclick="confirmar('${c.id}')">CONFIRMAR</button>
+        `;
+        container.appendChild(div);
+      });
     }
 
-    carregarStatus();
-    carregarAlertas();
-    setInterval(carregarAlertas, 5000);
+    async function confirmar(id) {
+      await fetch(`${API_BASE}/confirmar/${id}`, { method: "POST" });
+      carregarConfirmacoes();
+    }
+
+    carregarConfirmacoes();
+    setInterval(carregarConfirmacoes, 5000);
   </script>
 </body>
 </html>
