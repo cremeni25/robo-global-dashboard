@@ -81,4 +81,74 @@
         document.getElementById("view-"+v).style.display = "none";
       });
       document.getElementById("btn-"+id).classList.add("active");
-      document.getElementById("view-
+      document.getElementById("view-"+id).style.display = "block";
+    }
+
+    function show(id){ setActive(id); }
+
+    async function loadConfirmacoes() {
+      const el = document.getElementById("view-confirmacoes");
+      const r = await fetch(`${API_BASE}/confirmacoes-pendentes`);
+      const d = await r.json();
+      if (d.total === 0) {
+        el.innerHTML = `<p class="ok">Nenhuma confirmação pendente.</p>`;
+        return;
+      }
+      el.innerHTML = d.confirmacoes.map(c => `
+        <div class="item confirmacao">
+          <div><b>${c.tipo}</b></div>
+          <div>${c.descricao}</div>
+          <button onclick="confirmar('${c.id}')">CONFIRMAR</button>
+        </div>
+      `).join("");
+    }
+
+    async function confirmar(id){
+      await fetch(`${API_BASE}/confirmar/${id}`, { method:"POST" });
+      loadConfirmacoes();
+    }
+
+    async function loadSLA() {
+      const el = document.getElementById("view-sla");
+      const r = await fetch(`${API_BASE}/alertas-sla`);
+      const d = await r.json();
+      if (d.total === 0) {
+        el.innerHTML = `<p class="ok">Nenhuma violação de SLA.</p>`;
+        return;
+      }
+      el.innerHTML = d.alertas.map(a => `
+        <div class="item alerta">
+          <div class="critico">SLA VIOLADO</div>
+          <div>${a.tipo} | limite ${a.sla_limite}s</div>
+        </div>
+      `).join("");
+    }
+
+    async function loadHistorico() {
+      const el = document.getElementById("view-historico");
+      const r = await fetch(`${API_BASE}/historico`);
+      const d = await r.json();
+      if (d.total === 0) {
+        el.innerHTML = `<p>Nenhum evento.</p>`;
+        return;
+      }
+      el.innerHTML = d.eventos.map(e => `
+        <div class="item">
+          <div><b>${e.tipo}</b></div>
+          <div>${e.descricao}</div>
+        </div>
+      `).join("");
+    }
+
+    async function refresh(){
+      loadConfirmacoes();
+      loadSLA();
+      loadHistorico();
+    }
+
+    setActive("confirmacoes");
+    refresh();
+    setInterval(refresh, 5000);
+  </script>
+</body>
+</html>
