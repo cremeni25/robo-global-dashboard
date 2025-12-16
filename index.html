@@ -12,15 +12,14 @@ nav button{padding:8px 12px;border:0;border-radius:6px;background:#1f2933;color:
 nav button.active{background:#2563eb}
 .container{padding:16px}
 .card{background:#161b22;border-radius:8px;padding:16px;margin-bottom:16px}
-a.btn{display:inline-block;padding:10px 14px;margin-right:8px;
-background:#22c55e;color:#000;border-radius:6px;text-decoration:none;font-weight:bold}
 </style>
 </head>
 
 <body>
-<header>Robo Global AI — Exportação</header>
+<header>Robo Global AI — Informações de Versão</header>
 
 <nav>
+<button id="btn-versao" onclick="show('versao')">Versão</button>
 <button id="btn-export" onclick="show('export')">Exportação</button>
 <button id="btn-snapshot" onclick="show('snapshot')">Snapshot</button>
 <button id="btn-metricas" onclick="show('metricas')">Métricas</button>
@@ -31,16 +30,8 @@ background:#22c55e;color:#000;border-radius:6px;text-decoration:none;font-weight
 </nav>
 
 <div class="container">
-<div id="view-export" class="card">
-  <h2>Exportações</h2>
-  <a class="btn" href="https://robo-global-api-v2.onrender.com/export/json" target="_blank">
-    Exportar JSON
-  </a>
-  <a class="btn" href="https://robo-global-api-v2.onrender.com/export/csv">
-    Exportar CSV
-  </a>
-</div>
-
+<div id="view-versao" class="card"></div>
+<div id="view-export" class="card" style="display:none"></div>
 <div id="view-snapshot" class="card" style="display:none"></div>
 <div id="view-metricas" class="card" style="display:none"></div>
 <div id="view-health" class="card" style="display:none"></div>
@@ -50,8 +41,10 @@ background:#22c55e;color:#000;border-radius:6px;text-decoration:none;font-weight
 </div>
 
 <script>
+const API="https://robo-global-api-v2.onrender.com";
+
 function setActive(id){
-["export","snapshot","metricas","health","confirmacoes","sla","historico"].forEach(v=>{
+["versao","export","snapshot","metricas","health","confirmacoes","sla","historico"].forEach(v=>{
 const b=document.getElementById("btn-"+v);
 const d=document.getElementById("view-"+v);
 if(b) b.classList.remove("active");
@@ -60,8 +53,23 @@ if(d) d.style.display="none";
 document.getElementById("btn-"+id).classList.add("active");
 document.getElementById("view-"+id).style.display="block";
 }
+
 function show(id){setActive(id)}
-setActive("export");
+
+async function loadVersao(){
+const e=document.getElementById("view-versao");
+const r=await fetch(`${API}/versao`);
+const d=await r.json();
+e.innerHTML=`
+<div><b>Versão:</b> ${d.versao}</div>
+<div><b>Build:</b> ${d.build}</div>
+<div><b>Release:</b> ${d.release_notes}</div>
+<div><b>Timestamp:</b> ${new Date(d.timestamp).toLocaleString()}</div>
+`;
+}
+
+setActive("versao");
+loadVersao();
 </script>
 </body>
 </html>
