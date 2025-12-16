@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Robo Global AI — Auditoria</title>
+  <title>Robo Global AI — Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -13,10 +13,27 @@
       color: #ffffff;
     }
     header {
-      padding: 16px;
+      padding: 14px 16px;
       background: #161b22;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
+    }
+    nav {
+      display: flex;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #0b0f14;
+    }
+    nav button {
+      padding: 8px 12px;
+      background: #1f2933;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    nav button.active {
+      background: #2563eb;
     }
     .container {
       padding: 16px;
@@ -27,61 +44,41 @@
       padding: 16px;
       margin-bottom: 16px;
     }
-    .evento {
+    .ok { color: #22c55e; }
+    .critico { color: #ff4d4f; font-weight: bold; }
+    .item {
       border-left: 5px solid #3b82f6;
       background: #1f2933;
       padding: 10px;
       margin-bottom: 8px;
     }
-    .tipo {
-      font-weight: bold;
-    }
-    .hora {
-      font-size: 12px;
-      opacity: 0.8;
-    }
+    .alerta { border-left-color: #ff4d4f; }
+    .confirmacao { border-left-color: #fbbf24; }
   </style>
 </head>
 
 <body>
-  <header>Robo Global AI — Histórico Auditável</header>
+  <header>Robo Global AI — Dashboard Operacional</header>
+
+  <nav>
+    <button id="btn-confirmacoes" onclick="show('confirmacoes')">Confirmações</button>
+    <button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
+    <button id="btn-historico" onclick="show('historico')">Histórico</button>
+  </nav>
 
   <div class="container">
-    <div class="card">
-      <h2>Últimos Eventos</h2>
-      <div id="lista-historico">Carregando...</div>
-    </div>
+    <div id="view-confirmacoes" class="card"></div>
+    <div id="view-sla" class="card" style="display:none"></div>
+    <div id="view-historico" class="card" style="display:none"></div>
   </div>
 
   <script>
     const API_BASE = "https://robo-global-api-v2.onrender.com";
 
-    async function carregarHistorico() {
-      const container = document.getElementById("lista-historico");
-      container.innerHTML = "";
-
-      const res = await fetch(`${API_BASE}/historico`);
-      const data = await res.json();
-
-      if (data.total === 0) {
-        container.innerHTML = "<p>Nenhum evento registrado.</p>";
-        return;
-      }
-
-      data.eventos.forEach(e => {
-        const div = document.createElement("div");
-        div.className = "evento";
-        div.innerHTML = `
-          <div class="tipo">${e.tipo}</div>
-          <div>${e.descricao}</div>
-          <div class="hora">${new Date(e.timestamp).toLocaleString()}</div>
-        `;
-        container.appendChild(div);
+    function setActive(id) {
+      ["confirmacoes","sla","historico"].forEach(v => {
+        document.getElementById("btn-"+v).classList.remove("active");
+        document.getElementById("view-"+v).style.display = "none";
       });
-    }
-
-    carregarHistorico();
-    setInterval(carregarHistorico, 5000);
-  </script>
-</body>
-</html>
+      document.getElementById("btn-"+id).classList.add("active");
+      document.getElementById("view-
