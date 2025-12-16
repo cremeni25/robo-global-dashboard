@@ -1,154 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Robo Global AI — Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<title>Robo Global AI — Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0e1117;
-      color: #ffffff;
-    }
-    header {
-      padding: 14px 16px;
-      background: #161b22;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    nav {
-      display: flex;
-      gap: 8px;
-      padding: 10px 16px;
-      background: #0b0f14;
-    }
-    nav button {
-      padding: 8px 12px;
-      background: #1f2933;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    nav button.active {
-      background: #2563eb;
-    }
-    .container {
-      padding: 16px;
-    }
-    .card {
-      background: #161b22;
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .ok { color: #22c55e; }
-    .critico { color: #ff4d4f; font-weight: bold; }
-    .item {
-      border-left: 5px solid #3b82f6;
-      background: #1f2933;
-      padding: 10px;
-      margin-bottom: 8px;
-    }
-    .alerta { border-left-color: #ff4d4f; }
-    .confirmacao { border-left-color: #fbbf24; }
-  </style>
+<style>
+body{margin:0;font-family:Arial;background:#0e1117;color:#fff}
+header{padding:14px 16px;background:#161b22;font-weight:bold}
+nav{display:flex;gap:8px;padding:10px 16px;background:#0b0f14}
+nav button{padding:8px 12px;border:0;border-radius:6px;background:#1f2933;color:#fff}
+nav button.active{background:#2563eb}
+.container{padding:16px}
+.card{background:#161b22;border-radius:8px;padding:16px;margin-bottom:16px}
+.ok{color:#22c55e}.critico{color:#ff4d4f;font-weight:bold}
+</style>
 </head>
 
 <body>
-  <header>Robo Global AI — Dashboard Operacional</header>
+<header>Robo Global AI — Dashboard Operacional</header>
 
-  <nav>
-    <button id="btn-confirmacoes" onclick="show('confirmacoes')">Confirmações</button>
-    <button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
-    <button id="btn-historico" onclick="show('historico')">Histórico</button>
-  </nav>
+<nav>
+<button id="btn-health" onclick="show('health')">Health</button>
+<button id="btn-confirmacoes" onclick="show('confirmacoes')">Confirmações</button>
+<button id="btn-sla" onclick="show('sla')">Alertas SLA</button>
+<button id="btn-historico" onclick="show('historico')">Histórico</button>
+</nav>
 
-  <div class="container">
-    <div id="view-confirmacoes" class="card"></div>
-    <div id="view-sla" class="card" style="display:none"></div>
-    <div id="view-historico" class="card" style="display:none"></div>
-  </div>
+<div class="container">
+<div id="view-health" class="card"></div>
+<div id="view-confirmacoes" class="card" style="display:none"></div>
+<div id="view-sla" class="card" style="display:none"></div>
+<div id="view-historico" class="card" style="display:none"></div>
+</div>
 
-  <script>
-    const API_BASE = "https://robo-global-api-v2.onrender.com";
+<script>
+const API="https://robo-global-api-v2.onrender.com";
 
-    function setActive(id) {
-      ["confirmacoes","sla","historico"].forEach(v => {
-        document.getElementById("btn-"+v).classList.remove("active");
-        document.getElementById("view-"+v).style.display = "none";
-      });
-      document.getElementById("btn-"+id).classList.add("active");
-      document.getElementById("view-"+id).style.display = "block";
-    }
+function setActive(id){
+["health","confirmacoes","sla","historico"].forEach(v=>{
+document.getElementById("btn-"+v).classList.remove("active");
+document.getElementById("view-"+v).style.display="none";
+});
+document.getElementById("btn-"+id).classList.add("active");
+document.getElementById("view-"+id).style.display="block";
+}
 
-    function show(id){ setActive(id); }
+function show(id){setActive(id)}
 
-    async function loadConfirmacoes() {
-      const el = document.getElementById("view-confirmacoes");
-      const r = await fetch(`${API_BASE}/confirmacoes-pendentes`);
-      const d = await r.json();
-      if (d.total === 0) {
-        el.innerHTML = `<p class="ok">Nenhuma confirmação pendente.</p>`;
-        return;
-      }
-      el.innerHTML = d.confirmacoes.map(c => `
-        <div class="item confirmacao">
-          <div><b>${c.tipo}</b></div>
-          <div>${c.descricao}</div>
-          <button onclick="confirmar('${c.id}')">CONFIRMAR</button>
-        </div>
-      `).join("");
-    }
+async function loadHealth(){
+const e=document.getElementById("view-health");
+const r=await fetch(`${API}/health`);
+const d=await r.json();
+e.innerHTML=d.status==="OK"
+?`<p class="ok">Sistema saudável</p><p>Último check: ${d.ultimo_check}</p>`
+:`<p class="critico">Sistema degradado</p>`;
+}
 
-    async function confirmar(id){
-      await fetch(`${API_BASE}/confirmar/${id}`, { method:"POST" });
-      loadConfirmacoes();
-    }
+async function refresh(){
+loadHealth();
+}
 
-    async function loadSLA() {
-      const el = document.getElementById("view-sla");
-      const r = await fetch(`${API_BASE}/alertas-sla`);
-      const d = await r.json();
-      if (d.total === 0) {
-        el.innerHTML = `<p class="ok">Nenhuma violação de SLA.</p>`;
-        return;
-      }
-      el.innerHTML = d.alertas.map(a => `
-        <div class="item alerta">
-          <div class="critico">SLA VIOLADO</div>
-          <div>${a.tipo} | limite ${a.sla_limite}s</div>
-        </div>
-      `).join("");
-    }
-
-    async function loadHistorico() {
-      const el = document.getElementById("view-historico");
-      const r = await fetch(`${API_BASE}/historico`);
-      const d = await r.json();
-      if (d.total === 0) {
-        el.innerHTML = `<p>Nenhum evento.</p>`;
-        return;
-      }
-      el.innerHTML = d.eventos.map(e => `
-        <div class="item">
-          <div><b>${e.tipo}</b></div>
-          <div>${e.descricao}</div>
-        </div>
-      `).join("");
-    }
-
-    async function refresh(){
-      loadConfirmacoes();
-      loadSLA();
-      loadHistorico();
-    }
-
-    setActive("confirmacoes");
-    refresh();
-    setInterval(refresh, 5000);
-  </script>
+setActive("health");
+refresh();
+setInterval(refresh,60000);
+</script>
 </body>
 </html>
