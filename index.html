@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Robo Global AI — Dashboard</title>
+  <title>Robo Global AI — Auditoria</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -12,94 +12,76 @@
       background: #0e1117;
       color: #ffffff;
     }
-
     header {
       padding: 16px;
       background: #161b22;
       font-size: 20px;
       font-weight: bold;
     }
-
     .container {
       padding: 16px;
     }
-
     .card {
       background: #161b22;
       border-radius: 8px;
       padding: 16px;
       margin-bottom: 16px;
     }
-
-    .confirmacao {
-      border-left: 6px solid #fbbf24;
+    .evento {
+      border-left: 5px solid #3b82f6;
       background: #1f2933;
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 10px;
+      margin-bottom: 8px;
     }
-
-    button {
-      margin-top: 8px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      background: #22c55e;
-      color: #000;
+    .tipo {
       font-weight: bold;
-      cursor: pointer;
     }
-
-    .ok {
-      color: #22c55e;
+    .hora {
+      font-size: 12px;
+      opacity: 0.8;
     }
   </style>
 </head>
 
 <body>
-  <header>Robo Global AI — Confirmações Humanas</header>
+  <header>Robo Global AI — Histórico Auditável</header>
 
   <div class="container">
     <div class="card">
-      <h2>Confirmações Pendentes</h2>
-      <div id="lista-confirmacoes">Carregando...</div>
+      <h2>Últimos Eventos</h2>
+      <div id="lista-historico">Carregando...</div>
     </div>
   </div>
 
   <script>
     const API_BASE = "https://robo-global-api-v2.onrender.com";
 
-    async function carregarConfirmacoes() {
-      const container = document.getElementById("lista-confirmacoes");
+    async function carregarHistorico() {
+      const container = document.getElementById("lista-historico");
       container.innerHTML = "";
 
-      const res = await fetch(`${API_BASE}/confirmacoes-pendentes`);
+      const res = await fetch(`${API_BASE}/historico`);
       const data = await res.json();
 
       if (data.total === 0) {
-        container.innerHTML =
-          `<p class="ok">Nenhuma confirmação pendente.</p>`;
+        container.innerHTML = "<p>Nenhum evento registrado.</p>";
         return;
       }
 
-      data.confirmacoes.forEach(c => {
+      data.eventos.forEach(e => {
         const div = document.createElement("div");
-        div.className = "confirmacao";
+        div.className = "evento";
         div.innerHTML = `
-          <div><strong>Tipo:</strong> ${c.tipo}</div>
-          <div><strong>Descrição:</strong> ${c.descricao}</div>
-          <button onclick="confirmar('${c.id}')">CONFIRMAR</button>
+          <div class="tipo">${e.tipo}</div>
+          <div>${e.descricao}</div>
+          <div class="hora">${new Date(e.timestamp).toLocaleString()}</div>
         `;
         container.appendChild(div);
       });
     }
 
-    async function confirmar(id) {
-      await fetch(`${API_BASE}/confirmar/${id}`, { method: "POST" });
-      carregarConfirmacoes();
-    }
-
-    carregarConfirmacoes();
-    setInterval(carregarConfirmacoes, 5000);
+    carregarHistorico();
+    setInterval(carregarHistorico, 5000);
   </script>
 </body>
 </html>
