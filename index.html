@@ -3,80 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robo Global AI — Dashboard</title>
+  <title>Robo Global AI — Dashboard Vivo</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0f14;
-      color: #e6e6e6;
-    }
-    header {
-      background: #0f172a;
-      padding: 16px 24px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-    .status-bar {
-      background: #14532d;
-      color: #d1fae5;
-      padding: 12px 24px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #22c55e;
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
-    }
-    .container {
-      padding: 24px;
-      max-width: 900px;
-    }
-    .card {
-      background: #020617;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 0 0 1px #1e293b;
-    }
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-    }
-    .metric {
-      background: #020617;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 0 0 1px #1e293b;
-    }
-    .metric span {
-      display: block;
-      font-size: 12px;
-      color: #94a3b8;
-    }
-    .metric strong {
-      font-size: 18px;
-    }
-    footer {
-      padding: 16px 24px;
-      font-size: 12px;
-      color: #64748b;
-    }
+    body { margin:0; font-family:Arial,Helvetica,sans-serif; background:#0b0f14; color:#e5e7eb; }
+    header { background:#020617; padding:16px 24px; font-size:20px; font-weight:bold; }
+    .status-bar { background:#14532d; color:#d1fae5; padding:12px 24px; font-weight:bold; display:flex; align-items:center; gap:10px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#22c55e; animation:pulse 1.5s infinite; }
+    @keyframes pulse { 0%{opacity:1} 50%{opacity:.4} 100%{opacity:1} }
+    .container { padding:24px; max-width:900px; }
+    .card { background:#020617; border-radius:10px; padding:20px; margin-bottom:16px; box-shadow:0 0 0 1px #1e293b; }
+    .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+    .metric { background:#020617; border-radius:10px; padding:16px; box-shadow:0 0 0 1px #1e293b; }
+    .metric span { display:block; font-size:12px; color:#94a3b8; }
+    .metric strong { font-size:18px; }
+    footer { padding:16px 24px; font-size:12px; color:#64748b; }
+    pre { white-space:pre-wrap; font-size:12px; }
   </style>
 </head>
 <body>
@@ -85,68 +26,69 @@
 
 <div class="status-bar">
   <div class="dot"></div>
-  <div id="status-label">Conectando ao robô...</div>
+  <div id="status-label">Conectando ao backend…</div>
 </div>
 
 <div class="container">
 
   <div class="card">
     <h2>Estado Operacional</h2>
-    <p id="status-text">Aguardando dados do backend...</p>
+    <p id="status-text">Aguardando dados do backend…</p>
   </div>
 
   <div class="metrics">
     <div class="metric">
-      <span>Última atividade</span>
-      <strong id="last-activity">--</strong>
+      <span>Última atualização (cliente)</span>
+      <strong id="last-client">--</strong>
     </div>
     <div class="metric">
-      <span>Ciclos executados</span>
-      <strong id="ciclos">0</strong>
+      <span>Status reportado pelo backend</span>
+      <strong id="backend-status">--</strong>
     </div>
     <div class="metric">
-      <span>Última operação</span>
-      <strong id="ultima-operacao">--</strong>
+      <span>Polling</span>
+      <strong>5s</strong>
     </div>
   </div>
 
   <div class="card">
-    <h2>Logs recentes</h2>
-    <pre id="logs" style="white-space: pre-wrap; font-size: 12px;">Carregando...</pre>
+    <h2>Logs visíveis</h2>
+    <pre id="logs">Aguardando primeira resposta…</pre>
   </div>
 
 </div>
 
 <footer>
-  Robo Global AI • Dashboard vivo conectado ao backend
+  Robo Global AI • Dashboard vivo (polling ativo)
 </footer>
 
 <script>
 const API_URL = "https://robo-global-api-v2.onrender.com/status";
 
-async function atualizarDashboard() {
+function now() {
+  return new Date().toLocaleTimeString();
+}
+
+async function atualizar() {
+  document.getElementById("last-client").innerText = now();
   try {
     const res = await fetch(API_URL, { cache: "no-store" });
     const data = await res.json();
 
     document.getElementById("status-label").innerText = "ROBÔ ATIVO — DADOS EM TEMPO REAL";
-    document.getElementById("status-text").innerText = data.status || "Status indisponível";
-    document.getElementById("last-activity").innerText = data.last_activity || "--";
-    document.getElementById("ciclos").innerText = data.ciclos ?? 0;
-    document.getElementById("ultima-operacao").innerText = data.ultima_operacao || "--";
+    document.getElementById("status-text").innerText = "Backend respondeu com sucesso";
+    document.getElementById("backend-status").innerText = data.status ?? "OK";
 
-    if (data.logs) {
-      document.getElementById("logs").innerText = data.logs.join("\n");
-    }
-
-  } catch (err) {
-    document.getElementById("status-label").innerText = "ERRO DE CONEXÃO COM O BACKEND";
-    document.getElementById("status-text").innerText = "Não foi possível obter dados.";
+    document.getElementById("logs").innerText = JSON.stringify(data, null, 2);
+  } catch (e) {
+    document.getElementById("status-label").innerText = "ERRO DE CONEXÃO COM BACKEND";
+    document.getElementById("status-text").innerText = "Falha ao buscar /status";
+    document.getElementById("logs").innerText = String(e);
   }
 }
 
-setInterval(atualizarDashboard, 5000);
-atualizarDashboard();
+setInterval(atualizar, 5000);
+atualizar();
 </script>
 
 </body>
