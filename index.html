@@ -17,7 +17,6 @@
     .metric span { display:block; font-size:12px; color:#94a3b8; }
     .metric strong { font-size:18px; }
     footer { padding:16px 24px; font-size:12px; color:#64748b; }
-    pre { white-space:pre-wrap; font-size:12px; }
   </style>
 </head>
 <body>
@@ -51,9 +50,26 @@
     </div>
   </div>
 
+  <!-- FINANCEIRO HUMANO -->
   <div class="card">
-    <h2>Logs visíveis</h2>
-    <pre id="logs">Aguardando primeira resposta…</pre>
+    <h2>Financeiro (Humano)</h2>
+
+    <div class="metrics">
+      <div class="metric">
+        <span>Total recebido</span>
+        <strong id="financeiro-total">R$ 0,00</strong>
+      </div>
+
+      <div class="metric">
+        <span>Eventos financeiros</span>
+        <strong id="financeiro-eventos">0</strong>
+      </div>
+
+      <div class="metric">
+        <span>Última operação</span>
+        <strong id="financeiro-ultimo">-</strong>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -64,6 +80,7 @@
 
 <script>
 const API_URL = "https://robo-global-api-v2.onrender.com/status";
+const FINANCEIRO_URL = "https://robo-global-api-v2.onrender.com/financeiro/resumo";
 
 function now() {
   return new Date().toLocaleTimeString();
@@ -75,20 +92,49 @@ async function atualizar() {
     const res = await fetch(API_URL, { cache: "no-store" });
     const data = await res.json();
 
-    document.getElementById("status-label").innerText = "ROBÔ ATIVO — DADOS EM TEMPO REAL";
-    document.getElementById("status-text").innerText = "Backend respondeu com sucesso";
-    document.getElementById("backend-status").innerText = data.status ?? "OK";
-
-    document.getElementById("logs").innerText = JSON.stringify(data, null, 2);
+    document.getElementById("status-label").innerText =
+      "ROBÔ ATIVO — DADOS EM TEMPO REAL";
+    document.getElementById("status-text").innerText =
+      "Backend respondeu com sucesso";
+    document.getElementById("backend-status").innerText =
+      data.status ?? "OK";
   } catch (e) {
-    document.getElementById("status-label").innerText = "ERRO DE CONEXÃO COM BACKEND";
-    document.getElementById("status-text").innerText = "Falha ao buscar /status";
-    document.getElementById("logs").innerText = String(e);
+    document.getElementById("status-label").innerText =
+      "ERRO DE CONEXÃO COM BACKEND";
+    document.getElementById("status-text").innerText =
+      "Falha ao buscar /status";
   }
 }
 
-setInterval(atualizar, 5000);
+async function atualizarFinanceiro() {
+  try {
+    const res = await fetch(FINANCEIRO_URL, { cache: "no-store" });
+    const data = await res.json();
+
+    document.getElementById("financeiro-total").innerText =
+      "R$ " + Number(data.total_recebido).toFixed(2);
+
+    document.getElementById("financeiro-eventos").innerText =
+      data.quantidade_eventos;
+
+    document.getElementById("financeiro-ultimo").innerText =
+      data.ultimos_eventos.length > 0
+        ? data.ultimos_eventos[0].token
+        : "-";
+  } catch (e) {
+    document.getElementById("financeiro-total").innerText = "--";
+    document.getElementById("financeiro-eventos").innerText = "--";
+    document.getElementById("financeiro-ultimo").innerText = "--";
+  }
+}
+
+setInterval(() => {
+  atualizar();
+  atualizarFinanceiro();
+}, 5000);
+
 atualizar();
+atualizarFinanceiro();
 </script>
 
 </body>
