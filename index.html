@@ -1,256 +1,29 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robo Global AI — Dashboard Vivo</title>
-
-  <style>
-    body { margin:0; font-family:Arial,Helvetica,sans-serif; background:#0b0f14; color:#e5e7eb; }
-    header { background:#020617; padding:16px 24px; font-size:20px; font-weight:bold; }
-
-    .status-bar {
-      background:#14532d;
-      color:#d1fae5;
-      padding:12px 24px;
-      font-weight:bold;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-
-    .dot {
-      width:10px; height:10px; border-radius:50%;
-      background:#22c55e; animation:pulse 1.5s infinite;
-    }
-
-    @keyframes pulse { 0%{opacity:1} 50%{opacity:.4} 100%{opacity:1} }
-
-    .container { padding:24px; max-width:1000px; margin:auto; }
-
-    .card {
-      background:#020617;
-      border-radius:10px;
-      padding:20px;
-      margin-bottom:16px;
-      box-shadow:0 0 0 1px #1e293b;
-    }
-
-    .metrics {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-      gap:12px;
-    }
-
-    .metric {
-      background:#020617;
-      border-radius:10px;
-      padding:16px;
-      box-shadow:0 0 0 1px #1e293b;
-    }
-
-    .metric span { display:block; font-size:12px; color:#94a3b8; }
-    .metric strong { font-size:18px; }
-
-    button {
-      padding:10px 14px;
-      border-radius:6px;
-      border:none;
-      font-weight:bold;
-      cursor:pointer;
-      margin-top:8px;
-    }
-
-    .btn-approve { background:#16a34a; color:#fff; }
-    .btn-prepare { background:#2563eb; color:#fff; }
-    .btn-confirm { background:#dc2626; color:#fff; }
-
-    .warning {
-      font-size:13px;
-      color:#fbbf24;
-      margin-top:10px;
-    }
-
-    pre {
-      background:#020617;
-      padding:12px;
-      border-radius:6px;
-      overflow-x:auto;
-      font-size:13px;
-    }
-
-    footer { padding:16px 24px; font-size:12px; color:#64748b; }
-  </style>
-</head>
-
-<body>
-
-<header>Robo Global AI — Dashboard</header>
-
-<div class="status-bar">
-  <div class="dot"></div>
-  <div id="status-label">Conectando ao backend…</div>
+<!-- HISTÓRICO OPERACIONAL -->
+<div class="card">
+  <h2>Histórico Operacional</h2>
+  <pre id="historico">Carregando histórico…</pre>
 </div>
-
-<div class="container">
-
-  <!-- ESTADO OPERACIONAL -->
-  <div class="card">
-    <h2>Estado Operacional</h2>
-    <p id="status-text">Aguardando dados do backend…</p>
-  </div>
-
-  <div class="metrics">
-    <div class="metric">
-      <span>Última atualização (cliente)</span>
-      <strong id="last-client">--</strong>
-    </div>
-    <div class="metric">
-      <span>Status reportado pelo backend</span>
-      <strong id="backend-status">--</strong>
-    </div>
-    <div class="metric">
-      <span>Polling</span>
-      <strong>5s</strong>
-    </div>
-  </div>
-
-  <!-- FINANCEIRO HUMANO -->
-  <div class="card">
-    <h2>Financeiro (Humano)</h2>
-    <div class="metrics">
-      <div class="metric">
-        <span>Total recebido</span>
-        <strong id="financeiro-total">R$ 0,00</strong>
-      </div>
-      <div class="metric">
-        <span>Eventos financeiros</span>
-        <strong id="financeiro-eventos">0</strong>
-      </div>
-      <div class="metric">
-        <span>Última operação</span>
-        <strong id="financeiro-ultimo">-</strong>
-      </div>
-    </div>
-  </div>
-
-  <!-- E3 — EXECUÇÃO MANUAL ASSISTIDA -->
-  <div class="card">
-    <h2>Execução Manual Assistida (E3)</h2>
-
-    <pre id="proposta">Carregando proposta…</pre>
-
-    <button class="btn-approve" onclick="aprovarProposta()">APROVAR PROPOSTA</button>
-    <button class="btn-prepare" onclick="prepararExecucao()">PREPARAR EXECUÇÃO</button>
-
-    <pre id="pacote"></pre>
-
-    <div>
-      <input type="checkbox" id="checkExecucao">
-      <label for="checkExecucao">
-        Confirmo que executei manualmente esta ação fora do robô
-      </label>
-    </div>
-
-    <button class="btn-confirm" onclick="confirmarExecucao()">CONFIRMAR EXECUÇÃO</button>
-
-    <p class="warning">
-      ⚠️ Nenhum botão publica conteúdo automaticamente.  
-      Todas as ações externas são executadas manualmente pelo humano.
-    </p>
-  </div>
-
-</div>
-
-<footer>
-  Robo Global AI • Dashboard vivo • E3.1 integrado
-</footer>
 
 <script>
-const API_BASE = "https://robo-global-api-v2.onrender.com";
-const STATUS_URL = API_BASE + "/status";
-const FINANCEIRO_URL = API_BASE + "/financeiro/resumo";
-
-let propostaAtual = null;
-
-function now() {
-  return new Date().toLocaleTimeString();
-}
-
-async function atualizar() {
-  document.getElementById("last-client").innerText = now();
+async function carregarHistorico() {
   try {
-    const res = await fetch(STATUS_URL, { cache:"no-store" });
+    const res = await fetch(API_BASE + "/historico-operacional", { cache:"no-store" });
     const data = await res.json();
-    document.getElementById("status-label").innerText = "ROBÔ ATIVO — DADOS EM TEMPO REAL";
-    document.getElementById("status-text").innerText = "Backend respondeu com sucesso";
-    document.getElementById("backend-status").innerText = data.status ?? "OK";
+    if (!data.length) {
+      document.getElementById("historico").innerText = "Nenhuma execução registrada.";
+      return;
+    }
+    document.getElementById("historico").innerText =
+      data.map(h =>
+        `[${h.data_hora}]
+Tipo: ${h.tipo_execucao}
+Plataforma: ${h.plataforma}
+Proposta: ${h.proposta_id}
+Status: ${h.status}
+Origem: ${h.origem}\n`
+      ).join("\n");
   } catch {
-    document.getElementById("status-label").innerText = "ERRO DE CONEXÃO COM BACKEND";
-    document.getElementById("status-text").innerText = "Falha ao buscar /status";
+    document.getElementById("historico").innerText = "Erro ao carregar histórico.";
   }
 }
-
-async function atualizarFinanceiro() {
-  try {
-    const res = await fetch(FINANCEIRO_URL, { cache:"no-store" });
-    const data = await res.json();
-    document.getElementById("financeiro-total").innerText = "R$ " + Number(data.total_recebido).toFixed(2);
-    document.getElementById("financeiro-eventos").innerText = data.quantidade_eventos;
-    document.getElementById("financeiro-ultimo").innerText =
-      data.ultimos_eventos.length > 0 ? data.ultimos_eventos[0].token : "-";
-  } catch {
-    document.getElementById("financeiro-total").innerText = "--";
-    document.getElementById("financeiro-eventos").innerText = "--";
-    document.getElementById("financeiro-ultimo").innerText = "--";
-  }
-}
-
-async function carregarProposta() {
-  const res = await fetch(API_BASE + "/proposta-atual");
-  const data = await res.json();
-  if (!data.id) {
-    document.getElementById("proposta").innerText = "Nenhuma proposta no momento.";
-    propostaAtual = null;
-    return;
-  }
-  propostaAtual = data;
-  document.getElementById("proposta").innerText = JSON.stringify(data, null, 2);
-}
-
-async function aprovarProposta() {
-  if (!propostaAtual) return alert("Nenhuma proposta.");
-  await fetch(`${API_BASE}/proposta/${propostaAtual.id}/confirmar`, { method:"POST" });
-  alert("Proposta aprovada.");
-  carregarProposta();
-}
-
-async function prepararExecucao() {
-  if (!propostaAtual) return;
-  const res = await fetch(`${API_BASE}/proposta/${propostaAtual.id}/preparar-execucao`, { method:"POST" });
-  const data = await res.json();
-  document.getElementById("pacote").innerText = JSON.stringify(data, null, 2);
-}
-
-async function confirmarExecucao() {
-  if (!document.getElementById("checkExecucao").checked) {
-    return alert("Confirmação humana obrigatória.");
-  }
-  await fetch(`${API_BASE}/proposta/${propostaAtual.id}/confirmar-execucao`, { method:"POST" });
-  alert("Execução confirmada. Robô pausado.");
-  carregarProposta();
-}
-
-setInterval(() => {
-  atualizar();
-  atualizarFinanceiro();
-  carregarProposta();
-}, 5000);
-
-atualizar();
-atualizarFinanceiro();
-carregarProposta();
 </script>
-
-</body>
-</html>
