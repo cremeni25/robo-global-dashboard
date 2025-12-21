@@ -1,29 +1,51 @@
-<!-- HISTÓRICO OPERACIONAL -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Robo Global AI — Controle Total</title>
+<style>
+body { background:#0b0f14; color:#e5e7eb; font-family:Arial; padding:20px }
+.card { background:#020617; padding:20px; border-radius:8px; margin-bottom:16px }
+button { padding:10px; margin-top:8px; font-weight:bold }
+.auto { background:#2563eb; color:#fff }
+.stop { background:#dc2626; color:#fff }
+pre { background:#000; padding:12px }
+</style>
+</head>
+<body>
+
+<h1>Robo Global AI — E4</h1>
+
 <div class="card">
-  <h2>Histórico Operacional</h2>
-  <pre id="historico">Carregando histórico…</pre>
+<h2>Automação Controlada</h2>
+<button class="auto" onclick="executar()">EXECUTAR AUTOMAÇÃO</button>
+<p>Limite: 2/dia • Intervalo: 12h</p>
+</div>
+
+<div class="card">
+<h2>Histórico Operacional</h2>
+<pre id="hist">Carregando…</pre>
 </div>
 
 <script>
-async function carregarHistorico() {
-  try {
-    const res = await fetch(API_BASE + "/historico-operacional", { cache:"no-store" });
-    const data = await res.json();
-    if (!data.length) {
-      document.getElementById("historico").innerText = "Nenhuma execução registrada.";
-      return;
-    }
-    document.getElementById("historico").innerText =
-      data.map(h =>
-        `[${h.data_hora}]
-Tipo: ${h.tipo_execucao}
-Plataforma: ${h.plataforma}
-Proposta: ${h.proposta_id}
-Status: ${h.status}
-Origem: ${h.origem}\n`
-      ).join("\n");
-  } catch {
-    document.getElementById("historico").innerText = "Erro ao carregar histórico.";
-  }
+const API = "https://robo-global-api-v2.onrender.com";
+
+async function executar() {
+  const res = await fetch(API + "/automacao/executar", { method:"POST" });
+  const txt = await res.text();
+  alert(txt);
+  carregar();
 }
+
+async function carregar() {
+  const res = await fetch(API + "/historico-operacional");
+  const data = await res.json();
+  document.getElementById("hist").innerText =
+    data.map(h => `[${h.data_hora}] ${h.tipo_execucao} ${h.status}`).join("\n");
+}
+
+carregar();
 </script>
+
+</body>
+</html>
