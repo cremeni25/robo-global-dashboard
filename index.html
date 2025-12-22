@@ -1,51 +1,142 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Robo Global AI — Controle Total</title>
-<style>
-body { background:#0b0f14; color:#e5e7eb; font-family:Arial; padding:20px }
-.card { background:#020617; padding:20px; border-radius:8px; margin-bottom:16px }
-button { padding:10px; margin-top:8px; font-weight:bold }
-.auto { background:#2563eb; color:#fff }
-.stop { background:#dc2626; color:#fff }
-pre { background:#000; padding:12px }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Robo Global AI — Visão Geral</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f14;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 32px;
+      font-weight: 600;
+    }
+
+    .card {
+      background: #111827;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .narrative {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .state-label {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .state-value {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      font-size: 14px;
+      color: #d1d5db;
+      margin-bottom: 8px;
+    }
+
+    .audit-period {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .audit-text {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 40px;
+    }
+  </style>
 </head>
+
 <body>
+  <div class="container">
 
-<h1>Robo Global AI — E4</h1>
+    <h1>Robo Global AI</h1>
 
-<div class="card">
-<h2>Automação Controlada</h2>
-<button class="auto" onclick="executar()">EXECUTAR AUTOMAÇÃO</button>
-<p>Limite: 2/dia • Intervalo: 12h</p>
-</div>
+    <!-- VISÃO GERAL -->
+    <div class="card">
+      <p class="narrative">
+        O sistema está operando dentro dos parâmetros esperados.
+        As decisões recentes priorizaram estabilidade e observação cuidadosa.
+        Nenhuma ação humana é necessária neste momento.
+      </p>
 
-<div class="card">
-<h2>Histórico Operacional</h2>
-<pre id="hist">Carregando…</pre>
-</div>
+      <div class="state-label">Estado atual do sistema</div>
+      <div class="state-value">Estável</div>
+    </div>
 
-<script>
-const API = "https://robo-global-api-v2.onrender.com";
+    <!-- MOVIMENTO RECENTE -->
+    <div class="card">
+      <h2>Movimento recente</h2>
+      <ul>
+        <li>O sistema manteve postura cautelosa diante de sinais mistos.</li>
+        <li>Nenhuma mudança estrutural foi realizada.</li>
+        <li>O monitoramento segue ativo.</li>
+      </ul>
+    </div>
 
-async function executar() {
-  const res = await fetch(API + "/automacao/executar", { method:"POST" });
-  const txt = await res.text();
-  alert(txt);
-  carregar();
-}
+    <!-- MODO AUDITORIA HUMANA -->
+    <div class="card">
+      <h2>Modo Auditoria Humana</h2>
 
-async function carregar() {
-  const res = await fetch(API + "/historico-operacional");
-  const data = await res.json();
-  document.getElementById("hist").innerText =
-    data.map(h => `[${h.data_hora}] ${h.tipo_execucao} ${h.status}`).join("\n");
-}
+      <div style="margin-bottom:16px;">
+        <div class="audit-period">Últimos dias</div>
+        <div class="audit-text">
+          O sistema reduziu exposição para preservar estabilidade enquanto avaliava novas oportunidades.
+        </div>
+      </div>
 
-carregar();
-</script>
+      <div>
+        <div class="audit-period">Semana anterior</div>
+        <div class="audit-text">
+          A postura foi mantida estável após validação de consistência operacional.
+        </div>
+      </div>
+    </div>
 
+    <footer>
+      Dashboard interpretável • somente leitura • sem ações humanas
+    </footer>
+
+  </div>
 </body>
 </html>
