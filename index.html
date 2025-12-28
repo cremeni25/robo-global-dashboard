@@ -2,113 +2,76 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
+<title>Robo Global AI — Dashboard Financeiro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Robo Global AI — Dashboard Humano</title>
 
 <style>
-:root {
-  --bg: #0b1220;
-  --card: #0f172a;
-  --border: #1e293b;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --accent: #38bdf8;
-  --ok: #22c55e;
-  --warn: #facc15;
-  --err: #ef4444;
-}
-
-* { box-sizing: border-box; }
-
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(180deg, #020617, #020617);
-  color: var(--text);
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #0b132b, #020617);
+  color: #e5e7eb;
 }
-
 header {
-  padding: 28px;
-  border-bottom: 1px solid var(--border);
+  padding: 30px;
 }
-
 header h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
 }
-
 header p {
   margin-top: 6px;
-  font-size: 14px;
-  color: var(--muted);
+  color: #94a3b8;
 }
-
 main {
-  padding: 24px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 18px;
+  gap: 20px;
+  padding: 30px;
 }
-
 .card {
-  background: radial-gradient(circle at top, #020617, #020617);
-  border: 1px solid var(--border);
+  background: rgba(2,6,23,0.85);
+  border: 1px solid #1e293b;
   border-radius: 16px;
-  padding: 20px;
+  padding: 22px;
 }
-
 .card h2 {
-  margin: 0 0 12px;
-  font-size: 16px;
+  margin-top: 0;
+  font-size: 17px;
 }
-
 .value {
   font-size: 15px;
-  margin-bottom: 6px;
+  margin: 6px 0;
 }
-
-.muted {
-  font-size: 13px;
-  color: var(--muted);
+.status {
+  margin-top: 10px;
+  font-weight: bold;
 }
-
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.ok { background: rgba(34,197,94,.15); color: var(--ok); }
-.warn { background: rgba(250,204,21,.15); color: var(--warn); }
-.err { background: rgba(239,68,68,.15); color: var(--err); }
-
+.green { color: #22c55e; }
+.yellow { color: #eab308; }
+.red { color: #ef4444; }
 button {
-  background: var(--accent);
-  border: none;
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: #38bdf8;
   color: #020617;
-  font-weight: 600;
-  padding: 10px 14px;
-  border-radius: 10px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
 }
-
 input {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #1e293b;
   background: #020617;
-  color: var(--text);
-  margin-bottom: 10px;
+  color: #e5e7eb;
 }
-
 footer {
-  padding: 16px 24px;
-  border-top: 1px solid var(--border);
+  padding: 20px 30px;
+  color: #94a3b8;
   font-size: 12px;
-  color: var(--muted);
 }
 </style>
 </head>
@@ -122,50 +85,49 @@ footer {
 
 <main>
 
-<!-- CAMADA 1 -->
+<!-- 1️⃣ VISÃO FINANCEIRA CONSOLIDADA -->
 <section class="card">
-  <h2>Estado Geral</h2>
-  <div class="value" id="estadoGeral">—</div>
-  <div class="muted" id="mensagemEstado">—</div>
-  <div class="badge ok" id="intencaoAtual">—</div>
+  <h2>Visão Financeira Consolidada</h2>
+  <div class="value">Capital total: <span id="capitalTotal">—</span></div>
+  <div class="value">Capital alocado: <span id="capitalAlocado">—</span></div>
+  <div class="value">Capital disponível: <span id="capitalDisponivel">—</span></div>
+  <div class="value">Resultado acumulado: <span id="resultadoAcumulado">—</span></div>
+  <div class="value">Resultado do ciclo atual: <span id="resultadoCiclo">—</span></div>
+  <div class="status" id="statusFinanceiro">Sem dados financeiros consolidados até o momento.</div>
 </section>
 
-<!-- CAMADA 2 -->
+<!-- 2️⃣ ENTRADAS FINANCEIRAS -->
 <section class="card">
-  <h2>Próxima Ação</h2>
-  <div class="value" id="proximaAcao">—</div>
-  <div class="muted" id="motivoAcao">—</div>
+  <h2>Entradas Financeiras</h2>
+  <div class="value">Afiliados: <span id="entradaAfiliados">Sem registros</span></div>
+  <div class="value">Mídias: <span id="entradaMidias">Sem registros</span></div>
+  <div class="value">Outras fontes: <span id="entradaOutras">Sem registros</span></div>
 </section>
 
+<!-- 3️⃣ SAÍDAS FINANCEIRAS -->
 <section class="card">
-  <h2>Governança</h2>
-  <ul class="muted">
-    <li>Escala apenas com ganho consistente</li>
-    <li>Freio automático em perda crítica</li>
-    <li>Nenhuma recuperação por impulso</li>
-    <li>Toda decisão é registrada</li>
-  </ul>
+  <h2>Saídas Financeiras</h2>
+  <div class="value">Gasto em mídia: <span id="saidaMidia">—</span></div>
+  <div class="value">Custos operacionais: <span id="saidaOperacional">—</span></div>
+  <div class="value">Taxas / comissões: <span id="saidaTaxas">—</span></div>
 </section>
 
-<!-- FASE 3 — AUTENTICAÇÃO -->
+<!-- 4️⃣ GOVERNANÇA FINANCEIRA -->
 <section class="card">
-  <h2>FASE 3 — Acesso Financeiro</h2>
-  <input type="password" id="chaveFinanceira" placeholder="Digite a chave financeira humana" />
+  <h2>Governança Financeira</h2>
+  <div class="value">Limite de risco: <span id="limiteRisco">—</span></div>
+  <div class="value">Risco atual: <span id="riscoAtual">—</span></div>
+  <div class="value">Escala: <span id="escalaStatus">—</span></div>
+  <div class="value">Última decisão: <span id="ultimaDecisao">—</span></div>
+  <div class="value">Motivo: <span id="motivoDecisao">—</span></div>
+</section>
+
+<!-- 🔐 ACESSO FINANCEIRO -->
+<section class="card">
+  <h2>Acesso Financeiro</h2>
+  <input type="password" id="financeKey" placeholder="Digite a chave financeira humana" />
   <button onclick="desbloquearFinanceiro()">Desbloquear Financeiro</button>
-  <div class="muted" id="statusAuth"></div>
-</section>
-
-<!-- FASE 3 — VISÃO FINANCEIRA -->
-<section class="card">
-  <h2>FASE 3 — Visão Financeira</h2>
-
-  <div class="value">Capital Atual: <strong id="capitalAtual">—</strong></div>
-  <div class="value">Resultado Acumulado: <strong id="resultado">—</strong></div>
-  <div class="value">Risco Atual: <strong id="risco">—</strong></div>
-
-  <div class="badge" id="statusFinanceiro">Aguardando leitura</div>
-
-  <p class="muted" id="leituraEstrategica">Aguardando autenticação financeira.</p>
+  <div class="status" id="authStatus"></div>
 </section>
 
 </main>
@@ -176,67 +138,53 @@ Sistema operacional • Leitura humana • Controle final humano
 
 <script>
 const API = "https://robo-global-api-v2.onrender.com";
-let FIN_KEY = null;
 
-async function api(path, key) {
-  const res = await fetch(API + path, {
+function desbloquearFinanceiro() {
+  const key = document.getElementById("financeKey").value;
+  const status = document.getElementById("authStatus");
+
+  fetch(API + "/dashboard/fase3/humano", {
     headers: {
       "X-FINANCEIRO-API-KEY": key
     }
-  });
-  if (!res.ok) throw new Error("Acesso negado");
-  return res.json();
-}
-
-async function carregarBase() {
-  const s = await fetch(API + "/dashboard/status").then(r => r.json());
-  const a = await fetch(API + "/dashboard/proxima-acao").then(r => r.json());
-
-  document.getElementById("estadoGeral").innerText = s.estado_geral;
-  document.getElementById("mensagemEstado").innerText = s.mensagem;
-  document.getElementById("intencaoAtual").innerText = s.intencao_atual;
-
-  document.getElementById("proximaAcao").innerText = a.proxima_acao;
-  document.getElementById("motivoAcao").innerText = a.motivo;
-}
-
-async function desbloquearFinanceiro() {
-  const key = document.getElementById("chaveFinanceira").value;
-  if (!key) return;
-
-  try {
-    const d = await api("/dashboard/fase3/status", key);
-    FIN_KEY = key;
-
-    document.getElementById("statusAuth").innerText = "✔ Acesso financeiro liberado";
-
-    document.getElementById("capitalAtual").innerText = "R$ " + d.capital_atual.toFixed(2);
-    document.getElementById("resultado").innerText = "R$ " + d.resultado_acumulado.toFixed(2);
-    document.getElementById("risco").innerText = d.risco_atual;
-
-    let badge = document.getElementById("statusFinanceiro");
-    let leitura = document.getElementById("leituraEstrategica");
-
-    if (d.resultado_acumulado > 0) {
-      badge.className = "badge ok";
-      badge.innerText = "Financeiramente saudável";
-      leitura.innerText = "O robô apresenta resultado positivo e pode evoluir com cautela.";
-    } else if (d.resultado_acumulado < 0) {
-      badge.className = "badge err";
-      badge.innerText = "Atenção financeira";
-      leitura.innerText = "Resultado negativo identificado. Escala deve ser bloqueada.";
-    } else {
-      badge.className = "badge warn";
-      badge.innerText = "Neutro";
-      leitura.innerText = "Sem histórico suficiente para decisão de escala.";
+  })
+  .then(r => r.json())
+  .then(d => {
+    if (d.status === "SEM_DADOS") {
+      status.innerHTML = "Acesso liberado. Aguardando dados financeiros.";
+      status.className = "status yellow";
+      return;
     }
 
-  } catch (e) {
-    document.getElementById("statusAuth").innerText = "❌ Acesso financeiro negado";
-  }
-}
+    document.getElementById("capitalTotal").innerText = d.visao.capital_total;
+    document.getElementById("capitalAlocado").innerText = d.visao.capital_alocado;
+    document.getElementById("capitalDisponivel").innerText = d.visao.capital_disponivel;
+    document.getElementById("resultadoAcumulado").innerText = d.visao.resultado_acumulado;
+    document.getElementById("resultadoCiclo").innerText = d.visao.resultado_ciclo;
+    document.getElementById("statusFinanceiro").innerText = d.visao.status;
 
-carregarBase();
+    document.getElementById("entradaAfiliados").innerText = d.entradas.afiliados;
+    document.getElementById("entradaMidias").innerText = d.entradas.midias;
+    document.getElementById("entradaOutras").innerText = d.entradas.outras;
+
+    document.getElementById("saidaMidia").innerText = d.saidas.midia;
+    document.getElementById("saidaOperacional").innerText = d.saidas.operacional;
+    document.getElementById("saidaTaxas").innerText = d.saidas.taxas;
+
+    document.getElementById("limiteRisco").innerText = d.governanca.limite_risco;
+    document.getElementById("riscoAtual").innerText = d.governanca.risco_atual;
+    document.getElementById("escalaStatus").innerText = d.governanca.escala;
+    document.getElementById("ultimaDecisao").innerText = d.governanca.ultima_decisao;
+    document.getElementById("motivoDecisao").innerText = d.governanca.motivo;
+
+    status.innerHTML = "Acesso financeiro liberado.";
+    status.className = "status green";
+  })
+  .catch(() => {
+    status.innerHTML = "Acesso financeiro negado.";
+    status.className = "status red";
+  });
+}
 </script>
 
 </body>
