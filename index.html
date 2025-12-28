@@ -156,3 +156,35 @@ async function get(path) {
 
 </body>
 </html>
+<script>
+async function carregarFase3() {
+  const res = await fetch(API + '/dashboard/fase3/overview');
+  const d = await res.json();
+
+  // Estado Geral
+  document.getElementById('estadoGeral').innerText =
+    d.status_financeiro?.estado || 'Estável';
+
+  document.getElementById('mensagemEstado').innerText =
+    d.mensagem || '';
+
+  // Próxima Ação
+  document.getElementById('proximaAcao').innerText =
+    d.plano_ativo?.acao || 'Aguardando decisão';
+
+  document.getElementById('motivoAcao').innerText =
+    d.plano_ativo?.motivo || '';
+
+}
+</script>
+(async () => {
+  try {
+    await carregarStatus();
+    await carregarProximaAcao();
+    await carregarDecisoes();
+    await carregarFontes();
+    await carregarFase3(); // 👈 FASE 3
+  } catch (e) {
+    console.error(e);
+  }
+})();
