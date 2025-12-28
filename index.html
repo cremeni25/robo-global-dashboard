@@ -2,231 +2,197 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <title>Robo Global AI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Robo Global AI — Dashboard Humano</title>
 
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #020617;
-      --border: #1e293b;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
-      --danger: #ef4444;
-      --success: #22c55e;
-    }
-
-    * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #0b132b, #1c2541);
+      color: #eaeaea;
     }
 
-    header {
-      padding: 24px;
-      border-bottom: 1px solid var(--border);
+    h1 {
+      margin: 24px;
     }
 
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 600;
+    .subtitle {
+      margin-left: 24px;
+      color: #9bbcff;
     }
 
-    header p {
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    main {
-      padding: 24px;
+    .container {
       display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      padding: 24px;
     }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
     }
 
-    h2 {
-      margin: 0 0 10px;
-      font-size: 16px;
-    }
-
-    .value {
-      font-size: 15px;
-      margin-bottom: 6px;
-    }
-
-    .muted {
-      color: var(--muted);
-      font-size: 13px;
+    .card h2 {
+      margin-top: 0;
+      font-size: 18px;
     }
 
     input {
       width: 100%;
       padding: 10px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #020617;
-      color: var(--text);
       margin-top: 8px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
     }
 
     button {
       margin-top: 10px;
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 6px;
       border: none;
       cursor: pointer;
-      background: var(--accent);
-      color: #020617;
-      font-weight: 600;
+      background: #3a86ff;
+      color: white;
+      font-weight: bold;
     }
 
-    .status-ok {
-      color: var(--success);
-      font-weight: 600;
+    button:hover {
+      background: #5fa0ff;
+    }
+
+    .ok {
+      color: #4cff4c;
       margin-top: 8px;
     }
 
-    .status-erro {
-      color: var(--danger);
-      font-weight: 600;
+    .erro {
+      color: #ff4c4c;
       margin-top: 8px;
+    }
+
+    pre {
+      background: rgba(0,0,0,0.4);
+      padding: 10px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
     }
 
     footer {
       padding: 16px 24px;
-      border-top: 1px solid var(--border);
       font-size: 12px;
-      color: var(--muted);
+      color: #9bbcff;
     }
   </style>
 </head>
 
 <body>
 
-<header>
   <h1>Robo Global AI</h1>
-  <p>Dashboard humano • leitura executiva sob governança</p>
-</header>
+  <div class="subtitle">Dashboard humano • leitura executiva sob governança</div>
 
-<main>
+  <div class="container">
 
-  <!-- CAMADA 1 -->
-  <section class="card">
-    <h2>Estado Geral</h2>
-    <div class="value" id="estadoGeral">—</div>
-    <div class="muted" id="mensagemEstado"></div>
-    <div class="muted" id="intencaoAtual"></div>
-  </section>
+    <!-- ESTADO GERAL -->
+    <div class="card">
+      <h2>Estado Geral</h2>
+      <div id="estadoGeral">Carregando…</div>
+    </div>
 
-  <!-- CAMADA 2 -->
-  <section class="card">
-    <h2>Próxima Ação</h2>
-    <div class="value" id="proximaAcao">—</div>
-    <div class="muted" id="motivoAcao"></div>
-  </section>
+    <!-- PRÓXIMA AÇÃO -->
+    <div class="card">
+      <h2>Próxima Ação</h2>
+      <div id="proximaAcao">Carregando…</div>
+    </div>
 
-  <!-- GOVERNANÇA -->
-  <section class="card">
-    <h2>Governança</h2>
-    <ul class="muted">
-      <li>Escala apenas com ganho consistente</li>
-      <li>Freio automático em perda crítica</li>
-      <li>Nenhuma recuperação por impulso</li>
-      <li>Toda decisão é registrada</li>
-    </ul>
-  </section>
+    <!-- GOVERNANÇA -->
+    <div class="card">
+      <h2>Governança</h2>
+      <ul>
+        <li>Escala apenas com ganho consistente</li>
+        <li>Freio automático em perda crítica</li>
+        <li>Nenhuma recuperação por impulso</li>
+        <li>Toda decisão é registrada</li>
+      </ul>
+    </div>
 
-  <!-- 🔐 FASE 3 — GATE HUMANO -->
-  <section class="card">
-    <h2>FASE 3 — Acesso Financeiro</h2>
-    <div class="muted">Digite a chave financeira humana:</div>
-    <input type="password" id="financeKey" placeholder="FINANCEIRO_API_KEY" />
-    <button onclick="liberarFinanceiro()">Desbloquear Financeiro</button>
-    <div id="financeStatus"></div>
-  </section>
+    <!-- FASE 3 - ACESSO -->
+    <div class="card">
+      <h2>FASE 3 — Acesso Financeiro</h2>
+      <label>Digite a chave financeira humana:</label>
+      <input type="password" id="chaveFinanceira" placeholder="••••••••••" />
+      <button onclick="carregarFase3()">Desbloquear Financeiro</button>
+      <div id="msgFinanceiro"></div>
+    </div>
 
-  <!-- 📊 FASE 3 — FINANCEIRO -->
-  <section class="card" id="financeiroCard" style="display:none;">
-    <h2>FASE 3 — Visão Financeira</h2>
-    <div class="value" id="capital"></div>
-    <div class="value" id="escala"></div>
-    <div class="value" id="plano"></div>
-    <div class="muted" id="mensagemFinanceira"></div>
-  </section>
+    <!-- FASE 3 - VISÃO -->
+    <div class="card">
+      <h2>FASE 3 — Visão Financeira</h2>
+      <pre id="dadosFinanceiros">Aguardando autenticação…</pre>
+    </div>
 
-</main>
+  </div>
 
-<footer>
-  Sistema operacional • Leitura humana • Controle final humano
-</footer>
+  <footer>
+    Sistema operacional • Leitura humana • Controle final humano
+  </footer>
 
-<script>
-  const API = "https://robo-global-api-v2.onrender.com";
+  <script>
+    const API_URL = "https://robo-global-api-v2.onrender.com";
 
-  async function getJSON(path, headers = {}) {
-    const res = await fetch(API + path, { headers });
-    if (!res.ok) throw new Error("Erro " + res.status);
-    return res.json();
-  }
-
-  async function carregarBase() {
-    const s = await getJSON("/dashboard/status");
-    document.getElementById("estadoGeral").innerText = s.estado_geral;
-    document.getElementById("mensagemEstado").innerText = s.mensagem;
-    document.getElementById("intencaoAtual").innerText = s.intencao_atual;
-
-    const p = await getJSON("/dashboard/proxima-acao");
-    document.getElementById("proximaAcao").innerText = p.proxima_acao;
-    document.getElementById("motivoAcao").innerText = p.motivo;
-  }
-
-  async function liberarFinanceiro() {
-    const key = document.getElementById("financeKey").value.trim();
-    const statusEl = document.getElementById("financeStatus");
-
-    statusEl.innerText = "Validando chave…";
-    statusEl.className = "muted";
-
-    try {
-      const d = await getJSON(
-        "/dashboard/fase3/overview",
-        { "X-FINANCEIRO-API-KEY": key }
-      );
-
-      document.getElementById("financeiroCard").style.display = "block";
-      document.getElementById("capital").innerText =
-        "Capital Atual: " + (d.status_financeiro.capital_atual ?? "N/A");
-      document.getElementById("escala").innerText =
-        "Escala Ativa: " + (d.escala.escala_ativa ?? false);
-      document.getElementById("plano").innerText =
-        "Plano Ativo: " + (d.plano_ativo.nome_plano ?? "N/A");
-      document.getElementById("mensagemFinanceira").innerText =
-        d.mensagem ?? "";
-
-      statusEl.innerText = "✔ Financeiro liberado";
-      statusEl.className = "status-ok";
-
-    } catch (e) {
-      statusEl.innerText = "✖ Acesso financeiro negado";
-      statusEl.className = "status-erro";
+    async function carregarStatus() {
+      const r = await fetch(API_URL + "/dashboard/status");
+      const d = await r.json();
+      document.getElementById("estadoGeral").innerText =
+        d.estado_geral + " — " + d.mensagem;
     }
-  }
 
-  carregarBase().catch(console.error);
-</script>
+    async function carregarProximaAcao() {
+      const r = await fetch(API_URL + "/dashboard/proxima-acao");
+      const d = await r.json();
+      document.getElementById("proximaAcao").innerText =
+        d.proxima_acao;
+    }
+
+    async function carregarFase3() {
+      const chave = document.getElementById("chaveFinanceira").value;
+      const msg = document.getElementById("msgFinanceiro");
+      const box = document.getElementById("dadosFinanceiros");
+
+      msg.innerHTML = "";
+      box.innerText = "Carregando…";
+
+      try {
+        const resp = await fetch(API_URL + "/dashboard/fase3/overview", {
+          headers: {
+            "X-FINANCEIRO-API-KEY": chave
+          }
+        });
+
+        if (!resp.ok) {
+          throw new Error("Acesso financeiro negado");
+        }
+
+        const dados = await resp.json();
+        box.innerText = JSON.stringify(dados, null, 2);
+        msg.innerHTML = "<div class='ok'>✔ Acesso financeiro liberado</div>";
+
+      } catch (e) {
+        box.innerText = "Bloqueado";
+        msg.innerHTML = "<div class='erro'>✖ Acesso financeiro negado</div>";
+      }
+    }
+
+    (async () => {
+      await carregarStatus();
+      await carregarProximaAcao();
+    })();
+  </script>
 
 </body>
 </html>
