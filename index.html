@@ -1,255 +1,233 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Robo Global AI — Dashboard Executivo</title>
+  <meta charset="UTF-8" />
+  <title>Robo Global AI — Dashboard Executivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<style>
-:root{
-  --bg:#020617;
-  --card:#020617;
-  --border:#1e293b;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --accent:#38bdf8;
-  --ok:#22c55e;
-  --warn:#facc15;
-  --bad:#ef4444;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  background:radial-gradient(circle at top,#020617,#000);
-  color:var(--text);
-}
-header{
-  padding:28px;
-  border-bottom:1px solid var(--border);
-}
-header h1{margin:0;font-size:22px}
-header p{margin:6px 0 0;color:var(--muted)}
-main{
-  display:flex;
-  flex-direction:column;
-  gap:28px;
-  padding:28px;
-}
-.section{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:18px;
-}
-.card{
-  background:linear-gradient(180deg,#020617,#000);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-}
-.card h2{
-  margin:0 0 12px;
-  font-size:16px;
-}
-.value{font-size:15px}
-.muted{color:var(--muted);font-size:13px}
-hr{border:none;border-top:1px solid var(--border)}
-input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:#020617;
-  color:var(--text);
-}
-button{
-  margin-top:12px;
-  padding:12px 16px;
-  border-radius:10px;
-  border:none;
-  background:var(--accent);
-  color:#000;
-  font-weight:600;
-  cursor:pointer;
-}
-.hidden{display:none}
-.ok{color:var(--ok)}
-.warn{color:var(--warn)}
-.bad{color:var(--bad)}
-footer{
-  padding:20px 28px;
-  border-top:1px solid var(--border);
-  font-size:12px;
-  color:var(--muted);
-}
-</style>
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: linear-gradient(180deg, #050b1e, #020617);
+      color: #e5e7eb;
+    }
+
+    header {
+      padding: 32px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin-top: 6px;
+      color: #94a3b8;
+    }
+
+    .container {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 0 1px rgba(148,163,184,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 16px;
+      color: #e2e8f0;
+    }
+
+    .muted {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .success { color: #22c55e; }
+    .warning { color: #eab308; }
+    .error { color: #ef4444; }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin-top: 8px;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 24px;
+      text-align: center;
+      color: #64748b;
+      font-size: 13px;
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
   <h1>Robo Global AI</h1>
-  <p>Dashboard humano • leitura executiva sob governança</p>
+  <p>Dashboard humano · leitura executiva sob governança</p>
 </header>
 
-<main>
+<section class="container">
 
-<!-- ======================================================
-CAMADA A — INTELIGÊNCIA DO ROBÔ (PÚBLICA / SEM FINANCEIRO)
-====================================================== -->
-<section class="section">
-
+  <!-- CAMADA EXECUTIVA -->
   <div class="card">
-    <h2>Estado do Robô</h2>
-    <div class="value" id="estadoRobô">—</div>
-    <p class="muted" id="mensagemRobô"></p>
+    <h3>Estado do Robô</h3>
+    <div id="estadoRobo">—</div>
+    <div class="muted" id="mensagemRobo"></div>
   </div>
 
   <div class="card">
-    <h2>Intenção Atual</h2>
-    <div class="value" id="intencaoRobô">—</div>
+    <h3>Intenção Atual</h3>
+    <div id="intencaoAtual">—</div>
   </div>
 
   <div class="card">
-    <h2>Próxima Ação</h2>
-    <div class="value" id="proximaAcao">—</div>
-    <p class="muted" id="motivoAcao"></p>
+    <h3>Próxima Ação</h3>
+    <div id="proximaAcao">—</div>
+    <div class="muted" id="motivoAcao"></div>
   </div>
 
   <div class="card">
-    <h2>Fontes Ativas</h2>
-    <ul id="fontesAtivas" class="muted"></ul>
+    <h3>Fontes Ativas</h3>
+    <ul id="fontesAtivas"></ul>
   </div>
 
-</section>
-
-<hr/>
-
-<!-- ======================================================
-CAMADA B — GATE FINANCEIRO (CONTROLE HUMANO)
-====================================================== -->
-<section class="section">
-
-  <div class="card">
-    <h2>Acesso Financeiro</h2>
-    <p class="muted">
-      Área protegida por governança humana.<br/>
-      Nenhum dado financeiro é exibido sem autorização.
-    </p>
-    <input type="password" id="financeKey" placeholder="Digite a chave financeira"/>
-    <button onclick="desbloquearFinanceiro()">Desbloquear Financeiro</button>
-    <p id="financeStatus" class="muted"></p>
+  <!-- ACESSO FINANCEIRO -->
+  <div class="card full">
+    <h3>Acesso Financeiro (Governança Humana)</h3>
+    <div class="muted">Nenhum dado financeiro é exibido sem autorização.</div>
+    <input type="password" id="chaveFinanceira" placeholder="Digite a chave financeira humana" />
+    <button onclick="liberarFinanceiro()">Desbloquear Financeiro</button>
+    <div id="statusFinanceiro" class="muted" style="margin-top:8px;"></div>
   </div>
 
-</section>
+  <!-- FASE 3 -->
+  <div id="fase3" class="container full" style="display:none; padding:0;">
 
-<!-- ======================================================
-CAMADA C — FINANCEIRO EXECUTIVO (CONDICIONAL)
-====================================================== -->
-<section id="financeiroSection" class="section hidden">
+    <div class="card">
+      <h3>Visão Financeira Consolidada</h3>
+      <div id="visaoFinanceira"></div>
+    </div>
 
-  <div class="card">
-    <h2>Visão Financeira Consolidada</h2>
-    <div class="value">Capital total: <span id="capTotal">—</span></div>
-    <div class="value">Capital alocado: <span id="capAlocado">—</span></div>
-    <div class="value">Capital disponível: <span id="capDisponivel">—</span></div>
-    <div class="value">Resultado acumulado: <span id="resultadoAcum">—</span></div>
-    <div class="value">Resultado do ciclo atual: <span id="resultadoCiclo">—</span></div>
-    <p class="muted" id="statusFinanceiro"></p>
-  </div>
+    <div class="card">
+      <h3>Entradas Financeiras</h3>
+      <div id="entradasFinanceiras"></div>
+    </div>
 
-  <div class="card">
-    <h2>Entradas Financeiras</h2>
-    <div class="value">Afiliados: <span id="entradaAfiliados">—</span></div>
-    <div class="value">Mídias: <span id="entradaMidias">—</span></div>
-    <div class="value">Outras fontes: <span id="entradaOutras">—</span></div>
-  </div>
+    <div class="card">
+      <h3>Saídas Financeiras</h3>
+      <div id="saidasFinanceiras"></div>
+    </div>
 
-  <div class="card">
-    <h2>Saídas Financeiras</h2>
-    <div class="value">Gasto em mídia: <span id="saidaMidia">—</span></div>
-    <div class="value">Custos operacionais: <span id="saidaOperacional">—</span></div>
-    <div class="value">Taxas / comissões: <span id="saidaTaxas">—</span></div>
-  </div>
+    <div class="card">
+      <h3>Governança Financeira</h3>
+      <div id="governancaFinanceira"></div>
+    </div>
 
-  <div class="card">
-    <h2>Governança Financeira</h2>
-    <div class="value">Limite de risco: <span id="limiteRisco">—</span></div>
-    <div class="value">Risco atual: <span id="riscoAtual">—</span></div>
-    <div class="value">Escala: <span id="escalaStatus">—</span></div>
-    <div class="value">Última decisão: <span id="ultimaDecisao">—</span></div>
-    <p class="muted" id="motivoDecisao"></p>
   </div>
 
 </section>
-
-</main>
 
 <footer>
-Sistema operacional • Leitura humana • Controle final humano
+  Sistema operacional · Leitura humana · Controle final humano
 </footer>
 
 <script>
 const API = "https://robo-global-api-v2.onrender.com";
-let FIN_KEY = null;
 
-// --------------------
-// CAMADA A — INTELIGÊNCIA
-// --------------------
-async function carregarInteligencia(){
-  const s = await fetch(API + "/dashboard/status").then(r=>r.json());
-  document.getElementById("estadoRobô").innerText = s.estado_geral;
-  document.getElementById("mensagemRobô").innerText = s.mensagem;
-  document.getElementById("intencaoRobô").innerText = s.intencao_atual;
+async function carregarBasico() {
+  const status = await fetch(API + "/dashboard/status").then(r => r.json());
+  document.getElementById("estadoRobo").innerText = status.estado_geral;
+  document.getElementById("mensagemRobo").innerText = status.mensagem;
+  document.getElementById("intencaoAtual").innerText = status.intencao_atual;
 
-  const p = await fetch(API + "/dashboard/proxima-acao").then(r=>r.json());
-  document.getElementById("proximaAcao").innerText = p.proxima_acao;
-  document.getElementById("motivoAcao").innerText = p.motivo;
+  const acao = await fetch(API + "/dashboard/proxima-acao").then(r => r.json());
+  document.getElementById("proximaAcao").innerText = acao.proxima_acao;
+  document.getElementById("motivoAcao").innerText = acao.motivo;
 
-  const f = await fetch(API + "/dashboard/fontes").then(r=>r.json());
+  const fontes = await fetch(API + "/dashboard/fontes").then(r => r.json());
   const ul = document.getElementById("fontesAtivas");
-  ul.innerHTML="";
-  f.fontes_ativas.forEach(x=>{
-    const li=document.createElement("li");
-    li.innerText=x;
+  fontes.fontes_ativas.forEach(f => {
+    const li = document.createElement("li");
+    li.innerText = f;
     ul.appendChild(li);
   });
 }
 
-// --------------------
-// CAMADA C — FINANCEIRO
-// --------------------
-async function carregarFinanceiro(){
-  const res = await fetch(API + "/dashboard/fase3/overview",{
-    headers:{ "X-FINANCEIRO-API-KEY": FIN_KEY }
-  });
-  if(!res.ok) throw new Error("Acesso financeiro negado");
+async function liberarFinanceiro() {
+  const chave = document.getElementById("chaveFinanceira").value;
+  const statusEl = document.getElementById("statusFinanceiro");
 
-  const d = await res.json();
+  try {
+    const r = await fetch(API + "/dashboard/fase3/overview", {
+      headers: { "X-FINANCEIRO-API-KEY": chave }
+    });
 
-  document.getElementById("capTotal").innerText = d.status_financeiro.capital_atual ?? "—";
-  document.getElementById("resultadoAcum").innerText = d.status_financeiro.resultado_acumulado ?? "—";
-  document.getElementById("riscoAtual").innerText = d.status_financeiro.risco_atual ?? "—";
-  document.getElementById("statusFinanceiro").innerText = "Leitura sob governança ativa";
-}
+    if (r.status === 401 || r.status === 403) {
+      statusEl.innerHTML = "<span class='error'>❌ Acesso financeiro negado</span>";
+      return;
+    }
 
-// --------------------
-// GATE
-// --------------------
-async function desbloquearFinanceiro(){
-  FIN_KEY = document.getElementById("financeKey").value;
-  try{
-    await carregarFinanceiro();
-    document.getElementById("financeiroSection").classList.remove("hidden");
-    document.getElementById("financeStatus").innerText="✔ Acesso financeiro liberado";
-    document.getElementById("financeStatus").className="ok";
-  }catch(e){
-    document.getElementById("financeStatus").innerText="✖ Chave inválida ou dados indisponíveis";
-    document.getElementById("financeStatus").className="bad";
+    const data = await r.json();
+
+    document.getElementById("fase3").style.display = "grid";
+    statusEl.innerHTML = "<span class='success'>✔ Acesso financeiro autorizado</span>";
+
+    if (!data.status_financeiro || Object.keys(data.status_financeiro).length === 0) {
+      document.getElementById("visaoFinanceira").innerText =
+        "Sem dados financeiros consolidados até o momento.";
+      document.getElementById("entradasFinanceiras").innerText = "Sem registros.";
+      document.getElementById("saidasFinanceiras").innerText = "Sem registros.";
+      document.getElementById("governancaFinanceira").innerText = "Sem decisões registradas.";
+      return;
+    }
+
+    document.getElementById("visaoFinanceira").innerText =
+      `Capital atual: ${data.status_financeiro.capital_atual ?? "—"}
+Resultado acumulado: ${data.status_financeiro.resultado_acumulado ?? "—"}
+Risco atual: ${data.status_financeiro.risco_atual ?? "—"}`;
+
+    document.getElementById("entradasFinanceiras").innerText = "Receitas em análise.";
+    document.getElementById("saidasFinanceiras").innerText = "Custos sob controle.";
+    document.getElementById("governancaFinanceira").innerText = "Governança ativa.";
+
+  } catch (e) {
+    statusEl.innerHTML = "<span class='warning'>⚠ Dados financeiros indisponíveis</span>";
   }
 }
 
-carregarInteligencia();
+carregarBasico();
 </script>
 
 </body>
