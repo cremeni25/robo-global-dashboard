@@ -9,20 +9,25 @@ body{
   margin:0;font-family:system-ui;background:#020617;color:#e5e7eb;
 }
 header{
-  padding:24px;border-bottom:1px solid #1e293b;
+  padding:22px;border-bottom:1px solid #1e293b;
   display:flex;justify-content:space-between;align-items:center;
 }
 main{
-  padding:24px;display:grid;grid-template-columns:
-  repeat(auto-fit,minmax(260px,1fr));gap:20px;
+  padding:24px;display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
 }
 .card{
   background:#020617;border:1px solid #1e293b;border-radius:16px;
   padding:20px;
 }
+h3{margin:0 0 10px}
 .muted{color:#94a3b8;font-size:13px}
+.ok{color:#22c55e}
+.warn{color:#eab308}
+.bad{color:#ef4444}
 button{
-  padding:8px 12px;border-radius:8px;border:none;
+  padding:8px 14px;border-radius:10px;border:none;
   background:#ef4444;color:#000;font-weight:600;cursor:pointer;
 }
 </style>
@@ -35,32 +40,55 @@ button{
 </header>
 
 <main>
-  <div class="card">
-    <h3>Financeiro</h3>
-    <p class="muted">Acesso completo (em breve)</p>
-  </div>
 
-  <div class="card">
-    <h3>Contábil</h3>
-    <p class="muted">Registros e consolidação (em breve)</p>
-  </div>
+<!-- VISÃO FINANCEIRA CONSOLIDADA -->
+<div class="card">
+  <h3>Visão Financeira Consolidada</h3>
+  <p>Capital total: <strong>—</strong></p>
+  <p>Capital alocado: <strong>—</strong></p>
+  <p>Capital disponível: <strong>—</strong></p>
+  <p>Resultado acumulado: <strong>—</strong></p>
+  <p>Resultado do ciclo atual: <strong>—</strong></p>
+  <p class="muted">Sem dados financeiros consolidados até o momento.</p>
+</div>
 
-  <div class="card">
-    <h3>Métricas & Gráficos</h3>
-    <p class="muted">Performance e risco (em breve)</p>
-  </div>
+<!-- ENTRADAS -->
+<div class="card">
+  <h3>Entradas Financeiras</h3>
+  <p>Afiliados: <strong>Sem registros</strong></p>
+  <p>Mídias: <strong>Sem registros</strong></p>
+  <p>Outras fontes: <strong>Sem registros</strong></p>
+</div>
 
-  <div class="card">
-    <h3>Auditoria</h3>
-    <p class="muted">Histórico e decisões (em breve)</p>
-  </div>
+<!-- SAÍDAS -->
+<div class="card">
+  <h3>Saídas Financeiras</h3>
+  <p>Gasto em mídia: <strong>—</strong></p>
+  <p>Custos operacionais: <strong>—</strong></p>
+  <p>Taxas / comissões: <strong>—</strong></p>
+</div>
+
+<!-- GOVERNANÇA -->
+<div class="card">
+  <h3>Governança Financeira</h3>
+  <p>Limite de risco: <strong>—</strong></p>
+  <p>Risco atual: <strong>—</strong></p>
+  <p>Escala: <strong>—</strong></p>
+  <p>Última decisão: <strong>—</strong></p>
+  <p>Motivo: <strong>—</strong></p>
+  <p class="muted">Nenhuma decisão registrada.</p>
+</div>
+
 </main>
+
+<footer style="padding:20px;text-align:center;color:#64748b;font-size:12px">
+Sistema operacional · Leitura humana · Controle final humano
+</footer>
 
 <script>
 if(sessionStorage.getItem("RG_AUTH")!=="OK"){
   window.location.href="/login.html";
 }
-
 function logout(){
   sessionStorage.clear();
   window.location.href="/";
