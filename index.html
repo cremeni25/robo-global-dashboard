@@ -2,255 +2,213 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Robo Global AI — Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robô Global — Sistema Operacional de Inteligência</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #0b1530 0%, #050814 60%);
-      color: #e5e7eb;
+    :root{
+      --bg:#020617;
+      --panel:#020617;
+      --border:#1e293b;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --accent:#38bdf8;
+      --ok:#22c55e;
+      --warn:#facc15;
     }
 
-    h1 {
-      font-size: 28px;
-      margin-bottom: 6px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont;
+      background:radial-gradient(circle at top,#020617,#000);
+      color:var(--text);
     }
 
-    .subtitle {
-      color: #9ca3af;
-      font-size: 14px;
+    header{
+      padding:40px;
+      border-bottom:1px solid var(--border);
     }
 
-    .container {
-      padding: 40px;
-      max-width: 1400px;
-      margin: 0 auto;
+    header h1{
+      margin:0;
+      font-size:28px;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-top: 32px;
+    header p{
+      margin-top:8px;
+      color:var(--muted);
+      max-width:720px;
     }
 
-    .card {
-      background: rgba(15, 23, 42, 0.75);
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+    main{
+      padding:40px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
     }
 
-    .card h3 {
-      margin-top: 0;
-      font-size: 16px;
-      color: #f9fafb;
-      margin-bottom: 10px;
+    .card{
+      background:linear-gradient(180deg,#020617,#000);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:24px;
     }
 
-    .card p, .card li {
-      font-size: 14px;
-      color: #cbd5f5;
-      margin: 6px 0;
+    .card h2{
+      margin:0 0 14px;
+      font-size:18px;
     }
 
-    .muted {
-      color: #9ca3af;
-      font-size: 13px;
+    .value{
+      font-size:16px;
+      margin-bottom:6px;
     }
 
-    .section {
-      margin-top: 50px;
+    .muted{
+      font-size:14px;
+      color:var(--muted);
     }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      background: #020617;
-      color: #e5e7eb;
-      margin-top: 10px;
-      margin-bottom: 12px;
-    }
+    .status-ok{color:var(--ok)}
+    .status-warn{color:var(--warn)}
 
-    button {
-      padding: 12px 20px;
-      border-radius: 10px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      color: #fff;
-    }
-
-    .success {
-      color: #22c55e;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    .error {
-      color: #ef4444;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 60px;
-      font-size: 12px;
-      color: #64748b;
-    }
-
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      font-size: 13px;
-      background: #020617;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 10px;
-      color: #e5e7eb;
+    footer{
+      padding:28px 40px;
+      border-top:1px solid var(--border);
+      font-size:12px;
+      color:var(--muted);
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Robo Global AI</h1>
-    <div class="subtitle">Dashboard humano · leitura executiva sob governança</div>
 
-    <!-- ========================= -->
-    <!-- BLOCO SUPERIOR — INTELIGÊNCIA DO ROBÔ -->
-    <!-- ========================= -->
+<header>
+  <h1>Robô Global</h1>
+  <p>
+    Sistema operacional de inteligência econômica.
+    Este site representa a camada institucional e operacional pública do robô.
+    Dados sensíveis e controle humano residem em áreas protegidas.
+  </p>
+</header>
 
-    <div class="grid">
-      <div class="card">
-        <h3>Estado do Robô</h3>
-        <p><strong>OPERACIONAL</strong></p>
-        <p class="muted">Sistema operacional sob governança ativa</p>
-      </div>
+<main>
 
-      <div class="card">
-        <h3>Intenção Atual</h3>
-        <p>Estabilizar núcleo e avançar Meta Ads</p>
-      </div>
+  <!-- BLOCO INSTITUCIONAL -->
+  <section class="card">
+    <h2>O que é o Robô Global</h2>
+    <p class="muted">
+      O Robô Global é um organismo operacional de inteligência,
+      projetado para observar, analisar e executar decisões econômicas
+      sob governança humana.
+    </p>
+    <p class="muted">
+      Ele opera de forma modular, auditável e extensível,
+      sem dependência de uma única fonte de receita ou plataforma.
+    </p>
+  </section>
 
-      <div class="card">
-        <h3>Próxima Ação</h3>
-        <p>Retomar execução Meta Ads após validação do núcleo</p>
-        <p class="muted">Infraestrutura estabilizada e dashboard operacional</p>
-      </div>
+  <!-- STATUS OPERACIONAL -->
+  <section class="card">
+    <h2>Status Operacional</h2>
+    <div class="value status-ok" id="estadoSistema">Carregando…</div>
+    <div class="muted" id="mensagemSistema"></div>
+  </section>
 
-      <div class="card">
-        <h3>Fontes Ativas</h3>
-        <ul id="fontes-ativas">
-          <li>Hotmart</li>
-          <li>Eduzz</li>
-          <li>Monetizze</li>
-          <li>ClickBank</li>
-        </ul>
-      </div>
+  <!-- INTENÇÃO ATUAL -->
+  <section class="card">
+    <h2>Intenção Atual do Robô</h2>
+    <div class="value" id="intencaoAtual">Carregando…</div>
+    <div class="muted">
+      Leitura pública da orientação estratégica atual.
     </div>
+  </section>
 
-    <!-- ========================= -->
-    <!-- BLOCO DE ACESSO FINANCEIRO -->
-    <!-- ========================= -->
+  <!-- FASES ATIVAS -->
+  <section class="card">
+    <h2>Fases Ativas</h2>
+    <ul id="fasesAtivas" class="muted">
+      <li>Carregando…</li>
+    </ul>
+  </section>
 
-    <div class="section card">
-      <h3>Acesso Financeiro (Governança Humana)</h3>
-      <p class="muted">
-        Nenhum dado financeiro é exibido sem autorização humana explícita.
-      </p>
+  <!-- CAPACIDADES -->
+  <section class="card">
+    <h2>Capacidades Ativas</h2>
+    <ul class="muted">
+      <li>Governança humana</li>
+      <li>Dashboard executivo</li>
+      <li>Monitoramento de mídia</li>
+      <li>Registro institucional</li>
+    </ul>
+  </section>
 
-      <input
-        type="password"
-        id="financeKey"
-        placeholder="Digite a chave financeira humana"
-      />
+  <!-- PLATAFORMAS HABILITADAS -->
+  <section class="card">
+    <h2>Plataformas Habilitadas</h2>
+    <ul id="plataformasAtivas" class="muted">
+      <li>Carregando…</li>
+    </ul>
+  </section>
 
-      <button onclick="desbloquearFinanceiro()">Desbloquear Financeiro</button>
+</main>
 
-      <div id="authMessage"></div>
-    </div>
+<footer>
+  Robô Global • Camada institucional e operacional pública • Leitura não sensível
+</footer>
 
-    <!-- ========================= -->
-    <!-- BLOCO FINANCEIRO — FASE 3 -->
-    <!-- ========================= -->
+<script>
+  const API = "https://robo-global-api-v2.onrender.com";
 
-    <div id="financeiro" class="section" style="display:none;">
-      <div class="grid">
-        <div class="card">
-          <h3>Visão Financeira Consolidada</h3>
-          <p>Capital total: —</p>
-          <p>Capital alocado: —</p>
-          <p>Capital disponível: —</p>
-          <p>Resultado acumulado: —</p>
-          <p>Resultado do ciclo atual: —</p>
-          <p class="muted">Sem dados financeiros consolidados até o momento.</p>
-        </div>
+  async function carregarStatus() {
+    try {
+      const res = await fetch(API + "/dashboard/status");
+      const d = await res.json();
 
-        <div class="card">
-          <h3>Entradas Financeiras</h3>
-          <p>Afiliados: Sem registros</p>
-          <p>Mídias: Sem registros</p>
-          <p>Outras fontes: Sem registros</p>
-        </div>
+      document.getElementById("estadoSistema").innerText = d.estado_geral;
+      document.getElementById("mensagemSistema").innerText = d.mensagem;
+      document.getElementById("intencaoAtual").innerText = d.intencao_atual;
 
-        <div class="card">
-          <h3>Saídas Financeiras</h3>
-          <p>Gasto em mídia: —</p>
-          <p>Custos operacionais: —</p>
-          <p>Taxas / comissões: —</p>
-        </div>
+      const fases = document.getElementById("fasesAtivas");
+      fases.innerHTML = "";
+      fases.innerHTML += "<li>Observação operacional ativa</li>";
+      fases.innerHTML += "<li>Meta Ads em acompanhamento</li>";
 
-        <div class="card">
-          <h3>Governança Financeira</h3>
-          <p>Limite de risco: —</p>
-          <p>Risco atual: —</p>
-          <p>Escala: —</p>
-          <p>Última decisão: —</p>
-          <p>Motivo: —</p>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      Sistema operacional · Leitura humana · Controle final humano
-    </footer>
-  </div>
-
-  <script>
-    const API_URL = "https://robo-global-api-v2.onrender.com";
-
-    async function desbloquearFinanceiro() {
-      const chave = document.getElementById("financeKey").value;
-      const msg = document.getElementById("authMessage");
-
-      msg.innerHTML = "";
-
-      try {
-        const res = await fetch(API_URL + "/dashboard/fase3/overview", {
-          headers: {
-            "X-FINANCEIRO-API-KEY": chave
-          }
-        });
-
-        if (!res.ok) {
-          throw new Error("Acesso negado ou dados indisponíveis");
-        }
-
-        document.getElementById("financeiro").style.display = "block";
-        msg.innerHTML = "<div class='success'>✓ Acesso financeiro autorizado</div>";
-
-      } catch (e) {
-        msg.innerHTML = "<div class='error'>✗ Chave inválida ou dados indisponíveis</div>";
-      }
+    } catch (e) {
+      document.getElementById("estadoSistema").innerText = "INDETERMINADO";
+      document.getElementById("mensagemSistema").innerText =
+        "Falha ao consultar estado do robô";
     }
-  </script>
+  }
+
+  async function carregarPlataformas() {
+    try {
+      const res = await fetch(API + "/dashboard/fontes");
+      const d = await res.json();
+      const ul = document.getElementById("plataformasAtivas");
+      ul.innerHTML = "";
+
+      if (!d.fontes_ativas || d.fontes_ativas.length === 0) {
+        ul.innerHTML = "<li>Nenhuma plataforma habilitada</li>";
+        return;
+      }
+
+      d.fontes_ativas.forEach(p => {
+        const li = document.createElement("li");
+        li.textContent = p;
+        ul.appendChild(li);
+      });
+
+    } catch {
+      document.getElementById("plataformasAtivas").innerHTML =
+        "<li>Indisponível</li>";
+    }
+  }
+
+  carregarStatus();
+  carregarPlataformas();
+</script>
+
 </body>
 </html>
