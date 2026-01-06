@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<title>Robô Global — Área Restrita</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+body{
+  margin:0;font-family:system-ui;background:#020617;color:#e5e7eb;
+}
+header{
+  padding:24px;border-bottom:1px solid #1e293b;
+  display:flex;justify-content:space-between;align-items:center;
+}
+main{
+  padding:24px;display:grid;grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));gap:20px;
+}
+.card{
+  background:#020617;border:1px solid #1e293b;border-radius:16px;
+  padding:20px;
+}
+.muted{color:#94a3b8;font-size:13px}
+button{
+  padding:8px 12px;border-radius:8px;border:none;
+  background:#ef4444;color:#000;font-weight:600;cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <strong>Robô Global — Área Restrita</strong>
+  <button onclick="logout()">Sair</button>
+</header>
+
+<main>
+  <div class="card">
+    <h3>Financeiro</h3>
+    <p class="muted">Acesso completo (em breve)</p>
+  </div>
+
+  <div class="card">
+    <h3>Contábil</h3>
+    <p class="muted">Registros e consolidação (em breve)</p>
+  </div>
+
+  <div class="card">
+    <h3>Métricas & Gráficos</h3>
+    <p class="muted">Performance e risco (em breve)</p>
+  </div>
+
+  <div class="card">
+    <h3>Auditoria</h3>
+    <p class="muted">Histórico e decisões (em breve)</p>
+  </div>
+</main>
+
+<script>
+if(sessionStorage.getItem("RG_AUTH")!=="OK"){
+  window.location.href="/login.html";
+}
+
+function logout(){
+  sessionStorage.clear();
+  window.location.href="/";
+}
+</script>
+
+</body>
+</html>
