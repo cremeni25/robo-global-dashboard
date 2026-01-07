@@ -2,187 +2,187 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
-<title>Robô Global AI — Operating Intelligence Platform</title>
+<title>Robô Global — Plataforma Global de Inteligência e Monetização</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="index, follow"/>
-<link rel="canonical" href="https://roboglobal.com.br/"/>
+<link rel="canonical" href="https://roboglobal.com.br"/>
 
 <style>
 :root{
   --bg:#020617;
+  --bg2:#020a18;
   --panel:#020617;
-  --glass:rgba(15,23,42,.65);
-  --border:rgba(148,163,184,.15);
+  --border:#1e293b;
   --text:#e5e7eb;
   --muted:#94a3b8;
   --accent:#38bdf8;
-  --green:#22c55e;
-  --yellow:#facc15;
-  --red:#ef4444;
+  --ok:#22c55e;
+  --warn:#facc15;
+  --err:#ef4444;
   --radius:18px;
-  --blur:14px;
 }
 
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   background:
-    radial-gradient(1200px 600px at 10% -10%,#0ea5e930,transparent),
-    radial-gradient(800px 400px at 90% 10%,#22c55e25,transparent),
-    #020617;
+    radial-gradient(900px 400px at 10% -10%,#0ea5e920,transparent),
+    radial-gradient(700px 300px at 90% 10%,#22c55e15,transparent),
+    var(--bg);
   color:var(--text);
 }
 
+/* HEADER */
 header{
   position:sticky;
   top:0;
   z-index:100;
-  background:rgba(2,6,23,.75);
-  backdrop-filter:blur(var(--blur));
+  background:rgba(2,6,23,.85);
+  backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
 
-.container{
-  max-width:1600px;
-  margin:0 auto;
-  padding:24px;
-}
-
-.nav{
+.header{
+  max-width:1400px;
+  margin:auto;
+  padding:20px 24px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:24px;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+  font-size:20px;
   font-weight:700;
   letter-spacing:.4px;
-  font-size:18px;
 }
 
 .brand span{color:var(--accent)}
 
-.nav-actions{
-  display:flex;
-  gap:10px;
+.nav a{
+  margin-left:20px;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
 }
 
-button{
-  background:linear-gradient(135deg,var(--accent),#0ea5e9);
-  border:none;
-  color:#020617;
-  padding:10px 16px;
-  border-radius:10px;
-  font-weight:600;
-  cursor:pointer;
-}
+.nav a:hover{color:var(--text)}
 
-button.secondary{
-  background:transparent;
-  color:var(--text);
-  border:1px solid var(--border);
+/* SECTIONS */
+section{
+  max-width:1400px;
+  margin:auto;
+  padding:100px 24px;
 }
-
-section{margin-top:48px}
 
 .hero{
-  display:grid;
-  grid-template-columns:1.4fr .6fr;
-  gap:32px;
+  padding-top:140px;
 }
 
 .hero h1{
-  font-size:clamp(34px,4vw,56px);
-  line-height:1.1;
-  margin:0 0 16px;
+  font-size:clamp(36px,4vw,64px);
+  line-height:1.05;
+  margin-bottom:24px;
 }
 
 .hero p{
+  max-width:780px;
+  font-size:20px;
   color:var(--muted);
-  font-size:18px;
-  max-width:720px;
 }
 
-.card{
-  background:var(--glass);
-  backdrop-filter:blur(var(--blur));
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:24px;
-}
+.hero strong{color:var(--accent)}
 
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:16px;
+  gap:24px;
+  margin-top:48px;
 }
 
-.metric{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+.card{
+  background:linear-gradient(180deg,var(--bg),var(--bg2));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
 }
 
+/* TITLES */
+h2{
+  font-size:32px;
+  margin-bottom:16px;
+}
+
+h3{
+  font-size:18px;
+  margin-bottom:10px;
+}
+
+p{
+  line-height:1.6;
+}
+
+/* METRICS */
 .metric strong{
-  font-size:30px;
+  font-size:34px;
 }
 
 .metric span{
-  color:var(--muted);
+  display:block;
+  margin-top:6px;
   font-size:12px;
-  letter-spacing:.1em;
+  color:var(--muted);
   text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
-.ok{color:var(--green)}
-.warn{color:var(--yellow)}
-.err{color:var(--red)}
-
-.layer-title{
-  font-size:20px;
-  margin-bottom:12px;
-}
-
-.big{
-  font-size:42px;
+/* CTA */
+.cta{
+  display:inline-block;
+  margin-top:32px;
+  background:linear-gradient(135deg,var(--accent),#0ea5e9);
+  color:#020617;
+  padding:14px 26px;
+  border-radius:12px;
   font-weight:700;
+  text-decoration:none;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:14px;
-}
-
-th,td{
-  padding:14px;
+/* SYSTEM */
+.system{
+  background:linear-gradient(180deg,#020617,#01040f);
+  border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
 }
 
-th{
-  color:var(--muted);
-  text-transform:uppercase;
-  font-size:12px;
-  letter-spacing:.1em;
+.system h2{margin-bottom:32px}
+
+.system-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:32px;
 }
 
+.system-box{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:28px;
+}
+
+/* FOOTER */
 footer{
-  margin-top:80px;
+  padding:40px 24px;
+  text-align:center;
+  color:var(--muted);
   border-top:1px solid var(--border);
 }
 
-footer p{
-  color:var(--muted);
-  font-size:13px;
-}
-
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr}
+  .system-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -190,172 +190,126 @@ footer p{
 <body>
 
 <header>
-  <div class="container nav">
-    <div class="brand">🤖 <span>Robô Global AI</span></div>
-    <div class="nav-actions">
-      <button class="secondary" onclick="go('executivo')">Executivo</button>
-      <button class="secondary" onclick="go('financeiro')">Financeiro</button>
-      <button class="secondary" onclick="go('operacional')">Operacional</button>
-      <button onclick="go('inteligencia')">Inteligência</button>
-    </div>
+  <div class="header">
+    <div class="brand">🤖 <span>Robô Global</span></div>
+    <nav class="nav">
+      <a href="#manifesto">Manifesto</a>
+      <a href="#como-funciona">Como Funciona</a>
+      <a href="#inteligencia">Inteligência</a>
+      <a href="#sistema">Sistema</a>
+    </nav>
   </div>
 </header>
 
-<main class="container">
+<!-- HERO -->
+<section class="hero">
+  <h1>
+    Uma nova categoria de sistema.<br/>
+    <strong>Inteligência que decide, protege e escala capital.</strong>
+  </h1>
+  <p>
+    O Robô Global não é um painel, não é uma ferramenta e não é uma promessa.
+    É uma plataforma viva de inteligência financeira e operacional,
+    construída para atuar no mundo real, em tempo contínuo.
+  </p>
+  <a href="#sistema" class="cta">Acessar o Sistema</a>
+</section>
 
-<!-- HERO / VISÃO EXECUTIVA -->
-<section id="executivo" class="hero">
-  <div>
-    <h1>Operating Intelligence Platform<br/>for Global Monetization</h1>
-    <p>
-      Sistema operacional de decisão, risco e escala financeira contínua.
-      Uma camada de inteligência entre capital, tráfego e monetização.
-    </p>
-  </div>
-  <div class="card">
-    <div class="grid">
-      <div class="metric">
-        <strong id="sys_status" class="warn">—</strong>
-        <span>Status do Sistema</span>
-      </div>
-      <div class="metric">
-        <strong id="decision" class="warn">—</strong>
-        <span>Decisão Global</span>
-      </div>
-      <div class="metric">
-        <strong id="risk" class="warn">—</strong>
-        <span>Nível de Risco</span>
-      </div>
-      <div class="metric">
-        <strong id="scale" class="warn">—</strong>
-        <span>Escala</span>
-      </div>
+<!-- MANIFESTO -->
+<section id="manifesto">
+  <h2>Manifesto</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>O problema</h3>
+      <p>
+        O mercado opera no escuro. Decisões tardias, risco invisível,
+        capital exposto e escalas feitas sem inteligência real.
+      </p>
+    </div>
+    <div class="card">
+      <h3>A ruptura</h3>
+      <p>
+        O Robô Global nasce para eliminar achismo.
+        Ele observa, calcula, decide e executa com disciplina matemática.
+      </p>
+    </div>
+    <div class="card">
+      <h3>A missão</h3>
+      <p>
+        Transformar dados dispersos em decisões claras,
+        proteger capital e permitir escala consciente e sustentável.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- CAMADA FINANCEIRA -->
-<section id="financeiro">
-  <h2 class="layer-title">Camada Financeira</h2>
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <h2>Como o Robô Global Funciona</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Leitura contínua</h3>
+      <p>Eventos reais, resultados reais, capital real.</p>
+    </div>
+    <div class="card">
+      <h3>Inteligência financeira</h3>
+      <p>ROI, risco, margem, exposição e capacidade de escala.</p>
+    </div>
+    <div class="card">
+      <h3>Decisão autônoma</h3>
+      <p>Escalar, manter, reduzir ou bloquear operações.</p>
+    </div>
+    <div class="card">
+      <h3>Execução disciplinada</h3>
+      <p>Ação consistente, sem emoção e sem atraso.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INTELIGÊNCIA -->
+<section id="inteligencia">
+  <h2>Inteligência Aplicada</h2>
   <div class="grid">
     <div class="card metric">
-      <strong id="capital_total" class="big">—</strong>
-      <span>Capital Total</span>
+      <strong>Capital Protegido</strong>
+      <span>Visão financeira contínua</span>
     </div>
     <div class="card metric">
-      <strong id="capital_risco" class="big warn">—</strong>
-      <span>Capital em Risco</span>
+      <strong>Risco Controlado</strong>
+      <span>Decisões baseadas em dados</span>
     </div>
     <div class="card metric">
-      <strong id="capital_disp" class="big ok">—</strong>
-      <span>Capital Disponível</span>
-    </div>
-    <div class="card metric">
-      <strong id="roi" class="big">—</strong>
-      <span>ROI Médio</span>
+      <strong>Escala Consciente</strong>
+      <span>Crescimento sustentável</span>
     </div>
   </div>
 </section>
 
-<!-- CAMADA DE INTELIGÊNCIA -->
-<section id="inteligencia">
-  <h2 class="layer-title">Camada de Inteligência Interpretável</h2>
-  <div class="card">
-    <p id="insight_principal" style="font-size:20px">—</p>
-    <p id="insight_secundario" style="color:var(--muted)">—</p>
+<!-- SISTEMA -->
+<section id="sistema" class="system">
+  <h2>Sistema Operacional</h2>
+  <div class="system-grid">
+    <div>
+      <p style="font-size:18px;color:var(--muted)">
+        Esta é a camada viva do Robô Global.
+        Aqui o sistema executa, monitora e decide em tempo real.
+      </p>
+      <p style="margin-top:16px;color:var(--muted)">
+        O acesso abaixo conecta diretamente ao núcleo operacional.
+      </p>
+      <a href="/dashboard" class="cta">Entrar no Sistema</a>
+    </div>
+    <div class="system-box">
+      <p><strong>Status:</strong> Conectado</p>
+      <p><strong>Decisão:</strong> Automática</p>
+      <p><strong>Modo:</strong> Operação contínua</p>
+    </div>
   </div>
 </section>
-
-<!-- CAMADA OPERACIONAL -->
-<section id="operacional">
-  <h2 class="layer-title">Camada Operacional</h2>
-  <div class="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Produto</th>
-          <th>Plataforma</th>
-          <th>Receita</th>
-          <th>ROI</th>
-          <th>Risco</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="produtos">
-        <tr><td colspan="6">—</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-</main>
 
 <footer>
-  <div class="container">
-    <p>© Robô Global AI — Operating Intelligence Platform</p>
-  </div>
+  © Robô Global — Plataforma Global de Inteligência e Monetização
 </footer>
-
-<script>
-const API = "";
-
-function go(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
-}
-
-async function get(ep){
-  const r = await fetch(API+ep);
-  if(!r.ok) throw new Error(ep);
-  return r.json();
-}
-
-async function load(){
-  try{
-    const status = await get("/status");
-    sys_status.textContent = status.status || "ATIVO";
-  }catch{}
-
-  try{
-    const capital = await get("/capital");
-    capital_total.textContent = capital.total || "—";
-    capital_risco.textContent = capital.risco || "—";
-    capital_disp.textContent = capital.disponivel || "—";
-    roi.textContent = capital.roi || "—";
-  }catch{}
-
-  try{
-    const decisao = await get("/decisao");
-    decision.textContent = decisao.acao || "—";
-    risk.textContent = decisao.risco || "—";
-    scale.textContent = decisao.escala || "—";
-  }catch{}
-
-  try{
-    const analise = await get("/analise");
-    insight_principal.textContent = analise.principal || "—";
-    insight_secundario.textContent = analise.secundaria || "—";
-  }catch{}
-
-  try{
-    const produtosData = await get("/produtos");
-    produtos.innerHTML="";
-    produtosData.forEach(p=>{
-      const tr=document.createElement("tr");
-      tr.innerHTML=`
-        <td>${p.nome||"-"}</td>
-        <td>${p.plataforma||"-"}</td>
-        <td>${p.receita||"-"}</td>
-        <td>${p.roi||"-"}</td>
-        <td>${p.risco||"-"}</td>
-        <td>${p.status||"-"}</td>`;
-      produtos.appendChild(tr);
-    });
-  }catch{}
-}
-
-load();
-setInterval(load,10000);
-</script>
 
 </body>
 </html>
