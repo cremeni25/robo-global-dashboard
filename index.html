@@ -1,46 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"/>
-<title>Robô Global — Plataforma Global de Inteligência e Monetização</title>
+<meta charset="UTF-8" />
+<title>Robô Global — Inteligência Artificial para Decisão e Monetização</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="robots" content="index, follow"/>
-<link rel="canonical" href="https://roboglobal.com.br"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://roboglobal.com.br" />
 
 <style>
 :root{
   --bg:#020617;
-  --bg2:#020a18;
+  --bg-soft:#030a1f;
   --panel:#020617;
   --border:#1e293b;
   --text:#e5e7eb;
   --muted:#94a3b8;
   --accent:#38bdf8;
-  --ok:#22c55e;
-  --warn:#facc15;
-  --err:#ef4444;
-  --radius:18px;
+  --radius:20px;
 }
 
 *{box-sizing:border-box}
+html,body{margin:0;padding:0}
 
 body{
-  margin:0;
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
   background:
-    radial-gradient(900px 400px at 10% -10%,#0ea5e920,transparent),
-    radial-gradient(700px 300px at 90% 10%,#22c55e15,transparent),
+    radial-gradient(1200px 600px at 10% -10%, #0ea5e915, transparent),
+    radial-gradient(800px 400px at 90% 10%, #22c55e10, transparent),
     var(--bg);
   color:var(--text);
 }
 
-/* HEADER */
+/* ===== HEADER ===== */
 header{
-  position:sticky;
+  position:fixed;
   top:0;
+  width:100%;
   z-index:100;
-  background:rgba(2,6,23,.85);
+  background:rgba(2,6,23,.8);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--border);
 }
@@ -48,141 +46,109 @@ header{
 .header{
   max-width:1400px;
   margin:auto;
-  padding:20px 24px;
+  padding:20px 28px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.brand{
-  font-size:20px;
+.logo{
   font-weight:700;
+  font-size:20px;
   letter-spacing:.4px;
 }
 
-.brand span{color:var(--accent)}
+.logo span{color:var(--accent)}
 
-.nav a{
-  margin-left:20px;
+nav a{
+  margin-left:24px;
   color:var(--muted);
   text-decoration:none;
   font-size:14px;
 }
 
-.nav a:hover{color:var(--text)}
+nav a:hover{color:var(--text)}
 
-/* SECTIONS */
+/* ===== SECTIONS ===== */
 section{
   max-width:1400px;
   margin:auto;
-  padding:100px 24px;
+  padding:120px 28px;
 }
 
 .hero{
-  padding-top:140px;
+  padding-top:180px;
 }
 
 .hero h1{
-  font-size:clamp(36px,4vw,64px);
+  font-size:clamp(40px,5vw,72px);
   line-height:1.05;
-  margin-bottom:24px;
+  max-width:900px;
+  margin-bottom:32px;
 }
 
 .hero p{
-  max-width:780px;
   font-size:20px;
+  max-width:760px;
   color:var(--muted);
 }
 
 .hero strong{color:var(--accent)}
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
-  margin-top:48px;
-}
-
-.card{
-  background:linear-gradient(180deg,var(--bg),var(--bg2));
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:28px;
-}
-
-/* TITLES */
-h2{
-  font-size:32px;
-  margin-bottom:16px;
-}
-
-h3{
-  font-size:18px;
-  margin-bottom:10px;
-}
-
-p{
-  line-height:1.6;
-}
-
-/* METRICS */
-.metric strong{
-  font-size:34px;
-}
-
-.metric span{
-  display:block;
-  margin-top:6px;
-  font-size:12px;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:.08em;
-}
-
-/* CTA */
 .cta{
   display:inline-block;
-  margin-top:32px;
+  margin-top:48px;
+  padding:16px 32px;
+  border-radius:14px;
   background:linear-gradient(135deg,var(--accent),#0ea5e9);
   color:#020617;
-  padding:14px 26px;
-  border-radius:12px;
   font-weight:700;
   text-decoration:none;
 }
 
-/* SYSTEM */
-.system{
+/* ===== BLOCKS ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:28px;
+  margin-top:64px;
+}
+
+.card{
+  background:linear-gradient(180deg,var(--panel),var(--bg-soft));
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:32px;
+}
+
+.card h3{
+  margin-top:0;
+  font-size:20px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* ===== STRIP ===== */
+.strip{
   background:linear-gradient(180deg,#020617,#01040f);
   border-top:1px solid var(--border);
   border-bottom:1px solid var(--border);
 }
 
-.system h2{margin-bottom:32px}
-
-.system-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:32px;
-}
-
-.system-box{
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:28px;
-}
-
-/* FOOTER */
+/* ===== FOOTER ===== */
 footer{
-  padding:40px 24px;
+  padding:60px 28px;
   text-align:center;
   color:var(--muted);
   border-top:1px solid var(--border);
+  font-size:14px;
 }
 
 @media(max-width:900px){
-  .system-grid{grid-template-columns:1fr}
+  nav{display:none}
 }
 </style>
 </head>
@@ -191,12 +157,12 @@ footer{
 
 <header>
   <div class="header">
-    <div class="brand">🤖 <span>Robô Global</span></div>
-    <nav class="nav">
-      <a href="#manifesto">Manifesto</a>
-      <a href="#como-funciona">Como Funciona</a>
+    <div class="logo">🤖 <span>Robô Global</span></div>
+    <nav>
+      <a href="#produto">Produto</a>
+      <a href="#como-funciona">Como funciona</a>
       <a href="#inteligencia">Inteligência</a>
-      <a href="#sistema">Sistema</a>
+      <a href="#plataforma">Plataforma</a>
     </nav>
   </div>
 </header>
@@ -204,111 +170,111 @@ footer{
 <!-- HERO -->
 <section class="hero">
   <h1>
-    Uma nova categoria de sistema.<br/>
-    <strong>Inteligência que decide, protege e escala capital.</strong>
+    Inteligência artificial<br/>
+    <strong>que decide, protege e escala capital</strong>
   </h1>
   <p>
-    O Robô Global não é um painel, não é uma ferramenta e não é uma promessa.
-    É uma plataforma viva de inteligência financeira e operacional,
-    construída para atuar no mundo real, em tempo contínuo.
+    O Robô Global é uma plataforma de inteligência autônoma criada para
+    operar decisões reais em ambientes de monetização, risco e escala.
+    Não é um painel. Não é uma promessa. É um sistema.
   </p>
-  <a href="#sistema" class="cta">Acessar o Sistema</a>
+  <a href="#plataforma" class="cta">Conhecer a plataforma</a>
 </section>
 
-<!-- MANIFESTO -->
-<section id="manifesto">
-  <h2>Manifesto</h2>
+<!-- PRODUTO -->
+<section id="produto">
+  <h2>Um novo tipo de produto digital</h2>
   <div class="grid">
     <div class="card">
-      <h3>O problema</h3>
+      <h3>Não é um dashboard</h3>
       <p>
-        O mercado opera no escuro. Decisões tardias, risco invisível,
-        capital exposto e escalas feitas sem inteligência real.
+        O Robô Global não exibe dados para interpretação humana.
+        Ele interpreta, decide e executa de forma autônoma.
       </p>
     </div>
     <div class="card">
-      <h3>A ruptura</h3>
+      <h3>Não depende de achismo</h3>
       <p>
-        O Robô Global nasce para eliminar achismo.
-        Ele observa, calcula, decide e executa com disciplina matemática.
+        Cada decisão é baseada em leitura contínua de eventos,
+        risco financeiro e capacidade real de escala.
       </p>
     </div>
     <div class="card">
-      <h3>A missão</h3>
+      <h3>Foi criado para o mundo real</h3>
       <p>
-        Transformar dados dispersos em decisões claras,
-        proteger capital e permitir escala consciente e sustentável.
+        Capital real, tráfego real, vendas reais e consequências reais.
+        Sem simulações, sem teoria.
       </p>
     </div>
   </div>
 </section>
 
 <!-- COMO FUNCIONA -->
-<section id="como-funciona">
-  <h2>Como o Robô Global Funciona</h2>
+<section id="como-funciona" class="strip">
+  <h2>Como o Robô Global opera</h2>
   <div class="grid">
     <div class="card">
       <h3>Leitura contínua</h3>
-      <p>Eventos reais, resultados reais, capital real.</p>
+      <p>Eventos, vendas, custos, risco e retorno são monitorados em tempo real.</p>
     </div>
     <div class="card">
       <h3>Inteligência financeira</h3>
-      <p>ROI, risco, margem, exposição e capacidade de escala.</p>
+      <p>O sistema calcula exposição, margem, ROI e sustentabilidade.</p>
     </div>
     <div class="card">
       <h3>Decisão autônoma</h3>
-      <p>Escalar, manter, reduzir ou bloquear operações.</p>
+      <p>Escalar, manter, reduzir ou bloquear — sem emoção e sem atraso.</p>
     </div>
     <div class="card">
       <h3>Execução disciplinada</h3>
-      <p>Ação consistente, sem emoção e sem atraso.</p>
+      <p>A decisão se transforma em ação operacional concreta.</p>
     </div>
   </div>
 </section>
 
 <!-- INTELIGÊNCIA -->
 <section id="inteligencia">
-  <h2>Inteligência Aplicada</h2>
+  <h2>Inteligência aplicada, não exibida</h2>
   <div class="grid">
-    <div class="card metric">
-      <strong>Capital Protegido</strong>
-      <span>Visão financeira contínua</span>
+    <div class="card">
+      <h3>Capital protegido</h3>
+      <p>O sistema prioriza sobrevivência antes de crescimento.</p>
     </div>
-    <div class="card metric">
-      <strong>Risco Controlado</strong>
-      <span>Decisões baseadas em dados</span>
+    <div class="card">
+      <h3>Escala consciente</h3>
+      <p>Nenhuma operação cresce além da capacidade financeira real.</p>
     </div>
-    <div class="card metric">
-      <strong>Escala Consciente</strong>
-      <span>Crescimento sustentável</span>
+    <div class="card">
+      <h3>Decisão explicável</h3>
+      <p>O robô sabe por que age — e registra cada escolha.</p>
     </div>
   </div>
 </section>
 
-<!-- SISTEMA -->
-<section id="sistema" class="system">
-  <h2>Sistema Operacional</h2>
-  <div class="system-grid">
-    <div>
-      <p style="font-size:18px;color:var(--muted)">
-        Esta é a camada viva do Robô Global.
-        Aqui o sistema executa, monitora e decide em tempo real.
+<!-- PLATAFORMA -->
+<section id="plataforma" class="strip">
+  <h2>A plataforma Robô Global</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Sistema operacional vivo</h3>
+      <p>
+        A plataforma conecta tráfego, monetização e decisão
+        em um único núcleo de inteligência.
       </p>
-      <p style="margin-top:16px;color:var(--muted)">
-        O acesso abaixo conecta diretamente ao núcleo operacional.
-      </p>
-      <a href="/dashboard" class="cta">Entrar no Sistema</a>
     </div>
-    <div class="system-box">
-      <p><strong>Status:</strong> Conectado</p>
-      <p><strong>Decisão:</strong> Automática</p>
-      <p><strong>Modo:</strong> Operação contínua</p>
+    <div class="card">
+      <h3>Acesso ao sistema</h3>
+      <p>
+        A área operacional é parte da plataforma,
+        não a sua vitrine pública.
+      </p>
+      <a href="/dashboard" class="cta">Entrar no sistema</a>
     </div>
   </div>
 </section>
 
 <footer>
-  © Robô Global — Plataforma Global de Inteligência e Monetização
+  © Robô Global — Plataforma de Inteligência Artificial e Monetização
 </footer>
 
 </body>
