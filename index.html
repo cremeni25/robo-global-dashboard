@@ -2,12 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Robô Global — Sistema Operacional de Inteligência</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <!-- SEO / ADS -->
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://roboglobal.com.br/">
+  <title>Robô Global AI — Site & Dashboard Operacional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://roboglobal.com.br/" />
 
   <style>
     :root{
@@ -19,199 +17,353 @@
       --accent:#38bdf8;
       --ok:#22c55e;
       --warn:#facc15;
+      --err:#ef4444;
     }
 
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont;
-      background:radial-gradient(circle at top,#020617,#000);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu;
+      background:linear-gradient(180deg,#020617,#020617 60%,#030a1a);
       color:var(--text);
     }
 
     header{
-      padding:40px;
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(2,6,23,.9);
+      backdrop-filter:blur(8px);
       border-bottom:1px solid var(--border);
     }
 
-    header h1{
-      margin:0;
-      font-size:28px;
-    }
-
-    header p{
-      margin-top:8px;
-      color:var(--muted);
-      max-width:720px;
-    }
-
-    main{
-      padding:40px;
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-      gap:24px;
-    }
-
-    .card{
-      background:linear-gradient(180deg,#020617,#000);
-      border:1px solid var(--border);
-      border-radius:18px;
+    .container{
+      max-width:1400px;
+      margin:0 auto;
       padding:24px;
     }
 
-    .card h2{
-      margin:0 0 14px;
-      font-size:18px;
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
     }
 
-    .value{
-      font-size:16px;
-      margin-bottom:6px;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      letter-spacing:.5px;
     }
 
-    .muted{
-      font-size:14px;
+    .brand span{
+      color:var(--accent);
+    }
+
+    .nav-actions{
+      display:flex;
+      gap:12px;
+    }
+
+    button{
+      background:linear-gradient(135deg,var(--accent),#0ea5e9);
+      color:#020617;
+      border:none;
+      border-radius:8px;
+      padding:10px 16px;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    button.secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--border);
+    }
+
+    section{
+      margin-top:48px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:32px;
+      align-items:center;
+    }
+
+    .hero h1{
+      font-size:clamp(32px,4vw,52px);
+      line-height:1.1;
+      margin:0 0 16px;
+    }
+
+    .hero p{
       color:var(--muted);
+      font-size:18px;
+      max-width:600px;
+    }
+
+    .card{
+      background:rgba(2,6,23,.8);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:24px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .stat strong{
+      font-size:28px;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
     }
 
     .status-ok{color:var(--ok)}
     .status-warn{color:var(--warn)}
+    .status-err{color:var(--err)}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:14px;
+    }
+
+    th,td{
+      padding:12px;
+      border-bottom:1px solid var(--border);
+      text-align:left;
+    }
+
+    th{
+      color:var(--muted);
+      font-weight:600;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
 
     footer{
-      padding:28px 40px;
+      margin-top:64px;
       border-top:1px solid var(--border);
-      font-size:12px;
       color:var(--muted);
+    }
+
+    footer p{
+      font-size:13px;
+    }
+
+    @media(max-width:900px){
+      .hero{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
-
 <body>
 
 <header>
-  <h1>Robô Global</h1>
-  <p>
-    Sistema operacional de inteligência econômica.
-    Este site representa a camada institucional e operacional pública do robô.
-    Dados sensíveis e controle humano residem em áreas protegidas.
-  </p>
+  <div class="container nav">
+    <div class="brand">
+      🤖 <span>Robô Global AI</span>
+    </div>
+    <div class="nav-actions">
+      <button class="secondary" onclick="scrollToSection('dashboard')">Dashboard</button>
+      <button onclick="scrollToSection('status')">Status</button>
+    </div>
+  </div>
 </header>
 
-<main>
+<main class="container">
 
-  <!-- BLOCO INSTITUCIONAL -->
-  <section class="card">
-    <h2>O que é o Robô Global</h2>
-    <p class="muted">
-      O Robô Global é um organismo operacional de inteligência,
-      projetado para observar, analisar e executar decisões econômicas
-      sob governança humana.
-    </p>
-    <p class="muted">
-      Ele opera de forma modular, auditável e extensível,
-      sem dependência de uma única fonte de receita ou plataforma.
-    </p>
-  </section>
-
-  <!-- STATUS OPERACIONAL -->
-  <section class="card">
-    <h2>Status Operacional</h2>
-    <div class="value status-ok" id="estadoSistema">Carregando…</div>
-    <div class="muted" id="mensagemSistema"></div>
-  </section>
-
-  <!-- INTENÇÃO ATUAL -->
-  <section class="card">
-    <h2>Intenção Atual do Robô</h2>
-    <div class="value" id="intencaoAtual">Carregando…</div>
-    <div class="muted">
-      Leitura pública da orientação estratégica atual.
+  <section class="hero">
+    <div>
+      <h1>Sistema Operacional de Inteligência<br/>para Monetização Global</h1>
+      <p>
+        Plataforma profissional unificada para operação, análise, decisão e escala automática
+        de produtos afiliados. Conectada diretamente aos seus endpoints operacionais.
+      </p>
+    </div>
+    <div class="card">
+      <div class="grid">
+        <div class="stat">
+          <strong id="hero-status" class="status-warn">—</strong>
+          <span>Status do Sistema</span>
+        </div>
+        <div class="stat">
+          <strong id="hero-capital">—</strong>
+          <span>Capital Monitorado</span>
+        </div>
+        <div class="stat">
+          <strong id="hero-produtos">—</strong>
+          <span>Produtos Ativos</span>
+        </div>
+        <div class="stat">
+          <strong id="hero-decisao">—</strong>
+          <span>Decisão Atual</span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- FASES ATIVAS -->
-  <section class="card">
-    <h2>Fases Ativas</h2>
-    <ul id="fasesAtivas" class="muted">
-      <li>Carregando…</li>
-    </ul>
+  <section id="dashboard">
+    <h2>Dashboard Operacional</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Status do Robô</h3>
+        <p id="status-text" class="status-warn">Carregando…</p>
+      </div>
+      <div class="card">
+        <h3>Capital</h3>
+        <p id="capital-text">—</p>
+      </div>
+      <div class="card">
+        <h3>Decisão Atual</h3>
+        <p id="decisao-text">—</p>
+      </div>
+      <div class="card">
+        <h3>Plano Diário</h3>
+        <p id="plano-text">—</p>
+      </div>
+    </div>
   </section>
 
-  <!-- CAPACIDADES -->
-  <section class="card">
-    <h2>Capacidades Ativas</h2>
-    <ul class="muted">
-      <li>Governança humana</li>
-      <li>Dashboard executivo</li>
-      <li>Monitoramento de mídia</li>
-      <li>Registro institucional</li>
-    </ul>
+  <section>
+    <h2>Produtos Monitorados</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Plataforma</th>
+            <th>Rentabilidade</th>
+            <th>Risco</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="produtos-table">
+          <tr><td colspan="5">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <!-- PLATAFORMAS HABILITADAS -->
-  <section class="card">
-    <h2>Plataformas Habilitadas</h2>
-    <ul id="plataformasAtivas" class="muted">
-      <li>Carregando…</li>
-    </ul>
+  <section id="status">
+    <h2>Execução e Ciclo</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Ciclo Atual</h3>
+        <p id="ciclo-text">—</p>
+      </div>
+      <div class="card">
+        <h3>Escala</h3>
+        <p id="escala-text">—</p>
+      </div>
+      <div class="card">
+        <h3>Resultado</h3>
+        <p id="resultado-text">—</p>
+      </div>
+    </div>
   </section>
 
 </main>
 
 <footer>
-  Robô Global • Camada institucional e operacional pública • Leitura não sensível
+  <div class="container">
+    <p>© Robô Global AI — Sistema Operacional de Inteligência</p>
+  </div>
 </footer>
 
 <script>
-  const API = "https://robo-global-api-v2.onrender.com";
+  const API = "";
 
-  async function carregarStatus() {
-    try {
-      const res = await fetch(API + "/dashboard/status");
-      const d = await res.json();
-
-      document.getElementById("estadoSistema").innerText = d.estado_geral;
-      document.getElementById("mensagemSistema").innerText = d.mensagem;
-      document.getElementById("intencaoAtual").innerText = d.intencao_atual;
-
-      const fases = document.getElementById("fasesAtivas");
-      fases.innerHTML = "";
-      fases.innerHTML += "<li>Observação operacional ativa</li>";
-      fases.innerHTML += "<li>Meta Ads em acompanhamento</li>";
-
-    } catch (e) {
-      document.getElementById("estadoSistema").innerText = "INDETERMINADO";
-      document.getElementById("mensagemSistema").innerText =
-        "Falha ao consultar estado do robô";
-    }
+  function scrollToSection(id){
+    document.getElementById(id).scrollIntoView({behavior:"smooth"});
   }
 
-  async function carregarPlataformas() {
-    try {
-      const res = await fetch(API + "/dashboard/fontes");
-      const d = await res.json();
-      const ul = document.getElementById("plataformasAtivas");
-      ul.innerHTML = "";
+  async function fetchJSON(endpoint){
+    const r = await fetch(API + endpoint);
+    if(!r.ok) throw new Error(endpoint);
+    return r.json();
+  }
 
-      if (!d.fontes_ativas || d.fontes_ativas.length === 0) {
-        ul.innerHTML = "<li>Nenhuma plataforma habilitada</li>";
-        return;
-      }
+  async function loadAll(){
+    try{
+      const status = await fetchJSON("/status");
+      document.getElementById("status-text").textContent = status.status || "OK";
+      document.getElementById("hero-status").textContent = status.status || "OK";
+      document.getElementById("hero-status").className = "status-ok";
+    }catch{}
 
-      d.fontes_ativas.forEach(p => {
-        const li = document.createElement("li");
-        li.textContent = p;
-        ul.appendChild(li);
+    try{
+      const capital = await fetchJSON("/capital");
+      document.getElementById("capital-text").textContent = JSON.stringify(capital);
+      document.getElementById("hero-capital").textContent = capital.total || "—";
+    }catch{}
+
+    try{
+      const produtos = await fetchJSON("/produtos");
+      document.getElementById("hero-produtos").textContent = produtos.length || 0;
+      const tbody = document.getElementById("produtos-table");
+      tbody.innerHTML = "";
+      produtos.forEach(p=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${p.nome || "-"}</td>
+          <td>${p.plataforma || "-"}</td>
+          <td>${p.rentabilidade || "-"}</td>
+          <td>${p.risco || "-"}</td>
+          <td>${p.status || "-"}</td>`;
+        tbody.appendChild(tr);
       });
+    }catch{}
 
-    } catch {
-      document.getElementById("plataformasAtivas").innerHTML =
-        "<li>Indisponível</li>";
-    }
+    try{
+      const decisao = await fetchJSON("/decisao");
+      document.getElementById("decisao-text").textContent = JSON.stringify(decisao);
+      document.getElementById("hero-decisao").textContent = decisao.acao || "—";
+    }catch{}
+
+    try{
+      const plano = await fetchJSON("/plano-diario");
+      document.getElementById("plano-text").textContent = JSON.stringify(plano);
+    }catch{}
+
+    try{
+      const ciclo = await fetchJSON("/ciclo");
+      document.getElementById("ciclo-text").textContent = JSON.stringify(ciclo);
+    }catch{}
+
+    try{
+      const escala = await fetchJSON("/escala");
+      document.getElementById("escala-text").textContent = JSON.stringify(escala);
+    }catch{}
+
+    try{
+      const resultado = await fetchJSON("/resultado");
+      document.getElementById("resultado-text").textContent = JSON.stringify(resultado);
+    }catch{}
   }
 
-  carregarStatus();
-  carregarPlataformas();
+  loadAll();
+  setInterval(loadAll, 10000);
 </script>
 
 </body>
