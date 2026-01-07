@@ -1,0 +1,8 @@
+body { font-family: Arial, sans-serif; margin:0; }
+.menu { background:#111; padding:12px; }
+.menu a { color:#fff; margin-right:15px; text-decoration:none; }
+main { padding:20px; }
+.status { padding:15px; border-radius:4px; font-weight:bold; }
+.green { background:#d4f8d4; }
+.yellow { background:#fff4cc; }
+.red { background:#ffd6d6; }
