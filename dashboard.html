@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Robô Global — Sistema Operacional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root {
+      --bg:#0b0f14; --fg:#e7ebf0; --muted:#9aa4b2;
+      --card:#0f172a; --border:#1b2742;
+      --ok:#20c997; --warn:#f59f00; --err:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Arial}
+    header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}
+    main{padding:20px}
+    h1{margin:0;font-size:20px}
+    h2{margin:0 0 10px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .card{background:linear-gradient(180deg,#0f172a,#0b1222);border:1px solid var(--border);border-radius:12px;padding:14px}
+    .kpi{font-size:22px;font-weight:700}
+    .muted{color:var(--muted)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
+    .badge{padding:4px 8px;border-radius:999px;border:1px solid var(--border)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard Operacional</h1>
+    <span id="robotStatus" class="badge">Carregando…</span>
+  </header>
+
+  <main>
+    <!-- VISÃO EXECUTIVA -->
+    <section class="grid">
+      <div class="card">
+        <h2>Status do Robô</h2>
+        <div id="statusValue" class="kpi">—</div>
+        <div class="muted" id="decisionValue">—</div>
+      </div>
+      <div class="card">
+        <h2>Escala</h2>
+        <div id="scaleValue" class="kpi">—</div>
+        <div class="muted" id="riskValue">—</div>
+      </div>
+    </section>
+
+    <!-- CONTROLE FINANCEIRO -->
+    <section class="grid" style="margin-top:14px">
+      <div class="card"><h2>Capital Total</h2><div id="capitalTotal" class="kpi">—</div></div>
+      <div class="card"><h2>Capital em Risco</h2><div id="capitalRisk" class="kpi">—</div></div>
+      <div class="card"><h2>Disponível</h2><div id="capitalFree" class="kpi">—</div></div>
+      <div class="card"><h2>ROI Global</h2><div id="roiGlobal" class="kpi">—</div></div>
+    </section>
+
+    <!-- PLATAFORMAS -->
+    <section style="margin-top:14px">
+      <div class="card">
+        <h2>Plataformas</h2>
+        <table>
+          <thead><tr><th>Plataforma</th><th>Receita</th><th>Status</th></tr></thead>
+          <tbody id="platformsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRODUTOS -->
+    <section style="margin-top:14px">
+      <div class="card">
+        <h2>Produtos</h2>
+        <table>
+          <thead><tr><th>Produto</th><th>Plataforma</th><th>Receita</th><th>ROI</th><th>Risco</th><th>Status</th></tr></thead>
+          <tbody id="productsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DECISÃO -->
+    <section style="margin-top:14px">
+      <div class="card">
+        <h2>Última Decisão</h2>
+        <div id="lastDecision" class="kpi">—</div>
+        <div id="decisionReason" class="muted">—</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const api = (p) => fetch(p).then(r => r.json());
+
+    async function load() {
+      try {
+        const status = await api('/status');
+        document.getElementById('statusValue').textContent = status.estado;
+        document.getElementById('decisionValue').textContent = status.decisao;
+        document.getElementById('robotStatus').textContent = status.estado;
+
+        const capital = await api('/capital');
+        capitalTotal.textContent = capital.total;
+        capitalRisk.textContent = capital.em_risco;
+        capitalFree.textContent = capital.disponivel;
+        roiGlobal.textContent = capital.roi;
+
+        const escala = await api('/escala');
+        scaleValue.textContent = escala.permitida ? 'PERMITIDA' : 'BLOQUEADA';
+        riskValue.textContent = 'Risco: ' + escala.risco;
+
+        const plataformas = await api('/resultado');
+        platformsTable.innerHTML = plataformas.map(p =>
+          `<tr><td>${p.nome}</td><td>${p.receita}</td><td>${p.status}</td></tr>`
+        ).join('');
+
+        const produtos = await api('/produtos');
+        productsTable.innerHTML = produtos.map(p =>
+          `<tr>
+            <td>${p.nome}</td>
+            <td>${p.plataforma}</td>
+            <td>${p.receita}</td>
+            <td>${p.roi}</td>
+            <td>${p.risco}</td>
+            <td>${p.status}</td>
+          </tr>`
+        ).join('');
+
+        const decisao = await api('/decisao');
+        lastDecision.textContent = decisao.acao;
+        decisionReason.textContent = decisao.motivo;
+
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    load();
+    setInterval(load, 10000);
+  </script>
+</body>
+</html>
