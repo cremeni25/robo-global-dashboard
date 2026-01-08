@@ -6,9 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    body { font-family: system-ui, Arial; background:#0b0f14; color:#e7ebf0; display:flex; align-items:center; justify-content:center; height:100vh; }
-    .box { text-align:center; }
-    .muted { color:#9aa4b2; }
+    body {
+      margin: 0;
+      font-family: system-ui, Arial;
+      background: #0b0f14;
+      color: #e7ebf0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .box {
+      text-align: center;
+    }
+    .muted {
+      color: #9aa4b2;
+    }
   </style>
 </head>
 <body>
@@ -22,14 +35,18 @@
       const params = new URLSearchParams(window.location.search);
       const checkout = params.get('checkout');
 
+      // 👉 SE NÃO HOUVER CHECKOUT, REDIRECIONA PARA O SITE (NUNCA ERRO)
       if (!checkout) {
-        document.body.innerHTML = '<p style="color:#ff6b6b">Parâmetro obrigatório ausente.</p>';
+        window.location.replace('https://roboglobal.com.br/');
         return;
       }
 
+      // 👉 REDIRECIONAMENTO NORMAL COM PARÂMETROS
       const url = new URL(checkout);
       params.forEach((v, k) => {
-        if (k !== 'checkout') url.searchParams.set(k, v);
+        if (k !== 'checkout') {
+          url.searchParams.set(k, v);
+        }
       });
 
       window.location.replace(url.toString());
