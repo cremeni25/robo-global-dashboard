@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Transforme Seu Corpo com Treinos em Casa</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO básico e Ads-safe -->
+  <meta name="robots" content="index, follow">
+  <meta name="description" content="Treinos práticos para mulheres reais que querem emagrecer, ganhar autoestima e treinar em casa com acompanhamento.">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0f14;
+      color: #e7ebf0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 520px;
+      padding: 32px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #b6c0cc;
+      margin-bottom: 28px;
+    }
+    a.button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #e63946;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+    }
+    a.button:hover {
+      background: #ff4d5a;
+    }
+    .small {
+      font-size: 12px;
+      color: #7d8896;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Treine em Casa e Conquiste o Corpo que Você Deseja</h1>
+
+    <p>
+      Um método simples e acessível para mulheres que querem emagrecer,
+      ganhar confiança e voltar a se sentir bem com o próprio corpo,
+      mesmo com pouco tempo na rotina.
+    </p>
+
+    <a class="button" href="/go">
+      Começar agora
+    </a>
+
+    <div class="small">
+      Conteúdo voltado para bem-estar, saúde e qualidade de vida.
+    </div>
+  </div>
+</body>
+</html>
