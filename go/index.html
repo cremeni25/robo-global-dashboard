@@ -1,56 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Redirecionando…</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex,nofollow" />
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, Arial;
-      background: #0b0f14;
-      color: #e7ebf0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    .box {
-      text-align: center;
-    }
-    .muted {
-      color: #9aa4b2;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=https://go.hotmart.com/L103372799I">
+  <script>
+    window.location.href = "https://go.hotmart.com/L103372799I";
+  </script>
+  <title>Redirecionando...</title>
 </head>
 <body>
-  <div class="box">
-    <h2>Processando acesso…</h2>
-    <p class="muted">Você será redirecionado com segurança.</p>
-  </div>
-
-  <script>
-    (function () {
-      const params = new URLSearchParams(window.location.search);
-      const checkout = params.get('checkout');
-
-      // 👉 SE NÃO HOUVER CHECKOUT, REDIRECIONA PARA O SITE (NUNCA ERRO)
-      if (!checkout) {
-        window.location.replace('https://roboglobal.com.br/');
-        return;
-      }
-
-      // 👉 REDIRECIONAMENTO NORMAL COM PARÂMETROS
-      const url = new URL(checkout);
-      params.forEach((v, k) => {
-        if (k !== 'checkout') {
-          url.searchParams.set(k, v);
-        }
-      });
-
-      window.location.replace(url.toString());
-    })();
-  </script>
+  <p>Redirecionando...</p>
 </body>
 </html>
