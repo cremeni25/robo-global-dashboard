@@ -1,14 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://go.hotmart.com/L103372799I">
-  <script>
-    window.location.href = "https://go.hotmart.com/L103372799I";
-  </script>
-  <title>Redirecionando...</title>
+  <meta charset="utf-8" />
+  <title>Processando…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial,sans-serif;background:#0b1220;color:#e6e9ef}
+    .box{max-width:520px;text-align:center;padding:24px}
+    .hide{display:none}
+    .btn{display:inline-block;margin-top:16px;padding:12px 18px;border-radius:6px;background:#2ecc71;color:#000;text-decoration:none;font-weight:600}
+  </style>
 </head>
 <body>
-  <p>Redirecionando...</p>
+  <div class="box">
+    <div id="loading">Processando sua solicitação…</div>
+    <div id="blocked" class="hide">
+      <h3>Oferta temporariamente indisponível</h3>
+      <p>Tente novamente mais tarde.</p>
+      <a href="/" class="btn">Voltar</a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const p = new URLSearchParams(window.location.search);
+      const produto = p.get("produto");
+      if (!produto) {
+        document.getElementById("loading").textContent = "Parâmetro inválido.";
+        return;
+      }
+
+      fetch(`https://api.roboglobal.com.br/go?produto=${encodeURIComponent(produto)}`, {
+        method: "GET",
+        redirect: "manual"
+      }).then(res => {
+        if (res.status === 302 || res.status === 307) {
+          const loc = res.headers.get("Location");
+          if (loc) window.location.replace(loc);
+          else mostrarBloqueio();
+          return;
+        }
+        mostrarBloqueio();
+      }).catch(() => mostrarBloqueio());
+
+      function mostrarBloqueio(){
+        document.getElementById("loading").classList.add("hide");
+        document.getElementById("blocked").classList.remove("hide");
+      }
+    })();
+  </script>
 </body>
 </html>
