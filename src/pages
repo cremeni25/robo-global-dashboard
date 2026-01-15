@@ -1,0 +1,59 @@
+import { useEffect, useState } from "react";
+
+type StatusData = {
+  status: string;
+  ultima_decisao: string;
+  regra_ouro: string;
+};
+
+type CapitalData = {
+  capital_total: number;
+  capital_em_risco: number;
+  capital_disponivel: number;
+  receita_acumulada: number;
+};
+
+const API_BASE = "https://api.roboglobal.com.br";
+
+export default function EstadoCapital() {
+  const [status, setStatus] = useState<StatusData | null>(null);
+  const [capital, setCapital] = useState<CapitalData | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/status`)
+      .then(res => res.json())
+      .then(setStatus);
+
+    fetch(`${API_BASE}/capital`)
+      .then(res => res.json())
+      .then(setCapital);
+  }, []);
+
+  if (!status || !capital) {
+    return <div>Carregando estado do robô...</div>;
+  }
+
+  return (
+    <div style={{ padding: 24 }}>
+      <h2>Estado do Robô</h2>
+      <ul>
+        <li><strong>Status:</strong> {status.status}</li>
+        <li><strong>Última decisão:</strong> {status.ultima_decisao}</li>
+        <li><strong>Regra de Ouro:</strong> {status.regra_ouro}</li>
+      </ul>
+
+      <h2>Capital</h2>
+      <ul>
+        <li>Total: R$ {capital.capital_total}</li>
+        <li>Em risco: R$ {capital.capital_em_risco}</li>
+        <li>Disponível: R$ {capital.capital_disponivel}</li>
+        <li>Receita acumulada: R$ {capital.receita_acumulada}</li>
+      </ul>
+
+      <h3>Ações Humanas</h3>
+      <button disabled>Pausar Oferta</button>
+      <button disabled>Liberar Escala</button>
+      <button disabled>Travar Tudo</button>
+    </div>
+  );
+}
