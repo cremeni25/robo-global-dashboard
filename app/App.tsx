@@ -22,3 +22,21 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+import { Ionicons } from "@expo/vector-icons";
+
+<Tab.Navigator
+  screenOptions={({ route }) => ({
+    headerShown: false,
+    tabBarIcon: ({ color, size }) => {
+      const icons: any = {
+        Estado: "pulse",
+        Ofertas: "pricetags",
+        Decisão: "git-branch",
+        Logs: "list",
+        Ações: "hand-left",
+      };
+      return <Ionicons name={icons[route.name]} size={size} color={color} />;
+    },
+  })}
+>
