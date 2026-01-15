@@ -20,3 +20,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+import Acoes from "./screens/Acoes";
+// ...
+<Tab.Screen name="Ações" component={Acoes} />
