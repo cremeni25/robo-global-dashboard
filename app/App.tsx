@@ -5,6 +5,7 @@ import EstadoCapital from "./screens/EstadoCapital";
 import Ofertas from "./screens/Ofertas";
 import Decisao from "./screens/Decisao";
 import Logs from "./screens/Logs";
+import Acoes from "./screens/Acoes";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,11 +17,8 @@ export default function App() {
         <Tab.Screen name="Ofertas" component={Ofertas} />
         <Tab.Screen name="Decisão" component={Decisao} />
         <Tab.Screen name="Logs" component={Logs} />
+        <Tab.Screen name="Ações" component={Acoes} />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-import Acoes from "./screens/Acoes";
-// ...
-<Tab.Screen name="Ações" component={Acoes} />
