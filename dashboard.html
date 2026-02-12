@@ -1,141 +1,145 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Robô Global — Sistema Operacional</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex,nofollow" />
-  <style>
-    :root {
-      --bg:#0b0f14; --fg:#e7ebf0; --muted:#9aa4b2;
-      --card:#0f172a; --border:#1b2742;
-      --ok:#20c997; --warn:#f59f00; --err:#ff6b6b;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Arial}
-    header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}
-    main{padding:20px}
-    h1{margin:0;font-size:20px}
-    h2{margin:0 0 10px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .card{background:linear-gradient(180deg,#0f172a,#0b1222);border:1px solid var(--border);border-radius:12px;padding:14px}
-    .kpi{font-size:22px;font-weight:700}
-    .muted{color:var(--muted)}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}
-    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
-    .badge{padding:4px 8px;border-radius:999px;border:1px solid var(--border)}
-  </style>
+<meta charset="UTF-8"/>
+<title>Robô Global — Sistema Operacional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+
+<style>
+:root{
+--bg:#0b0f14;--fg:#e7ebf0;--muted:#9aa4b2;
+--card:#0f172a;--border:#1b2742;
+--ok:#20c997;--warn:#f59f00;--err:#ff6b6b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,Arial}
+header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}
+main{padding:20px}
+h1{margin:0;font-size:20px}
+h2{margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:linear-gradient(180deg,#0f172a,#0b1222);border:1px solid var(--border);border-radius:12px;padding:14px}
+.kpi{font-size:22px;font-weight:700}
+.muted{color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;font-size:14px}
+input,select{width:100%;padding:8px;margin-bottom:8px;background:#111827;border:1px solid var(--border);color:white;border-radius:6px}
+button{padding:10px 16px;background:#2563eb;border:none;color:white;border-radius:6px;cursor:pointer}
+button:hover{opacity:.9}
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Dashboard Operacional</h1>
-    <span id="robotStatus" class="badge">Carregando…</span>
-  </header>
 
-  <main>
-    <!-- VISÃO EXECUTIVA -->
-    <section class="grid">
-      <div class="card">
-        <h2>Status do Robô</h2>
-        <div id="statusValue" class="kpi">—</div>
-        <div class="muted" id="decisionValue">—</div>
-      </div>
-      <div class="card">
-        <h2>Escala</h2>
-        <div id="scaleValue" class="kpi">—</div>
-        <div class="muted" id="riskValue">—</div>
-      </div>
-    </section>
+<header>
+<h1>Dashboard Operacional</h1>
+<span id="robotStatus">Carregando…</span>
+</header>
 
-    <!-- CONTROLE FINANCEIRO -->
-    <section class="grid" style="margin-top:14px">
-      <div class="card"><h2>Capital Total</h2><div id="capitalTotal" class="kpi">—</div></div>
-      <div class="card"><h2>Capital em Risco</h2><div id="capitalRisk" class="kpi">—</div></div>
-      <div class="card"><h2>Disponível</h2><div id="capitalFree" class="kpi">—</div></div>
-      <div class="card"><h2>ROI Global</h2><div id="roiGlobal" class="kpi">—</div></div>
-    </section>
+<main>
 
-    <!-- PLATAFORMAS -->
-    <section style="margin-top:14px">
-      <div class="card">
-        <h2>Plataformas</h2>
-        <table>
-          <thead><tr><th>Plataforma</th><th>Receita</th><th>Status</th></tr></thead>
-          <tbody id="platformsTable"></tbody>
-        </table>
-      </div>
-    </section>
+<!-- CADASTRO OPERACIONAL -->
+<section style="margin-bottom:20px">
+<div class="card">
+<h2>Cadastrar Produto (B2)</h2>
 
-    <!-- PRODUTOS -->
-    <section style="margin-top:14px">
-      <div class="card">
-        <h2>Produtos</h2>
-        <table>
-          <thead><tr><th>Produto</th><th>Plataforma</th><th>Receita</th><th>ROI</th><th>Risco</th><th>Status</th></tr></thead>
-          <tbody id="productsTable"></tbody>
-        </table>
-      </div>
-    </section>
+<input id="nomeProduto" placeholder="Nome do produto"/>
+<select id="plataformaProduto">
+<option value="Hotmart">Hotmart</option>
+<option value="Eduzz">Eduzz</option>
+<option value="Kiwify">Kiwify</option>
+</select>
+<input id="linkProduto" placeholder="Link de afiliado"/>
 
-    <!-- DECISÃO -->
-    <section style="margin-top:14px">
-      <div class="card">
-        <h2>Última Decisão</h2>
-        <div id="lastDecision" class="kpi">—</div>
-        <div id="decisionReason" class="muted">—</div>
-      </div>
-    </section>
-  </main>
+<button onclick="cadastrarProduto()">Cadastrar</button>
 
-  <script>
-    const api = (p) => fetch(p).then(r => r.json());
+<div id="cadastroMsg" class="muted" style="margin-top:10px"></div>
+</div>
+</section>
 
-    async function load() {
-      try {
-        const status = await api('/status');
-        document.getElementById('statusValue').textContent = status.estado;
-        document.getElementById('decisionValue').textContent = status.decisao;
-        document.getElementById('robotStatus').textContent = status.estado;
+<!-- PRODUTOS -->
+<section>
+<div class="card">
+<h2>Produtos Cadastrados</h2>
+<table>
+<thead>
+<tr>
+<th>Produto</th>
+<th>Plataforma</th>
+<th>Receita</th>
+<th>ROI</th>
+<th>Risco</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="productsTable"></tbody>
+</table>
+</div>
+</section>
 
-        const capital = await api('/capital');
-        capitalTotal.textContent = capital.total;
-        capitalRisk.textContent = capital.em_risco;
-        capitalFree.textContent = capital.disponivel;
-        roiGlobal.textContent = capital.roi;
+</main>
 
-        const escala = await api('/escala');
-        scaleValue.textContent = escala.permitida ? 'PERMITIDA' : 'BLOQUEADA';
-        riskValue.textContent = 'Risco: ' + escala.risco;
+<script>
 
-        const plataformas = await api('/resultado');
-        platformsTable.innerHTML = plataformas.map(p =>
-          `<tr><td>${p.nome}</td><td>${p.receita}</td><td>${p.status}</td></tr>`
-        ).join('');
+const api = (p,opt={}) => fetch(p,opt).then(r=>r.json());
 
-        const produtos = await api('/produtos');
-        productsTable.innerHTML = produtos.map(p =>
-          `<tr>
-            <td>${p.nome}</td>
-            <td>${p.plataforma}</td>
-            <td>${p.receita}</td>
-            <td>${p.roi}</td>
-            <td>${p.risco}</td>
-            <td>${p.status}</td>
-          </tr>`
-        ).join('');
+async function cadastrarProduto(){
 
-        const decisao = await api('/decisao');
-        lastDecision.textContent = decisao.acao;
-        decisionReason.textContent = decisao.motivo;
+const nome = document.getElementById("nomeProduto").value;
+const plataforma = document.getElementById("plataformaProduto").value;
+const link = document.getElementById("linkProduto").value;
 
-      } catch (e) {
-        console.error(e);
-      }
-    }
+if(!nome || !link){
+document.getElementById("cadastroMsg").textContent="Preencha todos os campos.";
+return;
+}
 
-    load();
-    setInterval(load, 10000);
-  </script>
+try{
+await fetch("/produtos",{
+method:"POST",
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+nome:nome,
+plataforma:plataforma,
+link:link
+})
+});
+
+document.getElementById("cadastroMsg").textContent="Produto cadastrado com sucesso.";
+document.getElementById("nomeProduto").value="";
+document.getElementById("linkProduto").value="";
+
+loadProdutos();
+
+}catch(e){
+document.getElementById("cadastroMsg").textContent="Erro ao cadastrar.";
+}
+}
+
+async function loadProdutos(){
+try{
+const produtos = await api("/produtos");
+
+productsTable.innerHTML = produtos.map(p=>`
+<tr>
+<td>${p.nome}</td>
+<td>${p.plataforma}</td>
+<td>${p.receita ?? 0}</td>
+<td>${p.roi ?? 0}</td>
+<td>${p.risco ?? "—"}</td>
+<td>${p.status ?? "ativo"}</td>
+</tr>
+`).join("");
+
+}catch(e){
+console.error(e);
+}
+}
+
+loadProdutos();
+
+</script>
+
 </body>
 </html>
