@@ -52,9 +52,9 @@ button:hover{opacity:.9}
 </select>
 <input id="linkProduto" placeholder="Link de afiliado"/>
 
-<button onclick="cadastrarProduto()">Cadastrar</button>
+<button type="button" disabled title="Cadastro aguardando autenticação e API B2 validada">Cadastrar</button>
 
-<div id="cadastroMsg" class="muted" style="margin-top:10px"></div>
+<div id="cadastroMsg" class="muted" role="status" style="margin-top:10px">Cadastro temporariamente indisponível: integração segura do B2 em andamento. Nenhum produto será gravado nesta tela.</div>
 </div>
 </section>
 
@@ -81,64 +81,11 @@ button:hover{opacity:.9}
 </main>
 
 <script>
-
-const api = (p,opt={}) => fetch(p,opt).then(r=>r.json());
-
-async function cadastrarProduto(){
-
-const nome = document.getElementById("nomeProduto").value;
-const plataforma = document.getElementById("plataformaProduto").value;
-const link = document.getElementById("linkProduto").value;
-
-if(!nome || !link){
-document.getElementById("cadastroMsg").textContent="Preencha todos os campos.";
-return;
-}
-
-try{
-await fetch("/produtos",{
-method:"POST",
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-nome:nome,
-plataforma:plataforma,
-link:link
-})
-});
-
-document.getElementById("cadastroMsg").textContent="Produto cadastrado com sucesso.";
-document.getElementById("nomeProduto").value="";
-document.getElementById("linkProduto").value="";
-
-loadProdutos();
-
-}catch(e){
-document.getElementById("cadastroMsg").textContent="Erro ao cadastrar.";
-}
-}
-
-async function loadProdutos(){
-try{
-const produtos = await api("/produtos");
-
-productsTable.innerHTML = produtos.map(p=>`
-<tr>
-<td>${p.nome}</td>
-<td>${p.plataforma}</td>
-<td>${p.receita ?? 0}</td>
-<td>${p.roi ?? 0}</td>
-<td>${p.risco ?? "—"}</td>
-<td>${p.status ?? "ativo"}</td>
-</tr>
-`).join("");
-
-}catch(e){
-console.error(e);
-}
-}
-
-loadProdutos();
-
+/* Historical B2 screen retained for consolidation; do not simulate successful writes. */
+const table = document.getElementById("productsTable");
+if (table) table.innerHTML = '<tr><td colspan="6">Consulta de produtos indisponível até a integração autenticada com o Core V1.</td></tr>';
+const status = document.getElementById("robotStatus");
+if (status) status.textContent = "Integração B2 pendente";
 </script>
 
 </body>
